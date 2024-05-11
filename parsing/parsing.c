@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/11 11:08:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/11 11:26:43 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,26 @@
 
 static char	valid_char(char *str)
 {
-	int	i;
+	int		i;
+	int		j;
+	int		in_single;
+	int		in_double;
+	char	*charset;
 
+	charset = "&;:!#@*";
 	i = 0;
+	in_double = 0;
+	in_single = 0;
 	while (str[i])
 	{
-		if (str[i] == '&' || str[i] == ';' || str[i] == ':'
-			|| str[i] == '!' || str[i] == '#' || str[i] == '*')
-			return (str[i]);
+		if (str[i] == 34 && !in_single)
+			in_double = (in_double + 1) % 2;
+		if (str[i] == 39 && !in_double)
+			in_single = (in_single + 1) % 2;
+		j = 0;
+		while (charset[j])
+			if (str[i] == charset[j++] && !in_double && !in_single)
+				return (str[i]);
 		i++;
 	}
 	return ('o');
