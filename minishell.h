@@ -61,6 +61,13 @@ typedef struct s_input
 	char	**args;
 }	t_input;
 
+typedef struct	s_token
+{
+	char	*cmd;
+	char	*redir;
+	char	*file_redif;
+}		t_token;
+
 /*-------Init Lobby-------*/
 char			*init_lobby(t_data *data);
 void			add_minishell(t_data *data);
@@ -151,6 +158,8 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var);
 int		total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var);
 void	rm_space(char *str);
 char	*find_var(char *str, t_list **env, t_list **exp_var);
+int		conform_pipe(char *str);
+int	count_pipe(char *str);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);

@@ -26,10 +26,12 @@ SRCS = minishell.c\
 		execute/cmd/pipes3.c\
 		utils/utilsv5.c\
 		parsing/parsing.c \
-       	parsing/quotes.c \
-       	parsing/nbr_quotes.c \
-       	parsing/interpretation.c \
+       		parsing/quotes.c \
+       		parsing/nbr_quotes.c \
+       		parsing/interpretation.c \
 		parsing/utilsv6.c \
+		parsing/pipe.c \
+		parsing/token.c
 
 OBJS = $(SRCS:.c=.o)
 
