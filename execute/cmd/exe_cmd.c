@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/08 15:32:24 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:07:12 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
 
 	fd = -1;
 	pid = fork();
+	if (set_exec_signals(code) == -1)
+		return;
 	if (pid == 0)
 	{
 		code->code = 0;

@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/08 15:39:13 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:52:14 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t	sigint_received = 0;
-
-// Ca c'est ce qui permet de faire un retour a la ligne a chaque ctrl C et quitte le programme quand tu ctrl D
-void	signalHandler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else
-	{
-		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	sigint_received = 1;
-}
 
 int	main(int ac, char **argv, char **envp)
 {
@@ -59,23 +38,17 @@ int	main(int ac, char **argv, char **envp)
 	len = 0;
 	while (1)
 	{
-		if (sigint_received)
-		{
-			sigint_received = 0;
-		}
+		if (set_interactive_signals() == -1)
+			exit(1);
 		data.str = readline(data.total_setup);
 		if (!parsing(&data.str, &env, &exp_var))
-			;
+			return (-1);
 		if (data.str != NULL)
 		{
 			len = ft_count_words(data.str, ' ');
 			if (len > 1)
 				double_tab = ft_split(data.str, ' ');
 			add_history(data.str);
-		}
-		if (sigint_received)
-		{
-			sigint_received = 0;
 		}
 		if (data.str == NULL)
 		{
@@ -123,7 +96,7 @@ int	main(int ac, char **argv, char **envp)
 				i++;
 			}
 		}
-		else if (strncmp("rm", data.str, 2) == 0)
+		else if (strncmp("sleep 5", data.str, 7) == 0)
 			setup_exe_simple_cmd(data.str, &env, &exp_var, "", "<", &code);
 	//	else if (ft_strncmp(data.str, "wc", 2) == 0)
 	//	{

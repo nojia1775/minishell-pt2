@@ -175,6 +175,8 @@ void			ft_putendl_fd(char *s, int fd);
 int 			check_file(char *str);
 void			print_export(t_data *data);
 void			ft_putstr_fd_pipes(char *s, int fd, char *str);
-int			ft_strlen_egal(const char *str);
-
+int				ft_strlen_egal(const char *str);
+int				set_interactive_signals(void);
+int				set_exec_signals(t_code *code);
+void			sig_exec_handler(int signum);
 #endif

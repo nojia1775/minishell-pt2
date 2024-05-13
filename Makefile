@@ -22,14 +22,16 @@ SRCS = minishell.c\
 		execute/env/env2.c\
 		execute/cmd/cd2.c\
 		execute/env/setup_lobby2.c\
+		execute/cmd/pipes.c\
 		execute/cmd/pipes2.c\
 		execute/cmd/pipes3.c\
 		utils/utilsv5.c\
-		parsing/parsing.c \
-       	parsing/quotes.c \
-       	parsing/nbr_quotes.c \
-       	parsing/interpretation.c \
-		parsing/utilsv6.c \
+		parsing/parsing.c\
+       	parsing/quotes.c\
+       	parsing/nbr_quotes.c\
+       	parsing/interpretation.c\
+		parsing/utilsv6.c\
+		signals.c\
 
 OBJS = $(SRCS:.c=.o)
 
