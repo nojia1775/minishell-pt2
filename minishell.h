@@ -73,8 +73,8 @@ typedef struct s_input
 
 typedef struct	s_token
 {
-	t_token	*next;
-	t_token	*prev;
+	struct s_token	*next;
+	struct s_token	*prev;
 	t_type	type;
 	char	*content;
 }		t_token;
@@ -172,6 +172,8 @@ char	*find_var(char *str, t_list **env, t_list **exp_var);
 int		conform_pipe(char *str);
 int		count_pipe(char *str);
 int		conform_redir(char *str);
+int		add_token(t_token *list, t_type type, char *content);
+void	free_token(t_token **tokens);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
