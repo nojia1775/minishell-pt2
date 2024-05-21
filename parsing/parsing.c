@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/21 15:13:20 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:07:22 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	parsing(char **input, t_list **env, t_list **exp_var)
 	if (!tokens)
 		return (0);
 	tokens[nbr_tokens] = NULL; 
-	result = quotes(*input, env, exp_var);
+	result = quotes(*input, env, exp_var, tokens);
 	if (!result)
 		return (printf("minishell : Syntax error\n"), 0);
 	*input = result;

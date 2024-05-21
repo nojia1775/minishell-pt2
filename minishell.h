@@ -160,7 +160,7 @@ void			ft_close_all(t_pipes *pipes);
 
 /*-------parsing-------*/
 int		parsing(char **input, t_list **env, t_list **exp_var);
-char	*quotes(char *str, t_list **env, t_list **exp_var);
+char	*quotes(char *str, t_list **env, t_list **exp_var, t_token **tokens);
 int		nbr_quotes(char *str);
 char	*interpretation(char *str, int *index_of_var, t_list **env, t_list **exp_var);
 int		*init_index_of_var(char *str);

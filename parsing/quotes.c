@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/16 14:43:17 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:22:25 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	trim_quotes(char *str, int *in_single, int *in_double,
 	}
 }
 
-static char	*rm_quotes(char *str, t_list **env, t_list **exp_var)
+static char	*rm_quotes(char *str, t_list **env, t_list **exp_var, t_token **tokens)
 {
 	int		*index_of_var;
 	int		in_double;
@@ -78,6 +78,7 @@ static char	*rm_quotes(char *str, t_list **env, t_list **exp_var)
 	
 	in_double = 0;
 	in_single = 0;
+	tokenosation(str, tokens);
 	index_of_var = init_index_of_var(str);
 	if (!index_of_var)
 		return (NULL);
@@ -91,7 +92,7 @@ static char	*rm_quotes(char *str, t_list **env, t_list **exp_var)
 	return (result);
 }
 
-char	*quotes(char *str, t_list **env, t_list **exp_var)
+char	*quotes(char *str, t_list **env, t_list **exp_var, t_token **tokens)
 {
 	char	*result;
 	
@@ -99,10 +100,10 @@ char	*quotes(char *str, t_list **env, t_list **exp_var)
 	rm_space(str);
 	if (!nbr_quotes(str))
 		return (NULL);
-	result = rm_quotes(str, env, exp_var);
+	result = rm_quotes(str, env, exp_var, tokens);
 	free(str);
 	result = ft_strtrim(result, " ");
 	if (!result)
 		return (NULL);
 	return (result);
-}
+}	char	*result;
