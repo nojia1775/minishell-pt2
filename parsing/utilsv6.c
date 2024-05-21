@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/08 15:16:50 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:38:03 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	word_len(char *str)
 		&& str[i] && str[i] != '\t')
 	{
 		i++;
+		if (!ft_isalnum(str[i]))
+			return (count + 1);
 		if (str[i] == '$')
 			return (count + 1);
 		count++;

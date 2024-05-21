@@ -15,6 +15,16 @@
 # include <termios.h>
 # include <unistd.h>
 
+typedef enum	e_type
+{
+	WORD,
+	INREDIR,
+	OUTREDIR,
+	CMD,
+	PIPE,
+	HEREDOC
+}		t_type;
+
 typedef struct s_data
 {
 	char		**envp;
@@ -63,9 +73,10 @@ typedef struct s_input
 
 typedef struct	s_token
 {
-	char	*cmd;
-	char	*redir;
-	char	*file_redif;
+	t_token	*next;
+	t_token	*prev;
+	t_type	type;
+	char	*content;
 }		t_token;
 
 /*-------Init Lobby-------*/
@@ -159,7 +170,8 @@ int		total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var)
 void	rm_space(char *str);
 char	*find_var(char *str, t_list **env, t_list **exp_var);
 int		conform_pipe(char *str);
-int	count_pipe(char *str);
+int		count_pipe(char *str);
+int		conform_redir(char *str);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);

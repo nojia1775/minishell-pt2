@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/08 14:16:15 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:43:17 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static void	trim_quotes(char *str, int *in_single, int *in_double,
 			ptr_on_quotes2(in_double, &str[i]);
 		else if (str[i] == 39 && !(*in_double))
 			ptr_on_quotes2(in_single, &str[i]);
-		else if (str[i] == '$' && !(*in_single) && ft_isalnum(str[i + 1]))
+		else if (str[i] == '$' && !(*in_single) && (ft_isalnum(str[i + 1])
+			|| str[i + 1] == '_'))
 			is_interpreted(str + i, &i, index_of_var, &count, env, exp_var);
 		else
 			i++;

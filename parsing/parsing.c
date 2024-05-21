@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/11 11:26:43 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:29:44 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,12 @@ int	parsing(char **input, t_list **env, t_list **exp_var)
 	// int	nbr_tokens;
 	// t_token	**tokens;
 	
+	if (*input[0] == '\0')
+		return (1);
+	if (!conform_redir(*input))
+		return (printf("minishell : syntax error near unexpected token `>'\n"), 0);
 	if (valid_char(*input) != 'o')
-		return (printf("minishell : unknown charactere '%c'\n",
+		return (printf("minishell : unknown character '%c'\n",
 			valid_char(*input)));	
 	if (!conform_pipe(*input))
 		return (printf("minishell : Syntax error\n"), 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpretation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:56:39 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/08 14:37:31 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:42:30 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ char	*interpretation(char *str, int *index_of_var, t_list **env,
 {
 	int		total_len;
 	char	*result;
-	
 	
 	total_len = total_len_str(str, index_of_var, env, exp_var);
 	if (total_len < 0)

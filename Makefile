@@ -31,7 +31,8 @@ SRCS = minishell.c\
        		parsing/interpretation.c \
 		parsing/utilsv6.c \
 		parsing/pipe.c \
-		parsing/token.c
+		parsing/token.c \
+		parsing/redir.c
 
 OBJS = $(SRCS:.c=.o)
 
