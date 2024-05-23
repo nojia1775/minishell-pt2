@@ -3,6 +3,7 @@
 
 # include "./ft_printf/ft_printf.h"
 # include "./libft42/libft.h"
+# include "./get_next_line/get_next_line.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -140,7 +141,13 @@ int				ft_dup2_one(t_pipes *pipes, int *end);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			ft_close_all(t_pipes *pipes);
 
-/*-------parsing-------*/
+/*-------here_doc-------*/
+void			here_doc(char *limit_word);
+int				create_temp_file(char *str);
+char			*change_str(char *str, int i, char *new_str);
+void			parse_line(int fd, char *line);
+
+/*-------parsing global-------*/
 int		parsing(char **input, t_list **env, t_list **exp_var);
 char	*quotes(char *str, t_list **env, t_list **exp_var);
 int		nbr_quotes(char *str);
@@ -151,6 +158,23 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var);
 int		total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var);
 void	rm_space(char *str);
 char	*find_var(char *str, t_list **env, t_list **exp_var);
+
+/*-------export parsing-------*/
+void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data);
+char	*pars_exp_var(char *str);
+int		checking_order_quotes(char *str);
+char	*del_all_quotes(char *str);
+int		checking_nbr_quotes(char *str);
+char	*ft_strdup_quotes(const char *s);
+int 	ft_strlen_quotes(const char *str);
+void	ft_strcpy_(char *dest, char *src);
+char 	*ft_strdup_outside_quotes(const char *s);
+char	*del_outside_quotes(char *str);
+int		checking_if_alpha(char *str);
+
+/*-------Unset  parsing-------*/
+void	pars_unset(char *str);
+char	*pars_unset_var(char *str);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
@@ -179,4 +203,5 @@ int				ft_strlen_egal(const char *str);
 int				set_interactive_signals(void);
 int				set_exec_signals(t_code *code);
 void			sig_exec_handler(int signum);
+
 #endif

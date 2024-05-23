@@ -32,6 +32,12 @@ SRCS = minishell.c\
        	parsing/interpretation.c\
 		parsing/utilsv6.c\
 		signals.c\
+		execute/cmd/here_doc.c\
+		parsing/builtins/pars_export.c\
+		utils/utilsv7.c\
+		parsing/builtins/pars_export2.c\
+		parsing/builtins/pars_unset.c\
+
 
 OBJS = $(SRCS:.c=.o)
 
@@ -40,7 +46,8 @@ NAME = minishell
 $(NAME): $(OBJS)
 	@make -C libft42/
 	@make -C ft_printf/
-	$(CC) $(CFLAGS) $^ -o $@ libft42/libft.a ft_printf/libftprintf.a -lreadline
+	@make -C get_next_line/
+	$(CC) $(CFLAGS) $^ -o $@ libft42/libft.a ft_printf/libftprintf.a get_next_line/gnl.a -lreadline
 
 $(OBJS_DIR)/%.o: src/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -52,11 +59,13 @@ all: $(NAME)
 
 clean:
 	@make fclean -C libft42/
+	@make fclean -C get_next_line/
 	@make fclean -C ft_printf/
 	rm -f $(OBJS)
 
 fclean: clean
 	@make fclean -C libft42/
+	@make fclean -C get_next_line/
 	@make fclean -C ft_printf/
 	rm -f $(NAME)
 
