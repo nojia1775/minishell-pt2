@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 00:47:08 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/28 00:47:45 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/24 04:43:40 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	export_variable(t_list **env, t_list **exp_var, char *var, t_code *code)
 	export_variable2(head, exp_var, &flag, var);
 	if (flag == 0)
 	{
-		new_case = ft_lstnew(var);
+		new_case = ft_lstnew(ft_strdup(var));
 		ft_lstadd_back(exp_var, new_case);
 	}
 }
@@ -51,7 +51,7 @@ void	export_variable2(t_list *current, t_list **list, int *flag, char *var)
 			{
 				*flag = 1;
 				free(current->content);
-				current->content = var;
+				current->content = ft_strdup(var);
 			}
 			current = current->next;
 		}

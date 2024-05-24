@@ -6,13 +6,13 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/23 02:36:20 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/24 04:38:13 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data)
+void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data, t_code *code)
 {
 	char **export;
 	int		i;
@@ -29,43 +29,37 @@ void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data)
 		{
 			while (export[i])
 			{
-				export[i] = pars_exp_var(export[i]);
+				if (pars_exp_var(export[i]) != -1)
+				{
+					export_variable(env, exp_var, export[i], code);
+					code->code = 0;
+				}
+				else 
+					code->code = 1;
 				i++;
 			}
 		}
 	free_double_tabs(export);
 }
 
-char	*pars_exp_var(char *str)
+int 	pars_exp_var(char *str)
 {
-	if (checking_nbr_quotes(str) == -1)
-	{
-		ft_putstr_msg(": not a valid identifier\n", 2, str);
-			return (str);
-	}
-	if (checking_order_quotes(str) == -1)
-	{
-		str = del_outside_quotes(str);
-		ft_putstr_msg(": not a valid identifier\n", 2, str);
-		return (str);
-	}
-	else if (checking_order_quotes(str) == 1)
-	{
-		str = del_all_quotes(str);
-	}
+	
 	if (checking_if_alpha(str) == -1)
 	{
+		ft_simple_err("export: ", 2);
 		ft_putstr_msg(": not a valid identifier\n", 2, str);
-		return (str);
+		return (-1);
 	}
 	if (str[0] == '=')
 	{
+		ft_simple_err("export: ", 2);
 		ft_putstr_msg(": not a valid identifier\n", 2, str);
-		return (str);
+		return (-1);
 	}
-	return (str);
+	return (0);
 }
-
+/*
 int	checking_order_quotes(char *str)
 {
 	int	i;
@@ -122,8 +116,7 @@ char	*del_all_quotes(char *str)
 	str = ft_strdup_quotes(temp);
 	free(temp);
 	return (str);
-}
-
+}*/
 
 
 

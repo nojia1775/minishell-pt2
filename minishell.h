@@ -148,7 +148,7 @@ char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
 
 /*-------parsing global-------*/
-int		parsing(char **input, t_list **env, t_list **exp_var);
+int 	parsing(char **input, t_list **env, t_list **exp_var);
 char	*quotes(char *str, t_list **env, t_list **exp_var);
 int		nbr_quotes(char *str);
 char	*interpretation(char *str, int *index_of_var, t_list **env, t_list **exp_var);
@@ -160,8 +160,10 @@ void	rm_space(char *str);
 char	*find_var(char *str, t_list **env, t_list **exp_var);
 
 /*-------export parsing-------*/
-void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data);
-char	*pars_exp_var(char *str);
+void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data, t_code *code);
+int 	pars_exp_var(char *str);
+int		checking_if_alpha(char *str);
+/*
 int		checking_order_quotes(char *str);
 char	*del_all_quotes(char *str);
 int		checking_nbr_quotes(char *str);
@@ -170,11 +172,13 @@ int 	ft_strlen_quotes(const char *str);
 void	ft_strcpy_(char *dest, char *src);
 char 	*ft_strdup_outside_quotes(const char *s);
 char	*del_outside_quotes(char *str);
-int		checking_if_alpha(char *str);
+*/
+
 
 /*-------Unset  parsing-------*/
-void	pars_unset(char *str);
-char	*pars_unset_var(char *str);
+
+void	pars_unset(char *str, t_list **env, t_list **exp_var, t_code *code);
+
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
@@ -203,5 +207,6 @@ int				ft_strlen_egal(const char *str);
 int				set_interactive_signals(void);
 int				set_exec_signals(t_code *code);
 void			sig_exec_handler(int signum);
+void			ft_simple_err(char *s, int fd);
 
 #endif

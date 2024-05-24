@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/08 15:54:07 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/24 02:40:38 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int	parsing(char **input, t_list **env, t_list **exp_var)
 	if (!result)
 		return (printf("minishell : Syntax error\n"), 0);
 	*input = result;
-	printf("%s\n", result);
+//	printf("%s\n", result);
 	return (1);
 }
