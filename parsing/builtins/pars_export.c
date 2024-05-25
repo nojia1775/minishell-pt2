@@ -6,13 +6,13 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/24 04:38:13 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/25 04:22:52 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data, t_code *code)
+void	pars_export(char *str, t_list **env, t_list **exp_var, t_code *code)
 {
 	char **export;
 	int		i;
@@ -21,7 +21,7 @@ void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data, t_code
 	export = ft_split(str, ' ');
 	if (export[1] == NULL)
 	{
-		ft_export(data, env, exp_var);
+		ft_export(env, exp_var);
 		free_double_tabs(export);
 		return;
 	}

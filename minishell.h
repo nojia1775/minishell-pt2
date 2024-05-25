@@ -70,14 +70,14 @@ void			find_logname2(t_data *data, int i, int j, int temp);
 void			add_pwd(t_data *data);
 
 /*-------Export-------*/
-void			ft_export(t_data *data, t_list **env, t_list **exp_var);
+void			ft_export(t_list **env, t_list **exp_var);
 void			update_env(t_list **env);
 void			export_variable(t_list **env, t_list **exp_var, char *var,
 					t_code *code);
 void			export_variable2(t_list *current, t_list **list, int *flag, char *var);	
-void			trie_export(t_data *data, int i);			
-void			add_declare_x(t_data *data, t_list *current, t_list **list, int *i);
-void			print_export(t_data *data);
+void			trie_export(char **export, int i);			
+void			add_declare_x(char **export, t_list *current, t_list **list, int *i);
+void			print_export(char **export);
 
 /*-------Env-------*/
 void			stock_env(char **env, t_list **envp);
@@ -127,6 +127,10 @@ char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
 void			check_redirection(char *str, char *file, int *fd);
 
+/*-------Exec Builtins-------*/
+int		is_a_builtin(char *cmd);
+void	exec_builtin(char *cmd, t_list **env, t_list **exp_var, t_code *code);
+void	exec_redirection(char *redir, int fd, int *flag);
 /*-------Pipes-------*/
 void			main_pipes(int argc, char *argv[], char **envp, t_code *code, char *data_str);
 void			init_struct(char *argv[], int i, int argc, t_pipes *pipes);
@@ -160,7 +164,7 @@ void	rm_space(char *str);
 char	*find_var(char *str, t_list **env, t_list **exp_var);
 
 /*-------export parsing-------*/
-void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data, t_code *code);
+void	pars_export(char *str, t_list **env, t_list **exp_var, t_code *code);
 int 	pars_exp_var(char *str);
 int		checking_if_alpha(char *str);
 /*
@@ -201,7 +205,6 @@ long long		ft_atoi_long(const char *nptr);
 int				check_nbr(char *str, char *cmpr);
 void			ft_putendl_fd(char *s, int fd);
 int 			check_file(char *str);
-void			print_export(t_data *data);
 void			ft_putstr_fd_pipes(char *s, int fd, char *str);
 int				ft_strlen_egal(const char *str);
 int				set_interactive_signals(void);

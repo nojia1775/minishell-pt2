@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/08 15:42:47 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/25 04:42:15 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
 	
 	
 	tab = ft_split(data->str, ' ');
-	if (tab[2] != NULL)
+	if (tab[2])
 	{
 		free_double_tabs(tab);
 		ft_putendl_fd("cd: too many arguments", 2);

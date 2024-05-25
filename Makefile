@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 OBJS_DIR = obj
 
@@ -36,6 +36,9 @@ SRCS = minishell.c\
 		parsing/builtins/pars_export.c\
 		utils/utilsv7.c\
 		parsing/builtins/pars_unset.c\
+		parsing/builtins/pars_echo.c\
+		execute/cmd/exec_builtin.c\
+		
 
 OBJS = $(SRCS:.c=.o)
 

@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_unset.c                                       :+:      :+:    :+:   */
+/*   pars_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 02:08:02 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/25 02:04:32 by almichel         ###   ########.fr       */
+/*   Created: 2024/05/25 02:05:49 by almichel          #+#    #+#             */
+/*   Updated: 2024/05/25 02:19:15 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
-void	pars_unset(char *str, t_list **env, t_list **exp_var, t_code *code)
+void	check_option_echo(char *str, int *n_option)
 {
-	char **unset;
-	int		i;
+	int	i;
 
-	i = 1;
-	unset = ft_split(str, ' ');
-	if (!unset[1])
+	i = 0;
+	*n_option = 0;
+	
+	if (str[0] != '-' || str[i] != 'n')
 	{
-		free_double_tabs(unset);
+		*n_option = -1;
 		return;
 	}
-	else 
+	i = 2;
+	while (str[i])
+	{
+		if (str[i] != 'n')
 		{
-			while (unset[i])
-			{
-				ft_unset(env, exp_var, unset[i], code);
-				i++;
-			}
+			*n_option = -1;
+			return;
 		}
-	free_double_tabs(unset);
+		i++;
+	}
+	return;
 }
-

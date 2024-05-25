@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/13 15:07:12 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/25 04:22:00 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,16 @@ void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
 	status = 0;
 	pid_t	pid;
 	int		fd;
-
+	int		flag;
+	flag = 1;
 	fd = -1;
+	if (is_a_builtin(cmd) == 1)
+	{
+		check_redirection(redir, file, &fd);
+		exec_redirection(redir, fd, &flag);
+		exec_builtin(cmd, env, exp_var, code);
+		return;
+	}
 	pid = fork();
 	if (set_exec_signals(code) == -1)
 		return;

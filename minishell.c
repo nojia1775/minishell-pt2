@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/24 04:02:12 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/25 04:52:20 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ int	main(int ac, char **argv, char **envp)
 		{
 			print_env(&env, &exp_var);
 		}
-		else if (strncmp("pwd", data.str, 3) == 0)
-		{
-			print_pwd(data.str, &code);
-		}
+		//else if (strncmp("pwd", data.str, 3) == 0)
+			//print_pwd(data.str, &code);
 		else if (strncmp("exit", data.str, 4) == 0)
 		{
 			ft_exit(data.str, &env, &exp_var, &code);
@@ -67,12 +65,12 @@ int	main(int ac, char **argv, char **envp)
 		{
 			ft_cd(&data, &env, &exp_var, &code);
 		}
-		else if (strncmp("export", data.str, 6) == 0)
-			pars_export(data.str, &env, &exp_var, &data, &code);
-		else if (strncmp("unset", data.str, 5) == 0)
-			pars_unset(data.str, &env, &exp_var, &code);
-		else if (strncmp("ls", data.str, 2) == 0)
-			setup_exe_simple_cmd(data.str, &env, &exp_var, "test", ">>", &code);
+		//else if (strncmp("export", data.str, 6) == 0)
+		//	pars_export(data.str, &env, &exp_var, &data, &code);
+		//else if (strncmp("unset", data.str, 5) == 0)
+		//	pars_unset(data.str, &env, &exp_var, &code);
+		else if (strncmp("pwd", data.str, 3) == 0)
+			setup_exe_simple_cmd(data.str, &env, &exp_var, "", "", &code);
 		else if (ft_strncmp(data.str, "wc", 2) == 0)
 		{
 			char 	**envv = stock_total_env(&env, &exp_var);
