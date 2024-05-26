@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/25 02:20:50 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/26 03:36:10 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@ char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
 }
 
 // Fonction echo, c'est juste un printf et je check si y'a l'option -n
-void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
-			int *fd, t_code *code, int flag_redir)
+void	ft_echo(t_data *data, int n_option, t_list **env, t_list **exp_var,
+			int *fd, int flag_redir)
 {
 	int i;
 	int len;
 	int flag;
 
 	flag = -1;
-	len = ft_strlen(str);
-	str = find_echo_var(str, env, exp_var, &flag);
-	if (ft_strcmp("$?", str) == 0)
+	len = ft_strlen(data->str);
+	data->str = find_echo_var(data->str, env, exp_var, &flag);
+	if (ft_strcmp("$?", data->str) == 0)
 	{
-		ft_printf("%d", code->code);
+		ft_printf("%d", data->code);
 	}
 	else
 	{
@@ -60,17 +60,17 @@ void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
 			i = len + 1;
 		else
 			i = 0;
-		while (str[i])
+		while (data->str[i])
 		{
 			if (*fd != -1 && flag_redir != 0)
-				write((*fd), &str[i], 1);
+				write((*fd), &data->str[i], 1);
 			else
-				write(1, &str[i], 1);
+				write(1, &data->str[i], 1);
 			i++;
 		}
 	}
 	if (n_option != -1)
 		write(1, "\n", 1);
 	if (flag == 1)
-		free(str);
+		free(data->str);
 }

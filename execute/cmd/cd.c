@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/25 04:42:15 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/26 03:32:54 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Fonction principale de cd,
 //  A chaque cd, je dois update le dossier dans le quel on se trouve
 // la fonction update_env que j'appelle permet d'update la ligne PWD et OLDPWD de l'env a chaque cd
-void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
+void	ft_cd(t_data *data, t_list **env, t_list **exp_var)
 {
 	int	flag;
 
@@ -27,7 +27,7 @@ void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
 	{
 		free_double_tabs(tab);
 		ft_putendl_fd("cd: too many arguments", 2);
-		code->code = 1;
+		data->code = 1;
 		return;
 	}
 	free_double_tabs(tab);
@@ -38,10 +38,10 @@ void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
 		flag = 1;
 		data->path = put_path_cd(data->path + 1, env, exp_var);
 	}
-	ft_cd2(code, flag, env, data);
+	ft_cd2(flag, env, data);
 }
 
-void	ft_cd2(t_code *code, int flag, t_list **env, t_data *data)
+void	ft_cd2(int flag, t_list **env, t_data *data)
 {
 	char *join1;
 	char *join2;
@@ -54,11 +54,11 @@ void	ft_cd2(t_code *code, int flag, t_list **env, t_data *data)
 		update_env(env);
 		if (flag == 1)
 			free(data->path);
-		code->code = 0;
+		data->code = 0;
 	}
 	else
 	{
-		code->code = 1;
+		data->code = 1;
 		if (flag == 1)
 			free(data->path);
 		join1 = ft_strjoin("cd: ", data->str + 3);

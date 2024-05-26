@@ -6,19 +6,19 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/25 04:22:52 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/26 03:37:52 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	pars_export(char *str, t_list **env, t_list **exp_var, t_code *code)
+void	pars_export(t_data *data, t_list **env, t_list **exp_var)
 {
 	char **export;
 	int		i;
 
 	i = 1;
-	export = ft_split(str, ' ');
+	export = ft_split(data->str, ' ');
 	if (export[1] == NULL)
 	{
 		ft_export(env, exp_var);
@@ -31,11 +31,11 @@ void	pars_export(char *str, t_list **env, t_list **exp_var, t_code *code)
 			{
 				if (pars_exp_var(export[i]) != -1)
 				{
-					export_variable(env, exp_var, export[i], code);
-					code->code = 0;
+					export_variable(env, exp_var, export[i], data);
+					data->code = 0;
 				}
 				else 
-					code->code = 1;
+					data->code = 1;
 				i++;
 			}
 		}
