@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/26 04:12:19 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/27 03:27:47 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ int	main(int ac, char **argv, char **envp)
 		}
 		else if (strncmp("cd", data.str, 2) == 0)
 		{
-			ft_cd(&data, &env, &exp_var);
+			ft_cd(&data, &env);
 		}
 		else if (strncmp("export", data.str, 6) == 0)
 			pars_export(&data, &env, &exp_var);
 		else if (strncmp("unset", data.str, 5) == 0)
 			pars_unset(&data, &env, &exp_var);
-		else if (strncmp("cd", data.str, 2) == 0)
+		else if (strncmp("ls", data.str, 2) == 0)
 		{
 			if(setup_exe_simple_cmd(&data, &env, &exp_var, "", "") == -1)
 				exit(data.code);

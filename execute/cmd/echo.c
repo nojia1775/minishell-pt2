@@ -6,11 +6,12 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/26 03:36:10 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/27 01:50:42 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 
 // Fonction qui cherche si ya un $NomDeVariable pour la print avec echo
 char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
@@ -47,6 +48,8 @@ void	ft_echo(t_data *data, int n_option, t_list **env, t_list **exp_var,
 	int len;
 	int flag;
 
+	//char **echo_split;
+	
 	flag = -1;
 	len = ft_strlen(data->str);
 	data->str = find_echo_var(data->str, env, exp_var, &flag);

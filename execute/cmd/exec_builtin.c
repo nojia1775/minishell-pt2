@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/26 04:04:53 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/27 03:27:58 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int		is_a_builtin(char *cmd)
 	else if (ft_strcmp(cmd_splitted[0], "exit") == 0)
 		flag = 1;
 	else if (ft_strcmp(cmd_splitted[0], "cd") == 0)
+		flag = 1;
+	else if (strcmp(cmd_splitted[0], "env") == 0)
 		flag = 1;
 	free_double_tabs(cmd_splitted);
 	return (flag);
@@ -53,6 +55,7 @@ int		exec_builtin(t_data *data, t_list **env, t_list **exp_var)
 	
 	cmd_splitted = ft_split(data->str, ' ');
 	//if (ft_strcmp(cmd_splitted[0], "echo") == 0)
+	//	ft_echo(data, env,  exp_var);
 	if (ft_strcmp(cmd_splitted[0], "export") == 0)
 		pars_export(data, env, exp_var);
 	else if (ft_strcmp(cmd_splitted[0], "unset") == 0)
@@ -65,7 +68,9 @@ int		exec_builtin(t_data *data, t_list **env, t_list **exp_var)
 			ft_cd_home(data, env);
 	}
 	else if (ft_strcmp(cmd_splitted[0], "cd") == 0)
-		ft_cd(data, env, exp_var);
+		ft_cd(data, env);
+	else if (strcmp(cmd_splitted[0], "env") == 0)
+		print_env(env, exp_var);
 	else if (ft_strcmp(cmd_splitted[0], "exit") == 0)
 	{
 		ft_exit(data, env, exp_var);

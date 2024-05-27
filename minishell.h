@@ -90,12 +90,10 @@ void			add_back_oldpwd(int flag, char *cwd, t_list **env);
 void			find_pwd(int *flag, t_list **env);
 
 /*-------Cd-------*/
-void			ft_cd(t_data *data, t_list **env, t_list **exp_var);
+void			ft_cd(t_data *data, t_list **env);
 void			ft_cd2( int flag, t_list **env, t_data *data);
 void			ft_cd_home(t_data *data, t_list **env);
 void			get_home_path(t_data *data, t_list **env);
-int				find_var_cd(char *path, t_list **env, t_list **exp_var);
-char			*put_path_cd(char *path, t_list **env, t_list **exp_var);
 
 /*-------Unset-------*/
 void			ft_unset(t_list **env, t_list **exp_var, char *var, t_data *data);
@@ -210,5 +208,6 @@ int				set_interactive_signals(void);
 int				set_exec_signals(t_data *data);
 void			sig_exec_handler(int signum);
 void			ft_simple_err(char *s, int fd);
+int				ft_strlen_double_tab(char **str);
 
 #endif
