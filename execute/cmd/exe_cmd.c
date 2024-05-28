@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/26 03:47:36 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/28 03:22:47 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int 	setup_exe_simple_cmd(t_data *data, t_list **env, t_list **exp_var,
 					exit(EXIT_FAILURE);
 				}
 		check_redirection(redir, file, &fd);
-		check_and_exe_cmd(data, env, exp_var, fd, redir);
+		if (fd > 0)
+			check_and_exe_cmd(data, env, exp_var, fd, redir);
 		exit(127);
 	}
 	else if (pid > 0)
@@ -72,9 +73,10 @@ void	check_and_exe_cmd(t_data *data, t_list **envp, t_list **exp_var, int fd, ch
 			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(redir, "<") == 0)
 		{
-			dup2(fd, STDIN_FILENO);
+			if(dup2(fd, STDIN_FILENO) == -1)
+				perror("dup2");
 		}
-
+		close(fd);
 	}
 	total_env = stock_total_env(envp, exp_var);
 	cmd1 = ft_split(data->str, ' ');

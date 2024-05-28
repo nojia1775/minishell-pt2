@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 03:27:47 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/27 19:25:32 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char **argv, char **envp)
 		if (set_interactive_signals() == -1)
 			exit(1);
 		data.str = readline(data.total_setup);
-		parsing(&data.str, &env, &exp_var);
+		parsing(&data.str, &env, &exp_var, &data);
 		printf("%s\n", data.str);
 		if (data.str != NULL)
 			add_history(data.str);
@@ -47,7 +47,7 @@ int	main(int ac, char **argv, char **envp)
 		}
 		if (strcmp("env", data.str) == 0)
 		{
-			print_env(&env, &exp_var);
+			print_env(&env, &exp_var, &data);
 		}
 		else if (strncmp("pwd", data.str, 3) == 0)
 			print_pwd(data.str, &data);
@@ -70,7 +70,7 @@ int	main(int ac, char **argv, char **envp)
 			pars_unset(&data, &env, &exp_var);
 		else if (strncmp("ls", data.str, 2) == 0)
 		{
-			if(setup_exe_simple_cmd(&data, &env, &exp_var, "", "") == -1)
+			if(setup_exe_simple_cmd(&data, &env, &exp_var, "qwdqwd", "<") == -1)
 				exit(data.code);
 		}
 		else if (ft_strncmp(data.str, "cd", 2) == 0)

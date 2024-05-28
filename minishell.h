@@ -82,7 +82,7 @@ void			print_export(char **export);
 
 /*-------Env-------*/
 void			stock_env(char **env, t_list **envp);
-void			print_env(t_list **envp, t_list **exp_var);
+void			print_env(t_list **envp, t_list **exp_var, t_data *data);
 void			update_oldpwd(t_list **env);
 char			*get_actualpwd(t_list **env);
 int				print_pwd(char *str, t_data *data);
@@ -149,7 +149,7 @@ char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
 
 /*-------parsing global-------*/
-int 	parsing(char **input, t_list **env, t_list **exp_var);
+int 	parsing(char **input, t_list **env, t_list **exp_var, t_data *data);
 char	*quotes(char *str, t_list **env, t_list **exp_var);
 int		nbr_quotes(char *str);
 char	*interpretation(char *str, int *index_of_var, t_list **env, t_list **exp_var);

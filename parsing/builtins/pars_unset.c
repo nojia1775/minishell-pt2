@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 02:08:02 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 00:35:19 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:54:38 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	pars_unset(t_data *data, t_list **env, t_list **exp_var)
 
 	i = 1;
 	unset = ft_split(data->str, ' ');
+	data->code =  0;
 	if (!unset[1])
 	{
 		free_double_tabs(unset);
