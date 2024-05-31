@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/21 17:07:22 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:58:19 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	parsing(char **input, t_list **env, t_list **exp_var)
 {
 	char	*result;
 	int	nbr_tokens;
-	t_token	**tokens;
+	t_token	*tokens;
 	
 	if (*input[0] == '\0')
 		return (1);
@@ -81,15 +81,11 @@ int	parsing(char **input, t_list **env, t_list **exp_var)
 			valid_char(*input)));	
 	if (!conform_pipe(*input))
 		return (printf("minishell : Syntax error\n"), 0);
-	nbr_tokens = count_pipe(*input) + 1;
-	tokens = (t_token **)malloc(sizeof(t_token *) * (nbr_tokens + 1));
-	if (!tokens)
-		return (0);
-	tokens[nbr_tokens] = NULL; 
 	result = quotes(*input, env, exp_var, tokens);
 	if (!result)
 		return (printf("minishell : Syntax error\n"), 0);
+	tokens = tokenisation(result);
 	*input = result;
-	printf("%s\n", result);
+	printf("result = %s\n", *input);
 	return (1);
 }

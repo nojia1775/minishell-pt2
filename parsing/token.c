@@ -6,11 +6,26 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:15:55 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/21 14:38:56 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:59:54 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_token	*tokenisation(char *str)
+{
+	t_token	*tokens;
+	int		i;
+	
+	tokens = (t_token *)malloc(sizeof(t_token));
+	if (!tokens)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		
+	}
+}
 
 int	add_token(t_token *list, t_type type, char *content)
 {
