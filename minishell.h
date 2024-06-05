@@ -172,8 +172,14 @@ char	*find_var(char *str, t_list **env, t_list **exp_var);
 int		conform_pipe(char *str);
 int		count_pipe(char *str);
 int		conform_redir(char *str);
-int		add_token(t_token *list, t_type type, char *content);
-void	free_token(t_token **tokens);
+//int		add_token(t_token *list, t_type type, char *content);
+//void	free_token(t_token **tokens);
+
+//tmp parsing
+t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var);
+t_token	**tokenisation(char *str, t_list **env, t_list **exp_var);
+void	free_tokens(t_token **tokens);
+int	add_token(t_token **tokens, char *content);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
@@ -199,5 +205,6 @@ int 			check_file(char *str);
 void			print_export(t_data *data);
 void			ft_putstr_fd_pipes(char *s, int fd, char *str);
 int			ft_strlen_egal(const char *str);
+void	is_in_quote(int *in_single, int *in_double, char c);
 
 #endif

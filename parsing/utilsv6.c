@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/17 16:38:03 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:20:10 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var)
 	char	**envp;
 
 	envp = stock_total_env(env, exp_var);
+	(void)envp;
 	len = word_len(str);
 	var = (char *)malloc(sizeof(char) * len);
 	if (!var)

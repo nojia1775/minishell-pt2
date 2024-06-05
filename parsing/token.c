@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:15:55 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/31 15:59:54 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:19:22 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+/*#include "../minishell.h"
 
 t_token	*tokenisation(char *str)
 {
@@ -69,4 +69,4 @@ void	free_token(t_token **tokens)
 			free(rm);
 		}
 	}
-}
+}*/

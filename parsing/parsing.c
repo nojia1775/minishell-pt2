@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/31 15:58:19 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:19:30 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	valid_char(char *str)
+/*static char	valid_char(char *str)
 {
 	int		i;
 	int		j;
@@ -37,7 +37,7 @@ static char	valid_char(char *str)
 		i++;
 	}
 	return ('o');
-}
+}*/
 
 char	*find_var(char *str, t_list **env, t_list **exp_var)
 {
@@ -66,7 +66,7 @@ char	*find_var(char *str, t_list **env, t_list **exp_var)
 	return (str2 + ft_strlen_egal(str2) + 1);
 }
 
-int	parsing(char **input, t_list **env, t_list **exp_var)
+/*int	parsing(char **input, t_list **env, t_list **exp_var)
 {
 	char	*result;
 	int	nbr_tokens;
@@ -88,4 +88,4 @@ int	parsing(char **input, t_list **env, t_list **exp_var)
 	*input = result;
 	printf("result = %s\n", *input);
 	return (1);
-}
+}*/
