@@ -179,7 +179,7 @@ int		conform_redir(char *str);
 t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var);
 t_token	**tokenisation(char *str, t_list **env, t_list **exp_var);
 void	free_tokens(t_token **tokens);
-int	add_token(t_token **tokens, char *content);
+int		add_token(t_token **tokens, char *content);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
