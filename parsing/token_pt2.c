@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/06/07 01:30:28 by noah             ###   ########.fr       */
+/*   Updated: 2024/06/07 19:12:41 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ static int	actions(t_token **tokens, char *str, t_var *vars)
 	else if ((str[vars->i] == '<' || str[vars->i] == '>')
 		&& vars->i && (str[vars->i - 1] != '<'
 			&& str[vars->i - 1] != '>'))
-	{
 		if (!create_token(vars, tokens))
 			return (0);
-	}
-	if (str[vars->i] != ' ' && str[vars->i] != '|' && str[vars->i])
+	if (((str[vars->i] != ' ' && str[vars->i] != '|')
+		|| ((str[vars->i] == ' ' || str[vars->i] == '|')
+		&& (vars->in_double || vars->in_single))) && str[vars->i])
 		vars->buffer[vars->ibuf++] = str[vars->i];
 	if ((str[vars->i] == '>' || str[vars->i] == '<')
 		&& str[vars->i + 1] != '<' && str[vars->i + 1] != '>')
@@ -86,13 +86,13 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
 	t_token	**tokens;
 	size_t	nbr_pipe;
 
-	(void)env;
-	(void)exp_var;
 	nbr_pipe = count_pipe(str) + 1;
 	tokens = (t_token **)ft_calloc(nbr_pipe + 1, sizeof(t_token *)
 			* (nbr_pipe + 1));
 	if (!tokens)
 		return (NULL);
 	split_tokens(str, tokens);
+	type_token(tokens);
+	expand(tokens, env, exp_var);
 	return (tokens);
 }

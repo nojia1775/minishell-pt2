@@ -22,7 +22,8 @@ typedef enum	e_type
 	OUTREDIR,
 	CMD,
 	PIPE,
-	HEREDOC
+	HEREDOC,
+	LIM
 }		t_type;
 
 typedef struct s_data
@@ -180,6 +181,8 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var);
 t_token	**tokenisation(char *str, t_list **env, t_list **exp_var);
 void	free_tokens(t_token **tokens);
 int		add_token(t_token **tokens, char *content);
+void	expand(t_token **tokens, t_list **env, t_list **exp_var);
+void	type_token(t_token **tokens);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
