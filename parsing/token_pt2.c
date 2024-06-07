@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/06/07 19:12:41 by noah             ###   ########.fr       */
+/*   Updated: 2024/06/07 22:34:49 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
 	if (!tokens)
 		return (NULL);
 	split_tokens(str, tokens);
-	type_token(tokens);
 	expand(tokens, env, exp_var);
+	quotes(tokens);
+	type_token(tokens);
 	return (tokens);
 }

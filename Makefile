@@ -37,7 +37,8 @@ SRCS = minishell.c \
        parsing/parsing_pt2.c \
        parsing/token_pt2.c \
        parsing/interpretation_pt2.c \
-       parsing/type_token.c
+       parsing/type_token.c \
+       parsing/quote_pt2.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 

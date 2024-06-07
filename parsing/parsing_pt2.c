@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/06/07 17:10:27 by noah             ###   ########.fr       */
+/*   Updated: 2024/06/07 21:19:30 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 		cur = tokens[i];
 		while (cur)
 		{
-			printf("%d --- %s\n", i, cur->content);
+			printf("%d --- %s %d\n", i, cur->content, cur->type);
 			cur = cur->next;
 		}
 		i++;

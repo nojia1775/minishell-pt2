@@ -21,9 +21,9 @@ typedef enum	e_type
 	INREDIR,
 	OUTREDIR,
 	CMD,
-	PIPE,
 	HEREDOC,
-	LIM
+	LIM,
+	OPT
 }		t_type;
 
 typedef struct s_data
@@ -161,7 +161,7 @@ void			ft_close_all(t_pipes *pipes);
 
 /*-------parsing-------*/
 int		parsing(char **input, t_list **env, t_list **exp_var);
-char	*quotes(char *str, t_list **env, t_list **exp_var, t_token **tokens);
+//char	*quotes(char *str, t_list **env, t_list **exp_var, t_token **tokens);
 int		nbr_quotes(char *str);
 char	*interpretation(char *str, int *index_of_var, t_list **env, t_list **exp_var);
 int		*init_index_of_var(char *str);
@@ -183,6 +183,7 @@ void	free_tokens(t_token **tokens);
 int		add_token(t_token **tokens, char *content);
 void	expand(t_token **tokens, t_list **env, t_list **exp_var);
 void	type_token(t_token **tokens);
+void	quotes(t_token **tokens);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);

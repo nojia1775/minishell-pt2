@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/31 15:26:14 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/06/07 22:29:43 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 // 		c[i] = c[i + 1];
 // }
 
-static void	is_interpreted(char *str, int *i, int *index, int *count, t_list **env, t_list **exp_var)
+/*static void	is_interpreted(char *str, int *i, int *index, int *count, t_list **env, t_list **exp_var)
 {
 	char	*value;
 	int		x;
@@ -109,4 +109,4 @@ char	*quotes(char *str, t_list **env, t_list **exp_var, t_token **tokens)
 	if (!result)
 		return (NULL);
 	return (result);
-}	char	*result;
+}*/
