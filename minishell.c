@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/22 18:37:56 by almichel         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:36:26 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	main(int ac, char **argv, char **envp)
 		if (set_interactive_signals() == -1)
 			exit(1);
 		data.str = readline(data.total_setup);
-		//if (!parsing(&data.str, &env, &exp_var))
-		//	return (-1);
+		if (!parsing_pt2(data.str, &env, &exp_var))
+			data.str = data.str;
 		if (data.str != NULL)
 		{
 			len = ft_count_words(data.str, ' ');

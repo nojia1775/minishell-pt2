@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/23 02:36:20 by almichel         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:47:31 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data)
 
 char	*pars_exp_var(char *str)
 {
-	if (checking_nbr_quotes(str) == -1)
+	/*if (checking_nbr_quotes(str) == -1)
 	{
 		ft_putstr_msg(": not a valid identifier\n", 2, str);
 			return (str);
-	}
+	}*/
 	if (checking_order_quotes(str) == -1)
 	{
 		str = del_outside_quotes(str);

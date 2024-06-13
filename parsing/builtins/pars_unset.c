@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 02:08:02 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/23 02:44:56 by almichel         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:47:59 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	pars_unset(char *str)
 
 char	*pars_unset_var(char *str)
 {
-	if (checking_nbr_quotes(str) == -1)
-	{
-		ft_putstr_msg(": not a valid identifier\n", 2, str);
-		return (str);
-	}
+	// if (checking_nbr_quotes(str) == -1)
+	// {
+	// 	ft_putstr_msg(": not a valid identifier\n", 2, str);
+	// 	return (str);
+	// }
 	if (checking_order_quotes(str) == -1)
 	{
 		str = del_outside_quotes(str);
