@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/06/13 18:39:47 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/06/13 19:02:10 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_tokens(t_token **tokens)
 }
 
 // ajoute un token à la liste chainée
-int	add_token(t_token **tokens, char *content)
+int	add_token(t_token **tokens, char *content, int nbr_pipe)
 {
 	t_token	*cur;
 	t_token	*new;
@@ -55,6 +55,7 @@ int	add_token(t_token **tokens, char *content)
 	if (!new)
 		return (0);
 	new->content = ft_strdup(content);
+	new->nbr_pipe = nbr_pipe;
 	new->next = NULL;
 	cur = *tokens;
 	if (!cur)

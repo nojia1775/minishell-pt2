@@ -79,6 +79,7 @@ typedef struct	s_token
 	struct s_token	*prev;
 	t_type	type;
 	char	*content;
+	int	nbr_pipe;
 }		t_token;
 
 /*-------Init Lobby-------*/
@@ -184,13 +185,12 @@ int		conform_redir(char *str);
 t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var);
 t_token	**tokenisation(char *str, t_list **env, t_list **exp_var);
 void	free_tokens(t_token **tokens);
-int		add_token(t_token **tokens, char *content);
 void	expand(t_token **tokens, t_list **env, t_list **exp_var);
 void	type_token(t_token **tokens);
 void	quotes(t_token **tokens);
 void	is_in_quote(int *in_single, int *in_double, char c);
 void	free_tokens(t_token **tokens);
-int	add_token(t_token **tokens, char *content);
+int		add_token(t_token **tokens, char *content, int nbr_pipe);
 
 /*-------export parsing-------*/
 void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data);
