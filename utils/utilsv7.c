@@ -3,71 +3,116 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv7.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/06/06 23:57:59 by noah             ###   ########.fr       */
+/*   Created: 2024/05/21 18:13:15 by almichel          #+#    #+#             */
+/*   Updated: 2024/05/21 18:14:52 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	is_in_quote(int *in_single, int *in_double, char c)
+void	ft_strcpy_(char *dest, char *src)
 {
-	if (c == '"' && !(*in_single))
-		*in_double = !(*in_double);
-	if (c == '\'' && !(*in_double))
-		*in_single = !(*in_single);
-}
+	int	i;
 
-// free les tokens et leurs membres
-void	free_tokens(t_token **tokens)
-{
-	t_token	*cur;
-	t_token	*rm;
-	int		i;
-		
 	i = 0;
-	cur = tokens[i];
-	while (tokens[i])
+	while (src[i])
 	{
-		while (cur)
-		{
-			rm = cur;
-			free(cur->content);
-			cur = cur->next;
-			free(rm);
-		}
+		dest[i] = src[i];
 		i++;
 	}
-	free(tokens);
+	dest[i] = '\0';
 }
 
-// ajoute un token à la liste chainée
-int	add_token(t_token **tokens, char *content)
+int	ft_strlen_quotes(const char *str)
 {
-	t_token	*cur;
-	t_token	*new;
+	int	i;
+	int	count;
 
-	if (!content[0])
-		return (1);
-	new = (t_token *)malloc(sizeof(t_token));
-	if (!new)
-		return (0);
-	new->content = ft_strdup(content);
-	new->next = NULL;
-	cur = *tokens;
-	if (!cur)
+	count = 0;
+	i = 0;
+	while (str[i])
 	{
-		new->prev = NULL;
-		*tokens = new;
+		if (str[i] != '"' && str[i] != '\'')
+			count++;
+		i++;
 	}
-	else
+	return (count);
+}
+
+char	*ft_strdup_quotes(const char *s)
+{
+	int		i;
+	char	*s2;
+	int		size;
+	int		j;
+
+	j = 0;
+	i = 0;
+	size = ft_strlen_quotes(s);
+	s2 = malloc((size + 1) * sizeof(char));
+	if (!s2)
+		return (NULL);
+	while (s[i])
 	{
-		while (cur->next)
-			cur = cur->next;
-		cur->next = new;
-		new->prev = cur;
+		if (s[i] == '"' || s[i] == '\'')
+			i++;
+		else
+		{
+			s2[j] = s[i];
+			i++;
+			j++;
+		}
+	}
+	s2[j] = '\0';
+	return (s2);
+}
+
+char *ft_strdup_outside_quotes(const char *s)
+{
+	int		i;
+	char	*s2;
+	int		size;
+	int		j;
+	char	stock_char;
+	j = 0;
+	i = 0;
+	size = ft_strlen_quotes(s) + 2;
+	s2 = malloc((size + 1) * sizeof(char));
+	if (!s2)
+		return (NULL);
+	while (s[i] && (s[i] == '\'' || s[i] == '"'))
+		i++;
+	i--;
+	s2[j] = s[i];
+	stock_char = s[i];
+	i++;
+	j++;
+	while(s[i] != '\'' && s[i] != '"' && s[i])
+	{
+		s2[j] = s[i];
+			i++;
+			j++;
+	}
+	s2[j] = stock_char;
+	j++;
+	s2[j] = '\0';
+	return (s2);
+}
+
+int	checking_if_alpha(char *str)
+{
+	int	i;
+
+	i = 0;
+	printf("%s\n", str);
+	while (str[i] && str[i] != '=')
+	{
+		if ((str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122))
+			i++;
+		else
+			return (-1);
 	}
 	return (1);
 }

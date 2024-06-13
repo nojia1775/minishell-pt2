@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/06/07 18:02:33 by noah             ###   ########.fr       */
+/*   Updated: 2024/05/11 17:05:30 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	word_len(char *str)
 		&& str[i] && str[i] != '\t')
 	{
 		i++;
-		if (!ft_isalnum(str[i]))
-			return (count + 1);
 		if (str[i] == '$')
 			return (count + 1);
 		count++;
@@ -40,8 +38,8 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var)
 	int		len;
 	char	**envp;
 
-	envp = stock_total_env(env, exp_var);
 	(void)envp;
+	envp = stock_total_env(env, exp_var);
 	len = word_len(str);
 	var = (char *)malloc(sizeof(char) * len);
 	if (!var)

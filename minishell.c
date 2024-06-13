@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/06/04 13:18:32 by noah             ###   ########.fr       */
+/*   Updated: 2024/06/13 18:36:26 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t	sigint_received = 0;
-
-// Ca c'est ce qui permet de faire un retour a la ligne a chaque ctrl C et quitte le programme quand tu ctrl D
-void	signalHandler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else
-	{
-		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	sigint_received = 1;
-}
 
 int	main(int ac, char **argv, char **envp)
 {
@@ -59,10 +38,8 @@ int	main(int ac, char **argv, char **envp)
 	len = 0;
 	while (1)
 	{
-		if (sigint_received)
-		{
-			sigint_received = 0;
-		}
+		if (set_interactive_signals() == -1)
+			exit(1);
 		data.str = readline(data.total_setup);
 		if (!parsing_pt2(data.str, &env, &exp_var))
 			data.str = data.str;
@@ -72,10 +49,6 @@ int	main(int ac, char **argv, char **envp)
 			if (len > 1)
 				double_tab = ft_split(data.str, ' ');
 			add_history(data.str);
-		}
-		if (sigint_received)
-		{
-			sigint_received = 0;
 		}
 		if (data.str == NULL)
 		{
@@ -111,6 +84,7 @@ int	main(int ac, char **argv, char **envp)
 				export_variable(&env, &exp_var, double_tab[i], &code);
 				i++;
 			}
+			pars_export(data.str, &env, &exp_var, &data);
 		}
 		else if (strncmp("export", data.str, 6) == 0 && len < 2)
 			ft_export(&data, &env, &exp_var);
@@ -122,15 +96,17 @@ int	main(int ac, char **argv, char **envp)
 				ft_unset(&env, &exp_var, double_tab[i], &code);
 				i++;
 			}
+			pars_unset(data.str);
 		}
-		else if (strncmp("rm", data.str, 2) == 0)
-			setup_exe_simple_cmd(data.str, &env, &exp_var, "", "<", &code);
-	//	else if (ft_strncmp(data.str, "wc", 2) == 0)
-	//	{
-	//		char 	**envv = stock_total_env(&env, &exp_var);
-	//		main_pipes(ft_count_words(data.str, ' ') + 1, ft_split(data.str, ' '), envv, &code, data.str);
-	//	}
-	
+		else if (strncmp("ls", data.str, 2) == 0)
+			setup_exe_simple_cmd(data.str, &env, &exp_var, "test", ">>", &code);
+		else if (ft_strncmp(data.str, "wc", 2) == 0)
+		{
+			char 	**envv = stock_total_env(&env, &exp_var);
+			main_pipes(ft_count_words(data.str, ' ') + 1, ft_split(data.str, ' '), envv, &code, data.str);
+		}
+		else if (strncmp("here", data.str, 4) == 0)
+			here_doc(data.str);
 	}
 	exit(code.code);
 }

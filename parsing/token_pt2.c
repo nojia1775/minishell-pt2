@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/06/13 14:24:42 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/06/13 19:02:36 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ typedef struct s_var
 	int		i;
 }		t_var;
 
-static int	create_token(t_var *vars, t_token **tokens)
+static int	create_token(t_var *vars, t_token **tokens, int nbr_pipe)
 {
-	if (!add_token(&tokens[vars->pipe], vars->buffer))
+	if (!add_token(&tokens[vars->pipe], vars->buffer, nbr_pipe))
 		return (0);
 	ft_bzero(vars->buffer, sizeof(vars->buffer));
 	vars->ibuf = 0;
@@ -32,18 +32,18 @@ static int	create_token(t_var *vars, t_token **tokens)
 }
 
 // creer un token ou remplir le buffer
-static int	actions(t_token **tokens, char *str, t_var *vars)
+static int	actions(t_token **tokens, char *str, t_var *vars, int nbr_pipe)
 {
 	if ((str[vars->i] == ' ' || !str[vars->i] || str[vars->i] == '|')
 		&& !vars->in_double && !vars->in_single)
 	{
-		if (!create_token(vars, tokens))
+		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
 	}
 	else if ((str[vars->i] == '<' || str[vars->i] == '>')
 		&& vars->i && (str[vars->i - 1] != '<'
 			&& str[vars->i - 1] != '>'))
-		if (!create_token(vars, tokens))
+		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
 	if (((str[vars->i] != ' ' && str[vars->i] != '|')
 		|| ((str[vars->i] == ' ' || str[vars->i] == '|')
@@ -51,14 +51,14 @@ static int	actions(t_token **tokens, char *str, t_var *vars)
 		vars->buffer[vars->ibuf++] = str[vars->i];
 	if ((str[vars->i] == '>' || str[vars->i] == '<')
 		&& str[vars->i + 1] != '<' && str[vars->i + 1] != '>')
-		if (!create_token(vars, tokens))
+		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
 	return (1);
 }
 
 // transforme la string recuperee dans l'input
 // pour la transformer en liste chainée
-static int	split_tokens(char *str, t_token **tokens)
+static int	split_tokens(char *str, t_token **tokens, int nbr_pipe)
 {
 	t_var	vars;
 
@@ -71,7 +71,7 @@ static int	split_tokens(char *str, t_token **tokens)
 	while (++vars.i < (int)ft_strlen(str) + 1)
 	{
 		is_in_quote(&vars.in_single, &vars.in_double, str[vars.i]);
-		if (!actions(tokens, str, &vars))
+		if (!actions(tokens, str, &vars, nbr_pipe))
 			return (0);
 		if (str[vars.i] == '|' && !vars.in_double && !vars.in_single)
 			vars.pipe++;
@@ -91,7 +91,7 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
 			* (nbr_pipe + 1));
 	if (!tokens)
 		return (NULL);
-	split_tokens(str, tokens);
+	split_tokens(str, tokens, nbr_pipe - 1);
 	type_token(tokens);
 	expand(tokens, env, exp_var);
 	quotes(tokens);

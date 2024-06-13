@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 00:57:46 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/30 19:29:12 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/17 00:02:45 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	ft_strlen_space(const char *str)
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
-
 	i = 0;
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;

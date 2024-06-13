@@ -3,27 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/08 13:59:19 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:48:28 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_pipes	init_struct(char *argv[], int i, int argc)
+void	init_struct(char *argv[], int i, int argc, t_pipes *pipes)
 {
-	t_pipes	pipes;
-
-	pipes.flag1 = 0;
-	pipes.cmd1 = argv[i];
-	pipes.cmd2 = argv[argc - 3];
-	pipes.fd1 = -1;
-	pipes.fd2 = -1;
-	pipes.status = NULL;
-	pipes.good_line_envp = NULL;
-	return (pipes);
+	pipes->flag1 = 0;
+	pipes->cmd1 = argv[i];
+	pipes->cmd2 = argv[argc - 3];
+	//	pipes.fd1 = -1;
+	//	pipes.fd2 = -1;
+	pipes->status = NULL;
+	pipes->good_line_envp = NULL;
 }
 
 void	init_fd2(char **argv, t_pipes *pipes, int argc)
@@ -32,12 +29,10 @@ void	init_fd2(char **argv, t_pipes *pipes, int argc)
 	if (access(argv[argc - 2], W_OK) == -1 && access(argv[argc - 2], F_OK) == 0)
 	{
 		ft_putstr_fd_pipes(": Permission denied\n", 2, argv[argc - 2]);
-		return;
+		return ;
 	}
 	if (pipes->fd2 < 0)
 		pipes->fd2 = open(argv[argc - 2], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	dup2(pipes->fd2, STDOUT_FILENO);
-	close(pipes->fd2);
 }
 
 void	init_fd1(char **argv, t_pipes *pipes)
@@ -54,53 +49,105 @@ void	init_fd1(char **argv, t_pipes *pipes)
 			pipes->flag1 = 1;
 		if (access(argv[1], R_OK) != 0)
 			ft_putstr_fd_pipes(": Permission denied\n", 2, argv[1]);
-		dup2(pipes->fd1, STDIN_FILENO);
-		if (pipes->flag1 != 1)
-			close(pipes->fd1);;
 	}
+	// if (pipes->flag1 != 1)
+	//		close(pipes->fd1);
 }
 
-void	pipex(t_pipes *pipes, char **envp)
+void	pipex(t_pipes *pipes, char **envp, t_code *code, int count)
 {
 	pid_t	pid;
 	int		end[2];
 
+	//	int 	status;
+	// status = 0;
+	count = count + 0;
+	code->code = 0;
 	if (pipe(end) == -1)
 		return ((perror("pipe")));
 	pid = fork();
 	if (pid == 0)
 	{
-		if (child_pipes_process1(pipes, envp, end) == -1)
-			exit(EXIT_FAILURE);
+		close(end[0]);
+		dup2(end[1], STDOUT_FILENO);
+		close(end[1]);
+		//	if (count == 0)
+		//	{
+		//		dup2(pipes->fd1, STDIN_FILENO);
+		//		close(pipes->fd1);
+		//	}
+		child_pipes_process1(pipes, envp);
+		exit(127);
 	}
-	else
+	else if (pid > 0)
 	{
 		close(end[1]);
 		dup2(end[0], STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		close(end[0]);
+		//	waitpid(pid, &status, 0);
+		//	if (WIFEXITED(status))
+		//		code->code = WEXITSTATUS(status);
 	}
+	else
+		perror("fork");
 }
 
-void	main_pipes(int argc, char *argv[], t_list **env, t_list **exp_var)
+void	main_pipes(int argc, char *argv[], char **envp, t_code *code,
+		char *data_str)
 {
 	t_pipes	pipes;
 	int		i;
 	int		count_cmd1;
-	char 	**envp;
+	int		count;
+	int		sv;
+	int		status;
+	pid_t	pid;
 
-	envp = stock_total_env(env, exp_var);
+	count = 0;
+	// i = 0;
+	// ft_printf("%d\n", argc);
+	// while(argv[i])
+	//	printf("%s\n", argv[i++]);
+	sv = dup(STDIN_FILENO);
+	pipes.fd1 = -1;
+	pipes.fd2 = -1;
+	envp = envp + 0;
+	code = code + 0;
 	count_cmd1 = 0;
+	(void)data_str;
 	i = 2;
-	pipes = init_struct(argv, count_cmd1, argc);
+	i = i + 0;
+	init_struct(argv, count_cmd1, argc, &pipes);
 	count_cmd1 = count_cmd1 + 2;
 	init_fd1(argv, &pipes);
-	init_fd2(argv, &pipes, argc);
 	while (i < argc - 2)
-	{	
-		pipex(&pipes, envp);
+	{
+		pipex(&pipes, envp, code, count);
+		count++;
 		i++;
-		pipes = init_struct(argv, count_cmd1, argc);
+		init_struct(argv, count_cmd1, argc, &pipes);
 	}
-	if (child_pipes_process2(&pipes, envp) == -1)
-			exit(EXIT_FAILURE);
+	init_fd2(argv, &pipes, argc);
+	status = 0;
+	pid = fork();
+	if (pid == 0)
+	{
+		code->code = 0;
+		dup2(pipes.fd2, STDOUT_FILENO);
+		close (pipes.fd2);
+		child_pipes_process2(&pipes, envp);
+		exit(127);
+	}
+	else if (pid > 0)
+	{
+		// waitpid(pid, &status, 0);
+		//	if (WIFEXITED(status))
+		//	code->code = WEXITSTATUS(status);
+		status = status + 0;
+	}
+	else
+		perror("fork");
+	dup2(sv, STDIN_FILENO);
+	while (wait(&status) != -1);
+	code->code = WEXITSTATUS(status);
 }
