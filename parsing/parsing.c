@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/27 17:57:02 by almichel         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:15:42 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*find_var(char *str, t_list **env, t_list **exp_var)
 	free(total_env);
 	return (str + ft_strlen_egal(str) + 1);
 }
-
+/*
 int	parsing(char **input, t_list **env, t_list **exp_var, t_data *data)
 {
 	char	*result;
@@ -49,4 +49,4 @@ int	parsing(char **input, t_list **env, t_list **exp_var, t_data *data)
 	*input = result;
 //	printf("%s\n", result);
 	return (1);
-}
+}*/

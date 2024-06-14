@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 19:25:32 by almichel         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:08:35 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	main(int ac, char **argv, char **envp)
 		if (set_interactive_signals() == -1)
 			exit(1);
 		data.str = readline(data.total_setup);
-		parsing(&data.str, &env, &exp_var, &data);
-		printf("%s\n", data.str);
+		if (!parsing_pt2(data.str, &env, &exp_var))
+			data.str = data.str;
 		if (data.str != NULL)
 			add_history(data.str);
 		if (data.str == NULL)

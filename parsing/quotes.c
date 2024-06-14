@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/08 14:16:15 by almichel         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:16:18 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
 static void	ptr_on_quotes2(int *in_quotes, char *c)
 {
 	int	i;
@@ -104,4 +105,4 @@ char	*quotes(char *str, t_list **env, t_list **exp_var)
 	if (!result)
 		return (NULL);
 	return (result);
-}
+}*/

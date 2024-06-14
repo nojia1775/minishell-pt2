@@ -16,6 +16,17 @@
 # include <termios.h>
 # include <unistd.h>
 
+typedef enum	e_type
+{
+	WORD,
+	INREDIR,
+	OUTREDIR,
+	CMD,
+	HEREDOC,
+	LIM,
+	OPT
+}		t_type;
+
 typedef struct s_data
 {
 	char		**envp;
@@ -62,6 +73,15 @@ typedef struct s_input
 	char	*cmd_opt;
 	char	**args;
 }	t_input;
+
+typedef struct	s_token
+{
+	struct s_token	*next;
+	struct s_token	*prev;
+	t_type	type;
+	char	*content;
+	int	nbr_pipe;
+}		t_token;
 
 /*-------Init Lobby-------*/
 char			*init_lobby(t_data *data);
@@ -150,7 +170,7 @@ void			parse_line(int fd, char *line);
 
 /*-------parsing global-------*/
 int 	parsing(char **input, t_list **env, t_list **exp_var, t_data *data);
-char	*quotes(char *str, t_list **env, t_list **exp_var);
+//char	*quotes(char *str, t_list **env, t_list **exp_var);
 int		nbr_quotes(char *str);
 char	*interpretation(char *str, int *index_of_var, t_list **env, t_list **exp_var);
 int		*init_index_of_var(char *str);
@@ -159,6 +179,18 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var);
 int		total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var);
 void	rm_space(char *str);
 char	*find_var(char *str, t_list **env, t_list **exp_var);
+int		conform_pipe(char *str);
+int		count_pipe(char *str);
+int		conform_redir(char *str);
+t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var);
+t_token	**tokenisation(char *str, t_list **env, t_list **exp_var);
+void	free_tokens(t_token **tokens);
+void	expand(t_token **tokens, t_list **env, t_list **exp_var);
+void	type_token(t_token **tokens);
+void	quotes(t_token **tokens);
+void	is_in_quote(int *in_single, int *in_double, char c);
+void	free_tokens(t_token **tokens);
+int		add_token(t_token **tokens, char *content, int nbr_pipe);
 
 /*-------export parsing-------*/
 void	pars_export(t_data *data, t_list **env, t_list **exp_var);

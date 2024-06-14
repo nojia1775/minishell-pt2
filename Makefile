@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 OBJS_DIR = obj
 
@@ -36,11 +36,17 @@ SRCS = minishell.c\
 		parsing/builtins/pars_export.c\
 		utils/utilsv7.c\
 		parsing/builtins/pars_unset.c\
-		parsing/builtins/pars_echo.c\
-		execute/cmd/exec_builtin.c\
-		
+		parsing/parsing_pt2.c \
+       parsing/token_pt2.c \
+       parsing/interpretation_pt2.c \
+       parsing/type_token.c \
+       parsing/quote_pt2.c \
+		utils/utilsv8.c \
+		parsing/pipe.c \
+		parsing/redir.c \
+		execute/cmd/exec_builtin.c
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
 NAME = minishell
 
@@ -49,8 +55,9 @@ $(NAME): $(OBJS)
 	@make -C ft_printf/
 	@make -C get_next_line/
 	$(CC) $(CFLAGS) $^ -o $@ libft42/libft.a ft_printf/libftprintf.a get_next_line/gnl.a -lreadline
-
-$(OBJS_DIR)/%.o: src/%.c | $(OBJS_DIR)
+	
+$(OBJS_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR):
