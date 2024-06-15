@@ -6,59 +6,68 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/13 15:07:12 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/28 03:35:10 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Fonction principale executent une commande simple du genre ls -l par exemple
-void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
-		char *file, char *redir, t_code *code)
+int 	setup_exe_simple_cmd(t_data *data, t_list **env, t_list **exp_var,
+		char *file, char *redir)
 {
 	int status;
 
 	status = 0;
 	pid_t	pid;
 	int		fd;
-
+	int		flag;
+	flag = 1;
 	fd = -1;
+	if (is_a_builtin(data->str) == 1)
+	{
+		check_redirection(redir, file, &fd);
+		exec_redirection(redir, fd, &flag);
+		if (fd > 0)
+			return(exec_builtin(data, env, exp_var));
+		return (0);
+	}
 	pid = fork();
-	if (set_exec_signals(code) == -1)
-		return;
+	if (set_exec_signals(data) == -1)
+		return(0);
 	if (pid == 0)
 	{
-		code->code = 0;
+		data->code = 0;
 		if (check_file(file) == -1)
 			if (chdir(file) != 0)
 				{
-					code->code = 1;
+					data->code = 1;
 					ft_putendl_fd(": Aucun fichier ou dossier de ce type", 2);
 					exit(EXIT_FAILURE);
 				}
 		check_redirection(redir, file, &fd);
-		check_and_exe_cmd(cmd, env, exp_var, fd, redir, code);
+		if (fd > 0)
+			check_and_exe_cmd(data, env, exp_var, fd, redir);
 		exit(127);
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
-			code->code = WEXITSTATUS(status);
+			data->code = WEXITSTATUS(status);
 	}
 	else
 		perror("fork");
+	return (0);
 }
 // fonction qui tente l'absolut path et s' il ne s'execute pas il test le relative path(fonction en dessous)
-void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char *redir, t_code *code)
+void	check_and_exe_cmd(t_data *data, t_list **envp, t_list **exp_var, int fd, char *redir)
 {
 	char	**cmd1;
 	char	**absolut_path;
 	char	**total_env;
 	int		i;
-	int		flag;
 
-	flag = 1;
 	i = 0;
 	if (redir)
 	{
@@ -66,19 +75,14 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(redir, "<") == 0)
 		{
-			dup2(fd, STDIN_FILENO);
-			flag = 0;
+			if(dup2(fd, STDIN_FILENO) == -1)
+				perror("dup2");
 		}
-
-	}
-	if (ft_strncmp("echo", cmd, ft_strlen_space(cmd)) == 0)
-	{
-		ft_echo(cmd + 5, 1, envp, exp_var, &fd, code, flag);
-		exit(EXIT_SUCCESS);
+		close(fd);
 	}
 	total_env = stock_total_env(envp, exp_var);
-	cmd1 = ft_split(cmd, ' ');
-	absolut_path = ft_split(cmd, ' ');
+	cmd1 = ft_split(data->str, ' ');
+	absolut_path = ft_split(data->str, ' ');
 	execve(absolut_path[0], cmd1, total_env);
 	while (absolut_path[i])
 	{
@@ -86,10 +90,10 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 		i++;
 	}
 	free(absolut_path);
-	ft_relative_path(cmd1, total_env, cmd);
+	ft_relative_path(cmd1, total_env, data->str);
 	i = 0;
 	free_double_tabs(total_env);
-	code->code = 127;
+	data->code = 127;
 	return;
 }
 

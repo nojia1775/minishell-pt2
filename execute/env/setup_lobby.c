@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/28 02:05:45 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/25 04:38:26 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ char	*find_logname(t_data *data)
 		i++;
 	}
 	if (data->envp[i] == NULL)
-		return (NULL);
+	{
+			return (NULL);
+	}
 	while (data->envp[i][j] && data->envp[i][j] != '=')
 		j++;
 	j++;

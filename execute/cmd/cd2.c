@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 01:55:01 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/28 01:55:19 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:09:48 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ void	ft_cd_home(t_data *data, t_list **env)
 		free(data->total_setup);
 		data->total_setup = init_lobby(data);
 		update_env(env);
+		data->code = 0;
 	}
 	else
+	{
 		ft_printf("cd: ~: No such file or directory \n");
+		data->code = 1;
+	}
 }

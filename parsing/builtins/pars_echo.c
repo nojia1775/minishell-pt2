@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   pars_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 18:37:37 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/26 03:49:44 by almichel         ###   ########.fr       */
+/*   Created: 2024/05/25 02:05:49 by almichel          #+#    #+#             */
+/*   Updated: 2024/05/25 02:19:15 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-//print le pwd
-int	print_pwd(char *str, t_data *data)
+void	check_option_echo(char *str, int *n_option)
 {
-				str = NULL;
-				str = getcwd(str, 0);
-				ft_printf("%s\n", str);
-				free(str);
-				data->code = 0;
-				return (0);
+	int	i;
+
+	i = 0;
+	*n_option = 0;
+	
+	if (str[0] != '-' || str[i] != 'n')
+	{
+		*n_option = -1;
+		return;
+	}
+	i = 2;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+		{
+			*n_option = -1;
+			return;
+		}
+		i++;
+	}
+	return;
 }

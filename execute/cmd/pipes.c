@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/13 15:48:28 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/26 03:39:47 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_fd1(char **argv, t_pipes *pipes)
 	//		close(pipes->fd1);
 }
 
-void	pipex(t_pipes *pipes, char **envp, t_code *code, int count)
+void	pipex(t_pipes *pipes, char **envp, t_data *data, int count)
 {
 	pid_t	pid;
 	int		end[2];
@@ -62,7 +62,7 @@ void	pipex(t_pipes *pipes, char **envp, t_code *code, int count)
 	//	int 	status;
 	// status = 0;
 	count = count + 0;
-	code->code = 0;
+	data->code = 0;
 	if (pipe(end) == -1)
 		return ((perror("pipe")));
 	pid = fork();
@@ -92,8 +92,7 @@ void	pipex(t_pipes *pipes, char **envp, t_code *code, int count)
 		perror("fork");
 }
 
-void	main_pipes(int argc, char *argv[], char **envp, t_code *code,
-		char *data_str)
+void	main_pipes(int argc, char *argv[], char **envp, t_data *data)
 {
 	t_pipes	pipes;
 	int		i;
@@ -112,9 +111,9 @@ void	main_pipes(int argc, char *argv[], char **envp, t_code *code,
 	pipes.fd1 = -1;
 	pipes.fd2 = -1;
 	envp = envp + 0;
-	code = code + 0;
+	data->code = data->code + 0;
 	count_cmd1 = 0;
-	(void)data_str;
+	(void)data->str;
 	i = 2;
 	i = i + 0;
 	init_struct(argv, count_cmd1, argc, &pipes);
@@ -122,7 +121,7 @@ void	main_pipes(int argc, char *argv[], char **envp, t_code *code,
 	init_fd1(argv, &pipes);
 	while (i < argc - 2)
 	{
-		pipex(&pipes, envp, code, count);
+		pipex(&pipes, envp, data, count);
 		count++;
 		i++;
 		init_struct(argv, count_cmd1, argc, &pipes);
@@ -132,7 +131,7 @@ void	main_pipes(int argc, char *argv[], char **envp, t_code *code,
 	pid = fork();
 	if (pid == 0)
 	{
-		code->code = 0;
+		data->code = 0;
 		dup2(pipes.fd2, STDOUT_FILENO);
 		close (pipes.fd2);
 		child_pipes_process2(&pipes, envp);
@@ -149,5 +148,5 @@ void	main_pipes(int argc, char *argv[], char **envp, t_code *code,
 		perror("fork");
 	dup2(sv, STDIN_FILENO);
 	while (wait(&status) != -1);
-	code->code = WEXITSTATUS(status);
+	data->code = WEXITSTATUS(status);
 }
