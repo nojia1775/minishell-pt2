@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/06/13 19:02:10 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:13:20 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	add_token(t_token **tokens, char *content, int nbr_pipe)
 	new->content = ft_strdup(content);
 	new->nbr_pipe = nbr_pipe;
 	new->next = NULL;
+	new->type = -1;
 	cur = *tokens;
 	if (!cur)
 	{

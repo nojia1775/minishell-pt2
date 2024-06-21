@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/06/13 19:03:06 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:19:38 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 	
 	if (input[0] == '\0')
 		return (NULL);
+	if (!nbr_quotes(input))
+		return (printf("minishell : syntax error\n"), NULL);
 	if (!conform_redir(input))
 		return (printf("minishell : syntax error near unexpected token `>'\n"), NULL);
 	if (!conform_pipe(input))

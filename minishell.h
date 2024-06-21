@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
+/*   Updated: 2024/06/21 17:14:25 by nadjemia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -18,8 +30,9 @@
 
 typedef enum	e_type
 {
-	WORD,
+	ARG,
 	INREDIR,
+	INREDIRAPP,
 	OUTREDIR,
 	CMD,
 	HEREDOC,
@@ -78,9 +91,9 @@ typedef struct	s_token
 {
 	struct s_token	*next;
 	struct s_token	*prev;
-	t_type	type;
+	int		type;
 	char	*content;
-	int	nbr_pipe;
+	int		nbr_pipe;
 }		t_token;
 
 /*-------Init Lobby-------*/
