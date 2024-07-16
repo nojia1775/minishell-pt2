@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/06/21 17:14:25 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:18:37 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@
 
 typedef enum	e_type
 {
-	ARG,
-	INREDIR,
-	INREDIRAPP,
-	OUTREDIR,
-	CMD,
-	HEREDOC,
-	LIM,
-	OPT
+	ARG, // = 0
+	INREDIR, // = 1
+	INREDIRAPP, // = 2
+	OUTREDIR, // = 3
+	CMD, // = 4
+	HEREDOC, // = 5
+	LIM, // = 6
+	OPT // = 7
 }		t_type;
 
 typedef struct s_data
