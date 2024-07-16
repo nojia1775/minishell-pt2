@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/16 12:30:23 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:35:28 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,3 @@ char	*find_var(char *str, t_list **env, t_list **exp_var)
 	free(tmp);
 	return (value);
 }
-/*
-int	parsing(char **input, t_list **env, t_list **exp_var, t_data *data)
-{
-	char	*result;
-
-	result = quotes(*input, env, exp_var);
-	if (!result)
-	{
-		data->code = 130;
-		return (printf("minishell : Syntax error\n"), 0);
-	}
-	*input = result;
-//	printf("%s\n", result);
-	return (1);
-}*/
