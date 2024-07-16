@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/06/14 17:08:35 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:27:24 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int ac, char **argv, char **envp)
 	t_list	*env;
 	t_data	data;
 	t_list	*exp_var;
+	t_token	**input_tokenised;
 
 	data.code = 0;
 	exp_var = NULL;
@@ -36,8 +37,9 @@ int	main(int ac, char **argv, char **envp)
 		if (set_interactive_signals() == -1)
 			exit(1);
 		data.str = readline(data.total_setup);
-		if (!parsing_pt2(data.str, &env, &exp_var))
-			data.str = data.str;
+		input_tokenised = parsing_pt2(data.str, &env, &exp_var);
+		if (!input_tokenised)
+			continue ;
 		if (data.str != NULL)
 			add_history(data.str);
 		if (data.str == NULL)

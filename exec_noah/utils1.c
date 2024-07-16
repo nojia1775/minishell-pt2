@@ -1,24 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 18:37:37 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/16 13:43:51 by nadjemia         ###   ########.fr       */
+/*   Created: 2024/07/16 13:58:56 by nadjemia          #+#    #+#             */
+/*   Updated: 2024/07/16 14:07:20 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-//print le pwd
-int	print_pwd(char *str, t_data *data)
-{
-	str = NULL;
-	str = getcwd(str, 0);
-	ft_printf("%s\n", str);
-	free(str);
-	data->code = 0;
-	return (0);
-}
+

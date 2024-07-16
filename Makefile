@@ -44,7 +44,9 @@ SRCS = minishell.c\
 		utils/utilsv8.c \
 		parsing/pipe.c \
 		parsing/redir.c \
-		execute/cmd/exec_builtin.c
+		execute/cmd/exec_builtin.c  \
+	exec_noah/exec.c \
+	exec_noah/utils1.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/16 12:18:37 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:07:27 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct	s_token
 	int		type;
 	char	*content;
 	int		nbr_pipe;
+	int		code;
 }		t_token;
 
 /*-------Init Lobby-------*/
@@ -204,6 +205,9 @@ void	quotes(t_token **tokens);
 void	is_in_quote(int *in_single, int *in_double, char c);
 void	free_tokens(t_token **tokens);
 int		add_token(t_token **tokens, char *content, int nbr_pipe);
+
+/*exec noah*/
+int		exec(t_token **input, t_data *data, t_list *env, t_list *expv);
 
 /*-------export parsing-------*/
 void	pars_export(t_data *data, t_list **env, t_list **exp_var);
