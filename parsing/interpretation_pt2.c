@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intrerpretation_pt2.c                              :+:      :+:    :+:   */
+/*   interpretation_pt2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/06/13 18:32:40 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:40:33 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ typedef struct s_var
 static void	replace(t_token *tokens, t_list **env, t_list **exp_var, t_var *vars)
 {
 	vars->value = get_env_value(tokens->content + vars->i, env, exp_var);
-	if (vars->value)
+	if (vars->value != NULL)
 	{
 		ft_strlcpy(&vars->buffer[vars->ibuf], vars->value, 
 			ft_strlen(vars->value) + 1);
 		vars->ibuf += ft_strlen(vars->value);
 		vars->i += word_len(tokens->content + vars->i);
+		free(vars->value);
 	}
 	else
 		vars->i += word_len(tokens->content + vars->i);
