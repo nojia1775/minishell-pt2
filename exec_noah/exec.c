@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:46:13 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/16 14:19:36 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:31:48 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ typedef struct	s_vars
 	t_list	**expv;
 }		t_vars;
 
+static void	noah_pars_export(t_token *input, t_list **env, t_list **expv)
+{
+	
+}
 
 static int	builtins(t_token *input, t_vars *vars)
 {
@@ -33,6 +37,7 @@ static int	builtins(t_token *input, t_vars *vars)
 		print_env(vars->env, vars->expv, vars->data);
 	else if (!ft_strcmp(input->content, "pwd"))
 		print_pwd(tmp, vars->data);
+	else if (!ft_strcmp(input->content, "export"))
 }
 
 void	exec(t_token **input, t_data **data, t_list **env, t_list **expv)

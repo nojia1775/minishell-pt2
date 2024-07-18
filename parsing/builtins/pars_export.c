@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/26 03:37:52 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:30:34 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ void	pars_export(t_data *data, t_list **env, t_list **exp_var)
 		return;
 	}
 	else 
+	{
+		while (export[i])
 		{
-			while (export[i])
+			if (pars_exp_var(export[i]) != -1)
 			{
-				if (pars_exp_var(export[i]) != -1)
-				{
-					export_variable(env, exp_var, export[i], data);
-					data->code = 0;
-				}
-				else 
-					data->code = 1;
-				i++;
+				export_variable(env, exp_var, export[i], data);
+				data->code = 0;
 			}
+			else 
+				data->code = 1;
+			i++;
 		}
+	}
 	free_double_tabs(export);
 }
 
