@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/07/16 12:25:16 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:59:59 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	replace(t_token *tokens, t_list **env, t_list **exp_var, t_var *vars
 			ft_strlen(vars->value) + 1);
 		vars->ibuf += ft_strlen(vars->value);
 		vars->i += word_len(tokens->content + vars->i);
-		printf("ok\n");
 		free(vars->value);
 	}
 	else

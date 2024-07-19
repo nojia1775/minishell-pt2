@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/28 03:35:10 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:07:13 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int 	setup_exe_simple_cmd(t_data *data, t_list **env, t_list **exp_var,
 		data->code = 0;
 		if (check_file(file) == -1)
 			if (chdir(file) != 0)
-				{
-					data->code = 1;
-					ft_putendl_fd(": Aucun fichier ou dossier de ce type", 2);
-					exit(EXIT_FAILURE);
-				}
+			{
+				data->code = 1;
+				ft_putendl_fd(": Aucun fichier ou dossier de ce type", 2);
+				exit(EXIT_FAILURE);
+			}
 		check_redirection(redir, file, &fd);
 		if (fd > 0)
 			check_and_exe_cmd(data, env, exp_var, fd, redir);
@@ -60,6 +60,7 @@ int 	setup_exe_simple_cmd(t_data *data, t_list **env, t_list **exp_var,
 		perror("fork");
 	return (0);
 }
+
 // fonction qui tente l'absolut path et s' il ne s'execute pas il test le relative path(fonction en dessous)
 void	check_and_exe_cmd(t_data *data, t_list **envp, t_list **exp_var, int fd, char *redir)
 {

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/06/13 19:02:36 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:00:06 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,6 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
 	type_token(tokens);
 	expand(tokens, env, exp_var);
 	quotes(tokens);
+	create_cmd_pipex(tokens);
 	return (tokens);
 }

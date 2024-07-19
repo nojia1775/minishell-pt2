@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/16 14:07:27 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:56:28 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,10 @@ typedef struct	s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 	int		type;
-	char	*content;
 	int		nbr_pipe;
 	int		code;
+	char	*content;
+	char	*cmd_pipex;
 }		t_token;
 
 /*-------Init Lobby-------*/
@@ -198,13 +199,14 @@ int		count_pipe(char *str);
 int		conform_redir(char *str);
 t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var);
 t_token	**tokenisation(char *str, t_list **env, t_list **exp_var);
-void	free_tokens(t_token **tokens);
 void	expand(t_token **tokens, t_list **env, t_list **exp_var);
 void	type_token(t_token **tokens);
 void	quotes(t_token **tokens);
 void	is_in_quote(int *in_single, int *in_double, char c);
 void	free_tokens(t_token **tokens);
 int		add_token(t_token **tokens, char *content, int nbr_pipe);
+void	create_cmd_pipex(t_token **tokens);
+char	*get_cmd_pipex(t_token *line);
 
 /*exec noah*/
 int		exec(t_token **input, t_data *data, t_list *env, t_list *expv);

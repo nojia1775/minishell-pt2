@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/06/21 17:13:20 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:59:54 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,16 @@ void	free_tokens(t_token **tokens)
 	t_token	*cur;
 	t_token	*rm;
 	int		i;
-		
+	
 	i = 0;
-	cur = tokens[i];
 	while (tokens[i])
 	{
+		cur = tokens[i];
 		while (cur)
 		{
 			rm = cur;
+			if (!cur->prev)
+				free(cur->cmd_pipex);
 			free(cur->content);
 			cur = cur->next;
 			free(rm);

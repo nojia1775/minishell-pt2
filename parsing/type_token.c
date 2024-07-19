@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:52:16 by noah              #+#    #+#             */
-/*   Updated: 2024/06/21 17:15:10 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:53:18 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ static int	is_redir(t_token *cur)
 	if (!ft_strcmp(cur->content, "<<") && cur->type == -1)
 		heredoc_type(cur);
 	else if (!ft_strcmp(cur->content, "<") && cur->type == -1)
+	{
 		cur->type = OUTREDIR;
+		if (cur->next->next)
+			cur->next->next->type = CMD;
+	}
 	else if (!ft_strcmp(cur->content, ">") && cur->type == -1)
 		cur->type = INREDIR;
 	else if (!ft_strcmp(cur->content, ">>") && cur->type == -1)

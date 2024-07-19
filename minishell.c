@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/16 13:27:24 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:50:49 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int ac, char **argv, char **envp)
 			print_pwd(data.str, &data);
 		else if (strncmp("exit", data.str, 4) == 0)
 		{
+			free_tokens(input_tokenised);
 			ft_exit(&data, &env, &exp_var);
 			exit(data.code);
 		}
@@ -82,6 +83,7 @@ int	main(int ac, char **argv, char **envp)
 		}
 		else if (strncmp("here", data.str, 4) == 0)
 			here_doc(data.str);
+		free_tokens(input_tokenised);
 	}
 	exit(data.code);
 }

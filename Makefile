@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 OBJS_DIR = obj
 
@@ -45,8 +45,7 @@ SRCS = minishell.c\
 		parsing/pipe.c \
 		parsing/redir.c \
 		execute/cmd/exec_builtin.c  \
-	exec_noah/exec.c \
-	exec_noah/utils1.c
+	parsing/cmd_pipex.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
