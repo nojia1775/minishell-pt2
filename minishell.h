@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/19 15:56:28 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:20:51 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,10 +185,7 @@ void			parse_line(int fd, char *line);
 
 /*-------parsing global-------*/
 int 	parsing(char **input, t_list **env, t_list **exp_var, t_data *data);
-//char	*quotes(char *str, t_list **env, t_list **exp_var);
 int		nbr_quotes(char *str);
-char	*interpretation(char *str, int *index_of_var, t_list **env, t_list **exp_var);
-int		*init_index_of_var(char *str);
 int		word_len(char *str);
 char	*get_env_value(char *str, t_list **env, t_list **exp_var);
 int		total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var);

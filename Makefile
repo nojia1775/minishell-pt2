@@ -5,47 +5,44 @@ CFLAGS = -Wall -Wextra -Werror -g
 OBJS_DIR = obj
 
 SRCS = minishell.c\
-		utils/utilsv1.c\
-		execute/env/setup_lobby.c\
-		execute/cmd/cd.c\
-		execute/env/env.c\
-		utils/utilsv2.c\
-		execute/env/export.c\
-		execute/env/unset.c\
-		utils/utilsv3.c\
-		execute/cmd/echo.c\
-		execute/cmd/exe_cmd.c\
-		utils/utilsv4.c\
-		execute/cmd/pwd.c\
-		execute/cmd/exit.c\
-		execute/env/export2.c\
-		execute/env/env2.c\
-		execute/cmd/cd2.c\
-		execute/env/setup_lobby2.c\
-		execute/cmd/pipes.c\
-		execute/cmd/pipes2.c\
-		execute/cmd/pipes3.c\
-		utils/utilsv5.c\
-		parsing/parsing.c\
-       	parsing/quotes.c\
+	execute/cmd/cd.c \
+	execute/cmd/cd2.c\
+	execute/cmd/echo.c\
+	execute/cmd/exec_builtin.c  \
+	execute/cmd/exe_cmd.c\
+	execute/cmd/exit.c\
+	execute/cmd/here_doc.c\
+	execute/cmd/pipes.c\
+	execute/cmd/pipes2.c\
+	execute/cmd/pipes3.c\
+	execute/cmd/pwd.c\
+	execute/env/setup_lobby.c\
+	execute/env/env.c\
+	execute/env/export.c\
+	execute/env/unset.c\
+	execute/env/export2.c\
+	execute/env/env2.c\
+	execute/env/setup_lobby2.c\
        	parsing/nbr_quotes.c\
-       	parsing/interpretation.c\
-		parsing/utilsv6.c\
-		signals.c\
-		execute/cmd/here_doc.c\
-		parsing/builtins/pars_export.c\
-		utils/utilsv7.c\
-		parsing/builtins/pars_unset.c\
-		parsing/parsing_pt2.c \
+	parsing/builtins/pars_export.c\
+	parsing/builtins/pars_unset.c\
+	parsing/parsing_pt2.c \
         parsing/token_pt2.c \
         parsing/interpretation_pt2.c \
         parsing/type_token.c \
         parsing/quote_pt2.c \
-		utils/utilsv8.c \
-		parsing/pipe.c \
-		parsing/redir.c \
-		execute/cmd/exec_builtin.c  \
-		parsing/cmd_pipex.c
+	parsing/pipe.c \
+	parsing/redir.c \
+	parsing/cmd_pipex.c \
+	signals.c\
+	utils/utilsv1.c\
+	utils/utilsv2.c\
+	utils/utilsv3.c\
+	utils/utilsv4.c\
+	utils/utilsv5.c\
+	utils/utilsv6.c\
+	utils/utilsv7.c\
+	utils/utilsv8.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 

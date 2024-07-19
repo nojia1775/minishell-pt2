@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/19 15:50:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:33:20 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int ac, char **argv, char **envp)
 			pars_export(&data, &env, &exp_var);
 		else if (strncmp("unset", data.str, 5) == 0)
 			pars_unset(&data, &env, &exp_var);
-		else if (strncmp("ls", data.str, 2) == 0)
+		else if (strncmp("echo", data.str, 4) == 0)
 		{
 			if(setup_exe_simple_cmd(&data, &env, &exp_var, "qwdqwd", "<") == -1)
 				exit(data.code);
