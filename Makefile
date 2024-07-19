@@ -37,15 +37,15 @@ SRCS = minishell.c\
 		utils/utilsv7.c\
 		parsing/builtins/pars_unset.c\
 		parsing/parsing_pt2.c \
-       parsing/token_pt2.c \
-       parsing/interpretation_pt2.c \
-       parsing/type_token.c \
-       parsing/quote_pt2.c \
+        parsing/token_pt2.c \
+        parsing/interpretation_pt2.c \
+        parsing/type_token.c \
+        parsing/quote_pt2.c \
 		utils/utilsv8.c \
 		parsing/pipe.c \
 		parsing/redir.c \
 		execute/cmd/exec_builtin.c  \
-	parsing/cmd_pipex.c
+		parsing/cmd_pipex.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
@@ -67,10 +67,10 @@ $(OBJS_DIR):
 all: $(NAME)
 
 clean:
-	@make fclean -C libft42/
-	@make fclean -C get_next_line/
-	@make fclean -C ft_printf/
-	rm -f $(OBJS)
+	@make clean -C libft42/
+	@make clean -C get_next_line/
+	@make clean -C ft_printf/
+	rm -rf $(OBJS_DIR)
 
 fclean: clean
 	@make fclean -C libft42/
