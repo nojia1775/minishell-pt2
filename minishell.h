@@ -96,6 +96,8 @@ typedef struct	s_token
 	int		code;
 	char	*content;
 	char	*cmd_pipex;
+	char	**files;
+	char	**redir;
 }		t_token;
 
 /*-------Init Lobby-------*/

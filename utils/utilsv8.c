@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv8.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/07/19 16:18:26 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:15:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	add_token(t_token **tokens, char *content, int nbr_pipe)
 	new->content = ft_strdup(content);
 	new->nbr_pipe = nbr_pipe;
 	new->next = NULL;
+	new->redir = NULL;
+	new->files = NULL;
 	new->type = -1;
 	cur = *tokens;
 	if (!cur)
