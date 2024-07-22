@@ -96,5 +96,7 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
 	expand(tokens, env, exp_var);
 	quotes(tokens);
 	create_cmd_pipex(tokens);
+	if (!files_and_redir(tokens))
+		return (free_tokens(tokens), NULL);
 	return (tokens);
 }

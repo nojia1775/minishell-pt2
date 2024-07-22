@@ -30,6 +30,15 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 	while (tokens[i])
 	{	
 		cur = tokens[i];
+		if (cur->redir)
+		{
+			int j = 0;
+			while (cur->redir[j])
+				printf("+++ %s\n", cur->redir[j++]);
+			j = 0;
+			while (cur->files[j])
+				printf("+++ %s\n", cur->files[j++]);
+		}
 		while (cur)
 		{
 			printf("%d --- %s %d\n", i, cur->content, cur->type);

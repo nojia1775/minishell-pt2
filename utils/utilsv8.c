@@ -20,6 +20,20 @@ void	is_in_quote(int *in_single, int *in_double, char c)
 		*in_single = !(*in_single);
 }
 
+static void	free_redir_files(t_token *token)
+{
+	int	i;
+
+	i = 0;
+	if (token->redir)
+		while (token->redir[i])
+			free(token->redir[i++]);
+	i = 0;
+	if (token->files)
+		while (token->files[i])
+			free(token->files[i++]);
+}
+
 // free les tokens et leurs membres
 void	free_tokens(t_token **tokens)
 {
@@ -36,6 +50,7 @@ void	free_tokens(t_token **tokens)
 			rm = cur;
 			if (!cur->prev)
 				free(cur->cmd_pipex);
+			free_redir_files(cur);
 			free(cur->content);
 			cur = cur->next;
 			free(rm);

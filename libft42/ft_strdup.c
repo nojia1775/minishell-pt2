@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 int	ft_strln(const char *str)
 {

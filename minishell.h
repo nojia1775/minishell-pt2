@@ -206,6 +206,7 @@ void	free_tokens(t_token **tokens);
 int		add_token(t_token **tokens, char *content, int nbr_pipe);
 void	create_cmd_pipex(t_token **tokens);
 char	*get_cmd_pipex(t_token *line);
+int 	files_and_redir(t_token **tokens);
 
 /*exec noah*/
 int		exec(t_token **input, t_data *data, t_list *env, t_list *expv);

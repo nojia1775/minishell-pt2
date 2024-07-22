@@ -26,6 +26,7 @@ SRCS = minishell.c\
        	parsing/nbr_quotes.c\
 	parsing/builtins/pars_export.c\
 	parsing/builtins/pars_unset.c\
+	parsing/files_and_redir.c \
 	parsing/parsing_pt2.c \
         parsing/token_pt2.c \
         parsing/interpretation_pt2.c \

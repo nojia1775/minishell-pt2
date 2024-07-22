@@ -60,7 +60,7 @@ int files_and_redir(t_token **tokens)
 {
     t_vars  var;
     
-    ft_bzero(&var, sizeof(var));
+    ft_memset(&var, 0, sizeof(var));
     while (tokens[var.pipe])
     {
         var.cur = tokens[var.pipe];
@@ -69,16 +69,23 @@ int files_and_redir(t_token **tokens)
             var.cur->redir = create_tab(count_redir_files(var.cur));
             var.cur->files = create_tab(count_redir_files(var.cur));
             if (!var.cur->redir || !var.cur->files)
-                retunr (0);
+                return (0);
             while (var.cur)
             {
                 if (is_redir(var.cur->content))
+                {
+                    printf("1 %p\n", var.cur->redir[var.redir]);
                     var.cur->redir[var.redir++] = ft_strdup(var.cur->content);
-                if (is_redir(var.cur->prev->content))
+                }
+                else if (var.cur->prev && is_redir(var.cur->prev->content))
+                {
+                    printf("2 %s\n", var.cur->prev->content);
                     var.cur->files[var.files++] = ft_strdup(var.cur->content);
+                }
                 var.cur = var.cur->next;
             }
         }
         var.pipe++;
     }
+    return (1);
 }
