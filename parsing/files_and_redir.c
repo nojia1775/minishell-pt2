@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_and_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/07/22 11:13:48 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 13:37:48 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,28 @@ static char **create_tab(int nbr)
     return (tab);
 }
 
+static int  add_files_redir(t_token *token, int index, char *content, int redir)
+{
+    t_token *cur;
+
+    cur = token;
+    while (cur->prev)
+        cur = cur->prev;
+    if (redir)
+    {
+        cur->redir[index] = ft_strdup(content);
+        if (!cur->redir[index])
+            return (0);
+    }
+    else
+    {
+        cur->files[index] = ft_strdup(content);
+        if (!cur->files[index])
+            return (0);
+    }
+    return (1);
+}
+
 int files_and_redir(t_token **tokens)
 {
     t_vars  var;
@@ -74,13 +96,13 @@ int files_and_redir(t_token **tokens)
             {
                 if (is_redir(var.cur->content))
                 {
-                    printf("1 %p\n", var.cur->redir[var.redir]);
-                    var.cur->redir[var.redir++] = ft_strdup(var.cur->content);
+                    if (!add_files_redir(var.cur, var.redir, var.cur->content, 1))
+                        return (0);
                 }
                 else if (var.cur->prev && is_redir(var.cur->prev->content))
                 {
-                    printf("2 %s\n", var.cur->prev->content);
-                    var.cur->files[var.files++] = ft_strdup(var.cur->content);
+                    if (!add_files_redir(var.cur, var.redir, var.cur->content, 0))
+                        return (0);
                 }
                 var.cur = var.cur->next;
             }
