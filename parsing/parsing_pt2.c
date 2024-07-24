@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/07/19 15:32:32 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:19:27 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 				printf("+++ %s\n", cur->redir[j++]);
 			j = 0;
 			while (cur->files[j])
-				printf("+++ %s\n", cur->files[j++]);
+				printf("*** %s\n", cur->files[j++]);
 		}
 		while (cur)
 		{

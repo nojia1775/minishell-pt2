@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/07/24 13:37:48 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/24 14:20:54 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ int files_and_redir(t_token **tokens)
             {
                 if (is_redir(var.cur->content))
                 {
-                    if (!add_files_redir(var.cur, var.redir, var.cur->content, 1))
+                    if (!add_files_redir(var.cur, var.redir++, var.cur->content, 1))
                         return (0);
                 }
                 else if (var.cur->prev && is_redir(var.cur->prev->content))
                 {
-                    if (!add_files_redir(var.cur, var.redir, var.cur->content, 0))
+                    if (!add_files_redir(var.cur, var.files++, var.cur->content, 0))
                         return (0);
                 }
                 var.cur = var.cur->next;
