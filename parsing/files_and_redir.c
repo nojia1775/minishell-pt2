@@ -86,6 +86,8 @@ int files_and_redir(t_token **tokens)
     while (tokens[var.pipe])
     {
         var.cur = tokens[var.pipe];
+	var.redir = 0;
+	var.files = 0;
         if (count_redir_files(var.cur))
         {
             var.cur->redir = create_tab(count_redir_files(var.cur));
