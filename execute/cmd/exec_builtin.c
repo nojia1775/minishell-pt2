@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 18:02:40 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/26 00:52:54 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,32 +49,29 @@ void	exec_redirection(char *redir, int fd, int *flag)
 	}
 }
 
-int		exec_builtin(t_data *data, t_list **env, t_list **exp_var)
+int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 {
 	char **cmd_splitted;
 	int fd_temp = -1;
 	
-	cmd_splitted = ft_split(data->str, ' ');
+	cmd_splitted = ft_split(cur->cmd_pipex, ' ');
 	if (ft_strcmp(cmd_splitted[0], "echo") == 0)
-		ft_echo(data, 1, env,  exp_var, &fd_temp, -1);
+		ft_echo(cur, 1, env,  exp_var, &fd_temp, -1, data);
 	if (ft_strcmp(cmd_splitted[0], "export") == 0)
-		pars_export(data, env, exp_var);
+		pars_export(cur, env, exp_var, data);
 	else if (ft_strcmp(cmd_splitted[0], "unset") == 0)
-		pars_unset(data, env, exp_var);
+		pars_unset(cur, env, exp_var, data);
 	else if (ft_strcmp(cmd_splitted[0], "pwd") == 0)
 		print_pwd(cmd_splitted[0], data);
-	else if (cmd_splitted[1])
-	{
-		if (ft_strcmp(cmd_splitted[0], "cd") == 0 && ft_strcmp(cmd_splitted[1], "~") == 0)
-			ft_cd_home(data, env);
-	}
+	else if (ft_strlen_double_tab(cmd_splitted) > 1 && ft_strcmp(cmd_splitted[0], "cd") == 0 && ft_strcmp(cmd_splitted[1], "~") == 0)
+		ft_cd_home(data, env);
 	else if (ft_strcmp(cmd_splitted[0], "cd") == 0)
-		ft_cd(data, env);
+		ft_cd(cur, env, data);
 	else if (strcmp(cmd_splitted[0], "env") == 0)
 		print_env(env, exp_var, data);
 	else if (ft_strcmp(cmd_splitted[0], "exit") == 0)
 	{
-		ft_exit(data, env, exp_var);
+		ft_exit(cur, env, exp_var, data);
 		return (-1);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/19 16:20:51 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/26 00:55:05 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,6 @@ typedef struct s_pipes
 	char	*good_cmd;
 	int		*status;
 }			t_pipes;
-/*
-typedef struct scode
-{
-	long long	code;
-
-}				t_code;*/
 
 typedef struct s_input
 {
@@ -127,7 +121,7 @@ void			add_back_oldpwd(int flag, char *cwd, t_list **env);
 void			find_pwd(int *flag, t_list **env);
 
 /*-------Cd-------*/
-void			ft_cd(t_data *data, t_list **env);
+void			ft_cd(t_token *cur, t_list **env, t_data *data);
 void			ft_cd2( int flag, t_list **env, t_data *data);
 void			ft_cd_home(t_data *data, t_list **env);
 void			get_home_path(t_data *data, t_list **env);
@@ -136,7 +130,7 @@ void			get_home_path(t_data *data, t_list **env);
 void			ft_unset(t_list **env, t_list **exp_var, char *var, t_data *data);
 void			ft_unset2(int flag, t_list **exp_var, char *var);
 /*-------Exit-------*/
-void			ft_exit(t_data *data, t_list **env, t_list **exp_var);
+void			ft_exit(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
 void			ft_exit2(t_data *data, char **exit);
 
 /*-------Ctrls-------*/
@@ -145,16 +139,16 @@ char			*get_total_setup(t_data *data);
 int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void	ft_echo(t_data *data, int n_option, t_list **env, t_list **exp_var,
-			int *fd, int flag_redir);
+void	ft_echo(t_token *cur, int n_option, t_list **env, t_list **exp_var,
+			int *fd, int flag_redir, t_data *data);
 char			*find_echo_var(char *str, t_list **env, t_list **exp_var,
 					int *flag);
 
 /*-------Cmds-------*/
-int 			setup_exe_simple_cmd(t_data *data, t_list **env, t_list **exp_var,
-					char *file, char *redir);
-void			check_and_exe_cmd(t_data *data, t_list **envp, t_list **exp_var,
-					int fd, char *redir);
+int 			setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var,
+					char *file, char *redir, t_data *data);
+void			check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var,
+					int fd, char *redir, t_data *data);
 void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
 char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
@@ -162,7 +156,7 @@ void			check_redirection(char *str, char *file, int *fd);
 
 /*-------Exec Builtins-------*/
 int		is_a_builtin(char *cmd);
-int		exec_builtin(t_data *data, t_list **env, t_list **exp_var);
+int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
 void	exec_redirection(char *redir, int fd, int *flag);
 
 /*-------Pipes-------*/
@@ -212,7 +206,7 @@ int 	files_and_redir(t_token **tokens);
 int		exec(t_token **input, t_data *data, t_list *env, t_list *expv);
 
 /*-------export parsing-------*/
-void	pars_export(t_data *data, t_list **env, t_list **exp_var);
+void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
 int 	pars_exp_var(char *str);
 int		checking_if_alpha(char *str);
 /*
@@ -229,7 +223,7 @@ char	*del_outside_quotes(char *str);
 
 /*-------Unset  parsing-------*/
 
-void	pars_unset(t_data *data, t_list **env, t_list **exp_var);
+void	pars_unset(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
 
 
 /*-------Utils-------*/

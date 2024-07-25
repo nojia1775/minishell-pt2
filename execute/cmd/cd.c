@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 03:28:06 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:35:51 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 // Fonction principale de cd,
 //  A chaque cd, je dois update le dossier dans le quel on se trouve
 // la fonction update_env que j'appelle permet d'update la ligne PWD et OLDPWD de l'env a chaque cd
-void	ft_cd(t_data *data, t_list **env)
+void	ft_cd(t_token *cur, t_list **env, t_data *data)
 {
 	int	flag;
 
 	char **tab;
 	
 	
-	tab = ft_split(data->str, ' ');
+	tab = ft_split(cur->cmd_pipex, ' ');
 	if (ft_strlen_double_tab(tab) >= 3)
 	{
 		free_double_tabs(tab);

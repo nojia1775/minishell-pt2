@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/19 16:33:20 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/26 00:43:46 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	main(int ac, char **argv, char **envp)
 	t_data	data;
 	t_list	*exp_var;
 	t_token	**input_tokenised;
-
+	t_token *cur;
+	
 	data.code = 0;
 	exp_var = NULL;
 	env = NULL;
@@ -40,6 +41,8 @@ int	main(int ac, char **argv, char **envp)
 		input_tokenised = parsing_pt2(data.str, &env, &exp_var);
 		if (!input_tokenised)
 			continue ;
+		else
+			cur = *input_tokenised;
 		if (data.str != NULL)
 			add_history(data.str);
 		if (data.str == NULL)
@@ -47,36 +50,12 @@ int	main(int ac, char **argv, char **envp)
 			ft_printf("exit\n");
 			exit (data.code);
 		}
-		if (strcmp("env", data.str) == 0)
+		else if (cur->nbr_pipe == 0)
 		{
-			print_env(&env, &exp_var, &data);
-		}
-		else if (strncmp("pwd", data.str, 3) == 0)
-			print_pwd(data.str, &data);
-		else if (strncmp("exit", data.str, 4) == 0)
-		{
-			free_tokens(input_tokenised);
-			ft_exit(&data, &env, &exp_var);
-			exit(data.code);
-		}
-		else if (strncmp("cd ~", data.str, 4) == 0)
-		{
-			ft_cd_home(&data, &env);
-		}
-		else if (strncmp("cd", data.str, 2) == 0)
-		{
-			ft_cd(&data, &env);
-		}
-		else if (strncmp("export", data.str, 6) == 0)
-			pars_export(&data, &env, &exp_var);
-		else if (strncmp("unset", data.str, 5) == 0)
-			pars_unset(&data, &env, &exp_var);
-		else if (strncmp("echo", data.str, 4) == 0)
-		{
-			if(setup_exe_simple_cmd(&data, &env, &exp_var, "qwdqwd", "<") == -1)
+			if(setup_exe_simple_cmd(cur, &env, &exp_var, "", "", &data) == -1)
 				exit(data.code);
 		}
-		else if (ft_strncmp(data.str, "cd", 2) == 0)
+		if (ft_strncmp(data.str, "", 2) == 0)
 		{
 			char 	**envv = stock_total_env(&env, &exp_var);
 			main_pipes(ft_count_words(data.str, ' ') + 1, ft_split(data.str, ' '), envv, &data);

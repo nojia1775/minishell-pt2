@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pars_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/18 17:30:34 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:14:39 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	pars_export(t_data *data, t_list **env, t_list **exp_var)
+void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 {
 	char **export;
 	int		i;
 
 	i = 1;
-	export = ft_split(data->str, ' ');
+	export = ft_split(cur->cmd_pipex, ' ');
 	if (export[1] == NULL)
 	{
 		ft_export(env, exp_var);

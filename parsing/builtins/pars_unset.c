@@ -6,20 +6,20 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 02:08:02 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 17:54:38 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:16:21 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-void	pars_unset(t_data *data, t_list **env, t_list **exp_var)
+void	pars_unset(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 {
 	char **unset;
 	int		i;
 
 	i = 1;
-	unset = ft_split(data->str, ' ');
+	unset = ft_split(cur->cmd_pipex, ' ');
 	data->code =  0;
 	if (!unset[1])
 	{
