@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 18:13:15 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/21 18:14:52 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/26 02:27:59 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,29 @@ int	checking_if_alpha(char *str)
 			return (-1);
 	}
 	return (1);
+}
+
+void	ft_simple_err(char *s, int fd)
+{
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
+}
+
+int	ft_strlen_double_tab(char **str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		j = 0;
+		while (str[i][j])
+			j++;
+		i++;
+	}
+	return (i);
 }

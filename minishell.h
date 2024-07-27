@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
+/*   Updated: 2024/07/27 04:00:35 by almichel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -16,6 +28,18 @@
 # include <termios.h>
 # include <unistd.h>
 
+typedef enum	e_type
+{
+	ARG, // = 0
+	INREDIR, // = 1
+	INREDIRAPP, // = 2
+	OUTREDIR, // = 3
+	CMD, // = 4
+	HEREDOC, // = 5
+	LIM, // = 6
+	OPT // = 7
+}		t_type;
+
 typedef struct s_data
 {
 	char		**envp;
@@ -27,6 +51,7 @@ typedef struct s_data
 	char		*extract_pwd;
 	char		*total_setup;
 	char		*str;
+	long long			code;
 	char		buf[1024];
 	int			exit_code;
 }				t_data;
@@ -48,12 +73,6 @@ typedef struct s_pipes
 	int		*status;
 }			t_pipes;
 
-typedef struct scode
-{
-	long long	code;
-
-}				t_code;
-
 typedef struct s_input
 {
 	char	*intput_brut;
@@ -61,6 +80,19 @@ typedef struct s_input
 	char	*cmd_opt;
 	char	**args;
 }	t_input;
+
+typedef struct	s_token
+{
+	struct s_token	*next;
+	struct s_token	*prev;
+	int		type;
+	int		nbr_pipe;
+	int		code;
+	char	*content;
+	char	*cmd_pipex;
+	char	**files;
+	char	**redir;
+}		t_token;
 
 /*-------Init Lobby-------*/
 char			*init_lobby(t_data *data);
@@ -70,40 +102,36 @@ void			find_logname2(t_data *data, int i, int j, int temp);
 void			add_pwd(t_data *data);
 
 /*-------Export-------*/
-void			ft_export(t_data *data, t_list **env, t_list **exp_var);
+void			ft_export(t_list **env, t_list **exp_var);
 void			update_env(t_list **env);
 void			export_variable(t_list **env, t_list **exp_var, char *var,
-					t_code *code);
+					t_data *data);
 void			export_variable2(t_list *current, t_list **list, int *flag, char *var);	
-void			trie_export(t_data *data, int i);			
-void			add_declare_x(t_data *data, t_list *current, t_list **list, int *i);
-void			print_export(t_data *data);
+void			trie_export(char **export, int i);			
+void			add_declare_x(char **export, t_list *current, t_list **list, int *i);
+void			print_export(char **export);
 
 /*-------Env-------*/
 void			stock_env(char **env, t_list **envp);
-void			print_env(t_list **envp, t_list **exp_var);
+void			print_env(t_list **envp, t_list **exp_var, t_data *data);
 void			update_oldpwd(t_list **env);
 char			*get_actualpwd(t_list **env);
-int				print_pwd(char *str, t_code *code);
+int				print_pwd(char *str, t_data *data);
 void			add_back_oldpwd(int flag, char *cwd, t_list **env);
 void			find_pwd(int *flag, t_list **env);
 
 /*-------Cd-------*/
-void			ft_cd(t_data *data, t_list **env, t_list **exp_var,
-					t_code *code);
-void			ft_cd2(t_code *code, int flag, t_list **env, t_data *data);
+void			ft_cd(t_token *cur, t_list **env, t_data *data);
+void			ft_cd2( int flag, t_list **env, t_data *data);
 void			ft_cd_home(t_data *data, t_list **env);
 void			get_home_path(t_data *data, t_list **env);
-int				find_var_cd(char *path, t_list **env, t_list **exp_var);
-char			*put_path_cd(char *path, t_list **env, t_list **exp_var);
 
 /*-------Unset-------*/
-void			ft_unset(t_list **env, t_list **exp_var, char *var, t_code *code);
+void			ft_unset(t_list **env, t_list **exp_var, char *var, t_data *data);
 void			ft_unset2(int flag, t_list **exp_var, char *var);
 /*-------Exit-------*/
-void			ft_exit(char *str, t_list **env, t_list **exp_var,
-					t_code *code);
-void			ft_exit2(t_code *code, char **exit);
+void			ft_exit(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
+void			ft_exit2(t_data *data, char **exit);
 
 /*-------Ctrls-------*/
 void			signalHandler(int signum);
@@ -111,32 +139,35 @@ char			*get_total_setup(t_data *data);
 int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
-			int *fd, t_code *code, int flag_redir);
+void	ft_echo(t_token *cur, int n_option, t_list **env, t_list **exp_var,
+			int *fd, int flag_redir, t_data *data);
 char			*find_echo_var(char *str, t_list **env, t_list **exp_var,
 					int *flag);
 
 /*-------Cmds-------*/
-void			setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
-					char *file, char *redir, t_code *code);
-void			check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var,
-					int fd, char *redir,
-					t_code *rl_filename_completion_desired);
+int 			setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
+void			check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var,
+					int fd, t_data *data);
 void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
 char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
-void			check_redirection(char *str, char *file, int *fd);
+int				check_redirection(t_token *cur, int *fd);
+
+/*-------Exec Builtins-------*/
+int		is_a_builtin(char *cmd);
+int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, int fd);
+void	exec_redirection(char *redir, int fd, int *flag);
 
 /*-------Pipes-------*/
-void			main_pipes(int argc, char *argv[], char **envp, t_code *code, char *data_str);
+void			main_pipes(t_token *cur, char **envp, t_data *data);
 void			init_struct(char *argv[], int i, int argc, t_pipes *pipes);
-void			pipex(t_pipes *pipes, char **envp, t_code *code, int count);
+void			pipex(t_token *token, t_pipes *pipes, char **envp, t_data *code, int count);
 void			init_fd1(char **argv, t_pipes *pipes);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
-void			child_pipes_process1(t_pipes *pipes, char *envp[]);
-void			child_pipes_process2(t_pipes *pipes, char *envp[]);
-void			ft_relative_path1(t_pipes *pipes, char **envp, int i);
-void			ft_relative_path2(t_pipes *pipes, char **envp, int i);
+void			child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd);
+void			child_pipes_process2(t_token *cur, t_pipes *pipes, char *envp[], int sv, int fd);
+void			ft_relative_path1(t_pipes *pipes, char **envp, int i, t_token *cur);
+void			ft_relative_path2(t_pipes *pipes, char **envp, int i, t_token *cur);
 int				ft_dup2_one(t_pipes *pipes, int *end);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			ft_close_all(t_pipes *pipes);
@@ -148,20 +179,36 @@ char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
 
 /*-------parsing global-------*/
-int		parsing(char **input, t_list **env, t_list **exp_var);
-char	*quotes(char *str, t_list **env, t_list **exp_var);
+int 	parsing(char **input, t_list **env, t_list **exp_var, t_data *data);
 int		nbr_quotes(char *str);
-char	*interpretation(char *str, int *index_of_var, t_list **env, t_list **exp_var);
-int		*init_index_of_var(char *str);
 int		word_len(char *str);
 char	*get_env_value(char *str, t_list **env, t_list **exp_var);
 int		total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var);
 void	rm_space(char *str);
 char	*find_var(char *str, t_list **env, t_list **exp_var);
+int		conform_pipe(char *str);
+int		count_pipe(char *str);
+int		conform_redir(char *str);
+t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var);
+t_token	**tokenisation(char *str, t_list **env, t_list **exp_var);
+void	expand(t_token **tokens, t_list **env, t_list **exp_var);
+void	type_token(t_token **tokens);
+void	quotes(t_token **tokens);
+void	is_in_quote(int *in_single, int *in_double, char c);
+void	free_tokens(t_token **tokens);
+int		add_token(t_token **tokens, char *content, int nbr_pipe);
+void	create_cmd_pipex(t_token **tokens);
+char	*get_cmd_pipex(t_token *line);
+int 	files_and_redir(t_token **tokens);
+
+/*exec noah*/
+int		exec(t_token **input, t_data *data, t_list *env, t_list *expv);
 
 /*-------export parsing-------*/
-void	pars_export(char *str, t_list **env, t_list **exp_var, t_data *data);
-char	*pars_exp_var(char *str);
+void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
+int 	pars_exp_var(char *str);
+int		checking_if_alpha(char *str);
+/*
 int		checking_order_quotes(char *str);
 char	*del_all_quotes(char *str);
 int		checking_nbr_quotes(char *str);
@@ -170,11 +217,13 @@ int 	ft_strlen_quotes(const char *str);
 void	ft_strcpy_(char *dest, char *src);
 char 	*ft_strdup_outside_quotes(const char *s);
 char	*del_outside_quotes(char *str);
-int		checking_if_alpha(char *str);
+*/
+
 
 /*-------Unset  parsing-------*/
-void	pars_unset(char *str);
-char	*pars_unset_var(char *str);
+
+void	pars_unset(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
+
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
@@ -197,11 +246,12 @@ long long		ft_atoi_long(const char *nptr);
 int				check_nbr(char *str, char *cmpr);
 void			ft_putendl_fd(char *s, int fd);
 int 			check_file(char *str);
-void			print_export(t_data *data);
 void			ft_putstr_fd_pipes(char *s, int fd, char *str);
 int				ft_strlen_egal(const char *str);
 int				set_interactive_signals(void);
-int				set_exec_signals(t_code *code);
+int				set_exec_signals(t_data *data);
 void			sig_exec_handler(int signum);
+void			ft_simple_err(char *s, int fd);
+int				ft_strlen_double_tab(char **str);
 
 #endif

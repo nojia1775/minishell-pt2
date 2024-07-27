@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/08 15:09:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/26 00:52:28 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 
 // Fonction qui cherche si ya un $NomDeVariable pour la print avec echo
 char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
@@ -40,19 +41,19 @@ char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
 }
 
 // Fonction echo, c'est juste un printf et je check si y'a l'option -n
-void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
-			int *fd, t_code *code, int flag_redir)
+void	ft_echo(t_token *cur, int n_option, t_list **env, t_list **exp_var,
+			int *fd, int flag_redir, t_data *data)
 {
 	int i;
 	int len;
 	int flag;
-
+	
 	flag = -1;
-	len = ft_strlen(str);
-	str = find_echo_var(str, env, exp_var, &flag);
-	if (ft_strcmp("$?", str) == 0)
+	len = ft_strlen(cur->cmd_pipex);
+	cur->cmd_pipex = find_echo_var(cur->cmd_pipex, env, exp_var, &flag);
+	if (ft_strcmp("$?", cur->cmd_pipex) == 0)
 	{
-		ft_printf("%d", code->code);
+		ft_printf("%d", data->code);
 	}
 	else
 	{
@@ -60,17 +61,17 @@ void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
 			i = len + 1;
 		else
 			i = 0;
-		while (str[i])
+		while (data->str[i])
 		{
 			if (*fd != -1 && flag_redir != 0)
-				write((*fd), &str[i], 1);
+				write((*fd), &cur->cmd_pipex[i], 1);
 			else
-				write(1, &str[i], 1);
+				write(1, &cur->cmd_pipex[i], 1);
 			i++;
 		}
 	}
 	if (n_option != -1)
 		write(1, "\n", 1);
 	if (flag == 1)
-		free(str);
+		free(cur->cmd_pipex);
 }

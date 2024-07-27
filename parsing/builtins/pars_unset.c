@@ -6,50 +6,34 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 02:08:02 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/23 02:44:56 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:16:21 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	pars_unset(char *str)
+
+void	pars_unset(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 {
 	char **unset;
 	int		i;
 
 	i = 1;
-	unset = ft_split(str, ' ');
+	unset = ft_split(cur->cmd_pipex, ' ');
+	data->code =  0;
 	if (!unset[1])
 	{
+		free_double_tabs(unset);
 		return;
 	}
 	else 
 		{
 			while (unset[i])
 			{
-				unset[i] = pars_unset_var(unset[i]);
+				ft_unset(env, exp_var, unset[i], data);
 				i++;
 			}
 		}
 	free_double_tabs(unset);
 }
 
-char	*pars_unset_var(char *str)
-{
-	if (checking_nbr_quotes(str) == -1)
-	{
-		ft_putstr_msg(": not a valid identifier\n", 2, str);
-		return (str);
-	}
-	if (checking_order_quotes(str) == -1)
-	{
-		str = del_outside_quotes(str);
-		return (str);
-	}
-	else if (checking_order_quotes(str) == 1)
-	{
-		str = del_all_quotes(str);
-		return (str);
-	}
-	return (str);
-}

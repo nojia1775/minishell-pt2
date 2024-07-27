@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd2.c                                              :+:      :+:    :+:   */
+/*   pars_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/28 01:55:01 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 18:09:48 by almichel         ###   ########.fr       */
+/*   Created: 2024/05/25 02:05:49 by almichel          #+#    #+#             */
+/*   Updated: 2024/05/25 02:19:15 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// Quand tu fais cd ~ ca te ramene a ton HOME, cette fonction permet de faire ca
-void	ft_cd_home(t_data *data, t_list **env)
+void	check_option_echo(char *str, int *n_option)
 {
-	data->path = NULL;
-	get_home_path(data, env);
-	if (chdir(data->path) == 0)
+	int	i;
+
+	i = 0;
+	*n_option = 0;
+	
+	if (str[0] != '-' || str[i] != 'n')
 	{
-		data->pwd = getcwd(data->buf, sizeof(data->buf));
-		free(data->total_setup);
-		data->total_setup = init_lobby(data);
-		update_env(env);
-		data->code = 0;
+		*n_option = -1;
+		return;
 	}
-	else
+	i = 2;
+	while (str[i])
 	{
-		ft_printf("cd: ~: No such file or directory \n");
-		data->code = 1;
+		if (str[i] != 'n')
+		{
+			*n_option = -1;
+			return;
+		}
+		i++;
 	}
+	return;
 }

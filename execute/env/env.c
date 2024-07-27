@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/28 01:44:16 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:03:16 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	find_pwd(int *flag, t_list **env)
 // exp_var correpond aux variables que tu ajoutes via EXPORT
 //les deux representent l'env donc je print les deux a chaque fois
 // (ce sont des listes chainees qui contiennent un void * par node)
-void	print_env(t_list **envp, t_list **exp_var)
+void	print_env(t_list **envp, t_list **exp_var, t_data *data)
 {
 	t_list	*top;
 	t_list	*current;
@@ -104,4 +104,5 @@ void	print_env(t_list **envp, t_list **exp_var)
 			current = current->next;
 		}
 	}
+	data->code = 0;
 }

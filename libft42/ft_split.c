@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:58:50 by almichel          #+#    #+#             */
-/*   Updated: 2023/11/14 15:44:20 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 04:44:27 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+
 #include <stdlib.h>
 
 static int	ft_count_words(const char *s, char c)
@@ -21,12 +21,13 @@ static int	ft_count_words(const char *s, char c)
 	i = 0;
 	while (s[i])
 	{
-		if ((s[i] != c && s[i]) && (s[i + 1] == c || s[i + 1] == '\0'))
+		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
 			count++;
 		i++;
 	}
 	return (count);
 }
+
 
 static char	**ft_strcpy(char **tab, const char *s, char c)
 {

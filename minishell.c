@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/22 18:37:56 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 16:52:24 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@ int	main(int ac, char **argv, char **envp)
 	t_list	*env;
 	t_data	data;
 	t_list	*exp_var;
-	t_code	code;
-	int		len;
-	char	**double_tab;
-	int		i;
-
-	code.code = 0;
+	t_token	**input_tokenised;
+	t_token *cur;
+	
+	data.code = 0;
 	exp_var = NULL;
 	env = NULL;
 	data.path = NULL;
@@ -35,78 +33,37 @@ int	main(int ac, char **argv, char **envp)
 	data.pwd = getcwd(data.buf, sizeof(data.buf));
 	data.total_setup = init_lobby(&data);
 	data.str = NULL;
-	len = 0;
+
 	while (1)
 	{
 		if (set_interactive_signals() == -1)
 			exit(1);
 		data.str = readline(data.total_setup);
-		//if (!parsing(&data.str, &env, &exp_var))
-		//	return (-1);
+		input_tokenised = parsing_pt2(data.str, &env, &exp_var);
+		if (!input_tokenised)
+			continue ;
+		else
+			cur = *input_tokenised;
 		if (data.str != NULL)
-		{
-			len = ft_count_words(data.str, ' ');
-			if (len > 1)
-				double_tab = ft_split(data.str, ' ');
 			add_history(data.str);
-		}
 		if (data.str == NULL)
 		{
 			ft_printf("exit\n");
-			exit (code.code);
+			exit (data.code);
 		}
-		if (strcmp("env", data.str) == 0)
+		else if (cur->nbr_pipe == 0)
 		{
-			print_env(&env, &exp_var);
+			if(setup_exe_simple_cmd(cur, &env, &exp_var, &data) == -1)
+				exit(data.code);
 		}
-		else if (strncmp("pwd", data.str, 3) == 0)
-		{
-			print_pwd(data.str, &code);
-		}
-		else if (strncmp("exit", data.str, 4) == 0)
-		{
-			ft_exit(data.str, &env, &exp_var, &code);
-			exit(code.code);
-		}
-		else if (strncmp("cd ~", data.str, 4) == 0)
-		{
-			ft_cd_home(&data, &env);
-		}
-		else if (strncmp("cd", data.str, 2) == 0)
-		{
-			ft_cd(&data, &env, &exp_var, &code);
-		}
-		else if (strncmp("export", data.str, 6) == 0 && len > 1)
-		{
-			i = 1;
-			while (i < len)
-			{
-				export_variable(&env, &exp_var, double_tab[i], &code);
-				i++;
-			}
-			pars_export(data.str, &env, &exp_var, &data);
-		}
-		else if (strncmp("export", data.str, 6) == 0 && len < 2)
-			ft_export(&data, &env, &exp_var);
-		else if (strncmp("unset", data.str, 5) == 0 && len > 1)
-		{
-			i = 1;
-			while (i < len)
-			{
-				ft_unset(&env, &exp_var, double_tab[i], &code);
-				i++;
-			}
-			pars_unset(data.str);
-		}
-		else if (strncmp("ls", data.str, 2) == 0)
-			setup_exe_simple_cmd(data.str, &env, &exp_var, "test", ">>", &code);
-		else if (ft_strncmp(data.str, "wc", 2) == 0)
+		else if (cur->nbr_pipe > 0)
 		{
 			char 	**envv = stock_total_env(&env, &exp_var);
-			main_pipes(ft_count_words(data.str, ' ') + 1, ft_split(data.str, ' '), envv, &code, data.str);
+			main_pipes(cur, envv, &data);
 		}
 		else if (strncmp("here", data.str, 4) == 0)
 			here_doc(data.str);
+		free_tokens(input_tokenised);
 	}
-	exit(code.code);
+	exit(data.code);
 }

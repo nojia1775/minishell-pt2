@@ -6,15 +6,14 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/13 15:07:12 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 04:14:03 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Fonction principale executent une commande simple du genre ls -l par exemple
-void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
-		char *file, char *redir, t_code *code)
+int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 {
 	int status;
 
@@ -22,63 +21,61 @@ void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
 	pid_t	pid;
 	int		fd;
 
-	fd = -1;
+	fd = 1;
+	if (is_a_builtin(cur->cmd_pipex) == 1)
+	{
+		if (check_redirection(cur, &fd) == 0)
+			return(exec_builtin(cur, env, exp_var, data, fd));
+		return (0);
+	}
 	pid = fork();
-	if (set_exec_signals(code) == -1)
-		return;
+	if (set_exec_signals(data) == -1)
+		return(0);
 	if (pid == 0)
 	{
-		code->code = 0;
-		if (check_file(file) == -1)
-			if (chdir(file) != 0)
-				{
-					code->code = 1;
-					ft_putendl_fd(": Aucun fichier ou dossier de ce type", 2);
-					exit(EXIT_FAILURE);
-				}
-		check_redirection(redir, file, &fd);
-		check_and_exe_cmd(cmd, env, exp_var, fd, redir, code);
+		data->code = 0;
+		if (check_redirection(cur ,&fd) == 0)
+			check_and_exe_cmd(cur, env, exp_var, fd, data);
 		exit(127);
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
-			code->code = WEXITSTATUS(status);
+			data->code = WEXITSTATUS(status);
 	}
 	else
 		perror("fork");
+	return (0);
 }
+
 // fonction qui tente l'absolut path et s' il ne s'execute pas il test le relative path(fonction en dessous)
-void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char *redir, t_code *code)
+void	check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var, int fd, t_data *data)
 {
 	char	**cmd1;
 	char	**absolut_path;
 	char	**total_env;
 	int		i;
-	int		flag;
+	int 	len;
 
-	flag = 1;
+	len = 0;
 	i = 0;
-	if (redir)
+	len = ft_strlen_double_tab(cur->redir);
+	if (len != 0)
 	{
-		if (ft_strcmp(redir, ">") == 0 || ft_strcmp(redir, ">>") == 0)
+		len--;
+		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
-		else if (ft_strcmp(redir, "<") == 0)
+		else if (ft_strcmp(cur->redir[len], "<") == 0)
 		{
-			dup2(fd, STDIN_FILENO);
-			flag = 0;
+			if(dup2(fd, STDIN_FILENO) == -1)
+				perror("dup2");
 		}
-
-	}
-	if (ft_strncmp("echo", cmd, ft_strlen_space(cmd)) == 0)
-	{
-		ft_echo(cmd + 5, 1, envp, exp_var, &fd, code, flag);
-		exit(EXIT_SUCCESS);
+		close(fd);
 	}
 	total_env = stock_total_env(envp, exp_var);
-	cmd1 = ft_split(cmd, ' ');
-	absolut_path = ft_split(cmd, ' ');
+	cmd1 = ft_split(cur->cmd_pipex, ' ');
+	absolut_path = ft_split(cur->cmd_pipex, ' ');
 	execve(absolut_path[0], cmd1, total_env);
 	while (absolut_path[i])
 	{
@@ -86,10 +83,11 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 		i++;
 	}
 	free(absolut_path);
-	ft_relative_path(cmd1, total_env, cmd);
+	
+	ft_relative_path(cmd1, total_env, cur->cmd_pipex);
 	i = 0;
 	free_double_tabs(total_env);
-	code->code = 127;
+	data->code = 127;
 	return;
 }
 
@@ -132,49 +130,66 @@ void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1)
 }
 
 //Check la redirection et agit agit en consequences
-void	check_redirection(char *str, char *file, int *fd)
+int	check_redirection(t_token *cur, int *fd)
 {
-	if (ft_strcmp(">", str) == 0)
+	int i;
+
+	i = 0;
+	if (cur->redir)
 	{
-		*fd = open(file, O_WRONLY | O_TRUNC, 0644);
-		if (access(file, W_OK) == -1 && access(file, F_OK) == 0)
+		while (cur->redir[i])
 		{
-			ft_putstr_msg(": No such file or directory\n", 2, file);
-		}
-		else
-		{
-			*fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-			if (access(file, R_OK) != 0)
-				ft_putstr_msg(": Permission denied\n", 2, file);
+			if (ft_strcmp(">>", cur->redir[i]) == 0)
+			{
+				*fd = open(cur->files[i], O_WRONLY | O_APPEND, 0644);
+				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
+				{
+					ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+					return (-1);
+				}
+				else 
+				{
+					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_APPEND, 0777);
+					if (access(cur->files[i], R_OK) != 0)
+						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+				}
+			}
+			else if (ft_strcmp(">", cur->redir[i]) == 0)
+			{
+				*fd = open(cur->files[i], O_WRONLY | O_TRUNC, 0644);
+				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
+				{
+					ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+					return (-1);
+				}
+				else
+				{
+					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+					if (access(cur->files[i], R_OK) != 0)
+						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+				}
+			}
+			else if (ft_strcmp("<", cur->redir[i]) == 0)
+			{
+				if (access(cur->files[i], F_OK) != 0)
+				{
+					ft_putstr_msg(": No such file or directory\n", 2, cur->files[i]);
+					return (-1);
+				}
+				else
+				{
+					*fd = open(cur->files[i], O_RDONLY);
+					if (access(cur->files[i], R_OK) != 0)
+					{
+						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+						return (-1);
+					}
+				}
+			}
+			i++;
 		}
 	}
-	else if (ft_strcmp(">>", str) == 0)
-	{
-		*fd = open(file, O_WRONLY | O_APPEND, 0644);
-		if (access(file, W_OK) == -1 && access(file, F_OK) == 0)
-		{
-			ft_putstr_msg(": No such file or directory\n", 2, file);
-		}
-		else
-		{
-			*fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-			if (access(file, R_OK) != 0)
-				ft_putstr_msg(": Permission denied\n", 2, file);
-		}
-	}
-	else if (ft_strcmp("<", str) == 0)
-	{
-		if (access(file, F_OK) != 0)
-		{
-			ft_putstr_msg(": No such file or directory\n", 2, file);
-		}
-		else
-		{
-			*fd = open(file, O_RDONLY);
-			if (access(file, R_OK) != 0)
-				ft_putstr_msg(": Permission denied\n", 2, file);
-		}
-	}
+	return (0);
 }
 
 // Rassemble l'env dans un double tab car execve prends comme argument un double tab (l'env)

@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 18:37:37 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/16 13:43:51 by nadjemia         ###   ########.fr       */
+/*   Created: 2024/07/24 12:14:41 by noah              #+#    #+#             */
+/*   Updated: 2024/07/24 12:41:38 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-//print le pwd
-int	print_pwd(char *str, t_data *data)
+void	*ft_realloc(void *ptr, size_t size)
 {
-	str = NULL;
-	str = getcwd(str, 0);
-	ft_printf("%s\n", str);
-	free(str);
-	data->code = 0;
-	return (0);
+	void	*tmp;
+
+	tmp = ptr;
+	ptr = malloc(size);
+	if (!ptr)
+		return (NULL);
+	ft_memcpy(ptr, tmp, size);
+	free(tmp);
+	return (ptr);
 }

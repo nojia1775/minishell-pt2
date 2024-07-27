@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:48:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/13 15:50:09 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/27 00:33:18 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ void	sig_exec_handler(int signum)
 }
 
 /*Signals detection when a command process is running*/
-int	set_exec_signals(t_code *code)
+int	set_exec_signals(t_data *data)
 {
 	sigint_received = 0;
 	if (signal(SIGINT, sig_exec_handler) == SIG_ERR)
 	{
-		code->code = 131;
+		data->code = 131;
 		perror("signal");
 		return (-1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/11 17:05:30 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:27:16 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,23 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var)
 	char	*var;
 	char	*value;
 	char	*result;
+	char	*tmp;
 	int		len;
-	char	**envp;
 
-	(void)envp;
-	envp = stock_total_env(env, exp_var);
 	len = word_len(str);
 	var = (char *)malloc(sizeof(char) * len);
 	if (!var)
 		return (NULL);
 	ft_strlcpy(var, str + 1, len + 1);
 	var[len - 1] = '\0';
-	result = ft_strtrim(var, " ");
+	tmp = ft_strtrim(var, " ");
+	result = ft_strjoin(tmp, "=");
 	value = find_var(result, env, exp_var);
 	free(var);
 	free(result);
+	free(tmp);
+	if (!value)
+		return (NULL);
 	return (value);
 }
 
