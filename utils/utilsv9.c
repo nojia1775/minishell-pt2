@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 18:01:38 by noah              #+#    #+#             */
-/*   Updated: 2024/07/27 19:15:27 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/27 20:28:06 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,21 @@ char	*get_cmd(t_token *token)
 	while (cur->prev)
 		cur = cur->prev;
 	return (cur->content);
+}
+
+char	*get_lim(t_token *cur)
+{
+	t_token	*token;
+	
+	if (!cur)
+		return (NULL);
+	token = cur;
+	while (token->prev)
+		token = token->prev;
+	while (token->type != LIM && token)
+		token = token->next;
+	if (token)
+		if (token->type == LIM)
+			return (token->content);
+	return (NULL);
 }

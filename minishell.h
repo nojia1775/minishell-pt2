@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/27 19:30:54 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/27 20:29:23 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,5 +253,6 @@ int				set_exec_signals(t_data *data);
 void			sig_exec_handler(int signum);
 void			ft_simple_err(char *s, int fd);
 int				ft_strlen_double_tab(char **str);
+char			*get_lim(t_token *cur);
 
 #endif
