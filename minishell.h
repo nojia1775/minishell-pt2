@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/27 04:00:35 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:03:15 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ char			*get_total_setup(t_data *data);
 int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void	ft_echo(t_token *cur, int n_option, t_list **env, t_list **exp_var,
-			int *fd, int flag_redir, t_data *data);
+void			ft_echo(t_token *cur, int n_option, t_list **env, t_list **exp_var,
+				int *fd, int flag_redir, t_data *data);
 char			*find_echo_var(char *str, t_list **env, t_list **exp_var,
 					int *flag);
 
@@ -159,7 +159,7 @@ int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, in
 void	exec_redirection(char *redir, int fd, int *flag);
 
 /*-------Pipes-------*/
-void			main_pipes(t_token *cur, char **envp, t_data *data);
+void			main_pipes(t_token **input_tokenised, char **envp, t_data *data);
 void			init_struct(char *argv[], int i, int argc, t_pipes *pipes);
 void			pipex(t_token *token, t_pipes *pipes, char **envp, t_data *code, int count);
 void			init_fd1(char **argv, t_pipes *pipes);

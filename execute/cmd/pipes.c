@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/27 04:55:53 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:07:35 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	pipex(t_token *cur, t_pipes *pipes, char **envp, t_data *data, int count)
 		perror("fork");
 }
 
-void	main_pipes(t_token *cur, char **envp, t_data *data)
+void	main_pipes(t_token **input_tokenised, char **envp, t_data *data)
 {
 	t_pipes	pipes;
 	int		i;
@@ -103,12 +103,10 @@ void	main_pipes(t_token *cur, char **envp, t_data *data)
 	int		status;
 	pid_t	pid;
 	int		fd;
+	t_token *cur;
 
-	while (cur)
-	{
-		printf("|||||||%s\n", cur->cmd_pipex);
-		cur = cur->next;
-	}
+	cur = *input_tokenised;
+
 	fd = -1;
 	count = 0;
 
@@ -121,13 +119,14 @@ void	main_pipes(t_token *cur, char **envp, t_data *data)
 	int nbr = cur->nbr_pipe;
 	while (i < nbr)
 	{
+		cur = input_tokenised[i];
 		pipex(cur, &pipes, envp, data, count);
 		count++;
-		cur = cur->next;
 		i++;
 	}
 	fd = -1;
 	status = 0;
+	cur = input_tokenised[i++];
 	pid = fork();
 	if (pid == 0)
 	{

@@ -6,17 +6,17 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/07/25 16:50:35 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:28:35 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
+t_token **parsing_pt2(char *input, t_list **env, t_list **exp_var)
 {
-	t_token	**tokens;
-	t_token	*cur;
-	
+	t_token **tokens;
+	t_token *cur;
+
 	if (input[0] == '\0')
 		return (NULL);
 	if (!nbr_quotes(input))
@@ -28,7 +28,7 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 	tokens = tokenisation(input, env, exp_var);
 	int i = 0;
 	while (tokens[i])
-	{	
+	{
 		cur = tokens[i];
 		if (cur->redir)
 		{

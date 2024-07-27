@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/27 16:52:24 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:06:40 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	main(int ac, char **argv, char **envp)
 	data.pwd = getcwd(data.buf, sizeof(data.buf));
 	data.total_setup = init_lobby(&data);
 	data.str = NULL;
-
 	while (1)
 	{
 		if (set_interactive_signals() == -1)
@@ -59,7 +58,7 @@ int	main(int ac, char **argv, char **envp)
 		else if (cur->nbr_pipe > 0)
 		{
 			char 	**envv = stock_total_env(&env, &exp_var);
-			main_pipes(cur, envv, &data);
+			main_pipes(input_tokenised, envv, &data);
 		}
 		else if (strncmp("here", data.str, 4) == 0)
 			here_doc(data.str);
