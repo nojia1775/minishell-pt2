@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpretation_pt2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/07/19 15:59:59 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:02:56 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ void	expand(t_token **tokens, t_list **env, t_list **exp_var)
 		cur = tokens[i];
 		while (cur)
 		{
-			if (cur->type != LIM)
+			if (!cur->prev)
+				search_replace(cur, env, exp_var);
+			else if (ft_strcmp(cur->prev->content, "<<"))
 				search_replace(cur, env, exp_var);
 			cur = cur->next;
 		}

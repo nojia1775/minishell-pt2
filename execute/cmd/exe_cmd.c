@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/26 03:41:01 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:09:09 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var, int fd, t_
 	}
 	free(absolut_path);
 	
-	ft_relative_path(cmd1, total_env, cur->cmd_pipex);
+	ft_relative_path(cmd1, total_env, cur->content);
 	i = 0;
 	free_double_tabs(total_env);
 	data->code = 127;

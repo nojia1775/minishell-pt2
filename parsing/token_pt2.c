@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_pt2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/07/19 16:00:06 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:12:33 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,60 @@ static int	split_tokens(char *str, t_token **tokens, int nbr_pipe)
 	return (1);
 }
 
+/*
+static void	supp_token(t_token **tokens)
+{
+	t_token	*tmp;
+	
+	if (!(*tokens)->prev)
+	{
+		tmp = *tokens;
+		*tokens = (*tokens)->next;
+		free(tmp);
+	}
+	else if (!(*tokens)->next)
+	{
+		(*tokens)->prev->next = NULL;
+		free(*tokens);
+	}
+	else
+	{
+		(*tokens)->prev->next = (*tokens)->next;
+		(*tokens)->next->prev = (*tokens)->prev;
+		free(*tokens);
+	}
+}
+*/
+
 // transformation de l'input en tokens 
 // (liste chainée avec le content et le type pour l 'exec)
 t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
 {
 	t_token	**tokens;
 	size_t	nbr_pipe;
-
+	/*t_token	*cur;
+	int		i;*/
+	
 	nbr_pipe = count_pipe(str) + 1;
 	tokens = (t_token **)ft_calloc(nbr_pipe + 1, sizeof(t_token *)
 			* (nbr_pipe + 1));
 	if (!tokens)
 		return (NULL);
 	split_tokens(str, tokens, nbr_pipe - 1);
-	type_token(tokens);
 	expand(tokens, env, exp_var);
+	/*i = 0;
+	while (tokens[i])
+	{
+		cur = tokens[i];
+		while (cur)
+		{
+			if (!ft_strncmp(cur->content, " ", 2))
+				supp_token(&cur);
+			cur = cur->next;
+		}
+		i++;
+	}*/
+	type_token(tokens);
 	quotes(tokens);
 	create_cmd_pipex(tokens);
 	if (!files_and_redir(tokens))

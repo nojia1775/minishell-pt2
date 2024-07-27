@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:10:18 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/25 04:20:03 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 13:38:07 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_export(t_list **env, t_list **exp_var)
 	t_list	*current;
 	t_list	*head;
 	char	**export;
+
 	head = *exp_var;
 	current = *env;
 	i = 0;
@@ -33,7 +34,7 @@ void	ft_export(t_list **env, t_list **exp_var)
 	if (exp_var != NULL)
 		i = i + ft_lstlen(exp_var);
 	export = malloc((i + 1) * sizeof(char *));
-	if (export)
+	if (!export)
 		return ;
 	export[i] = NULL;
 	i = 0;
