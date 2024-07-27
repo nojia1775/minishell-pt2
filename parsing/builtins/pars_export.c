@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/27 13:52:51 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/27 19:33:24 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 	int		i;
 
 	i = 1;
-	export = ft_split(cur->cmd_pipex, ' ');
+	export = cur->cmd_pipex;
 	if (export[1] == NULL)
 	{
 		ft_export(env, exp_var);

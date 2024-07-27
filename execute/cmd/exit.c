@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/26 00:31:40 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:32:44 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_exit(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 {
 	char **exit;
 	
-	exit = ft_split(cur->cmd_pipex, ' ');
+	exit = cur->cmd_pipex;
 	ft_free_lists(env, exp_var);
 	if (exit[1] == NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/26 00:52:28 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 20:18:54 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ void	ft_echo(t_token *cur, int n_option, t_list **env, t_list **exp_var,
 	int len;
 	int flag;
 	
+	(void)env;
+	(void)exp_var;
 	flag = -1;
-	len = ft_strlen(cur->cmd_pipex);
-	cur->cmd_pipex = find_echo_var(cur->cmd_pipex, env, exp_var, &flag);
-	if (ft_strcmp("$?", cur->cmd_pipex) == 0)
+	len = ft_strlen(cur->cmd_pipex[1]);
+	//cur->cmd_pipex = find_echo_var(cur->cmd_pipex, env, exp_var, &flag);
+	if (ft_strcmp("$?", cur->cmd_pipex[1]) == 0)
 	{
 		ft_printf("%d", data->code);
 	}

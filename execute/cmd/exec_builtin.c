@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/26 00:52:54 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 20:04:16 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 	char **cmd_splitted;
 	int fd_temp = -1;
 	
-	cmd_splitted = ft_split(cur->cmd_pipex, ' ');
+	cmd_splitted = cur->cmd_pipex;
 	if (ft_strcmp(cmd_splitted[0], "echo") == 0)
 		ft_echo(cur, 1, env,  exp_var, &fd_temp, -1, data);
 	if (ft_strcmp(cmd_splitted[0], "export") == 0)

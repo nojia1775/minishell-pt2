@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:12:33 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/22 16:59:28 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 20:13:23 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*ft_strjoin_cmd(char const *s1, char const *s2)
 
 	j = 0;
 	i = 0;
-	len = ft_strlen(s1) + ft_strlen_space(s2) + 1;
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
 	tab = malloc((len + 1) * sizeof(char));
 	if (!tab)
 		return (NULL);
@@ -108,7 +108,7 @@ char	*ft_strjoin_cmd(char const *s1, char const *s2)
 		tab[j++] = s1[i++];
 	tab[j++] = '/';
 	i = 0;
-	while (s2[i] != ' ' && s2[i])
+	while (s2[i])
 		tab[j++] = s2[i++];
 	tab[j] = '\0';
 	return (tab);

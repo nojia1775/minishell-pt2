@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/25 19:35:51 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 20:14:50 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_cd(t_token *cur, t_list **env, t_data *data)
 	char **tab;
 	
 	
-	tab = ft_split(cur->cmd_pipex, ' ');
+	tab = cur->cmd_pipex;
 	if (ft_strlen_double_tab(tab) >= 3)
 	{
 		free_double_tabs(tab);

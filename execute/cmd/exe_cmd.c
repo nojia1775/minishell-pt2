@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/27 14:09:09 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/27 20:13:53 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var,
 	int		flag;
 	flag = 1;
 	fd = 1;
-	if (is_a_builtin(cur->cmd_pipex) == 1)
+	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
 		check_redirection(cur, &fd);
 		exec_redirection(redir, fd, &flag);
@@ -63,14 +63,10 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var,
 // fonction qui tente l'absolut path et s' il ne s'execute pas il test le relative path(fonction en dessous)
 void	check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var, int fd, t_data *data)
 {
-	char	**cmd1;
-	char	**absolut_path;
 	char	**total_env;
-	int		i;
 	int 	len;
 
 	len = 0;
-	i = 0;
 	len = ft_strlen_double_tab(cur->redir);
 	if (len != 0)
 	{
@@ -85,25 +81,15 @@ void	check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var, int fd, t_
 		close(fd);
 	}
 	total_env = stock_total_env(envp, exp_var);
-	cmd1 = ft_split(cur->cmd_pipex, ' ');
-	absolut_path = ft_split(cur->cmd_pipex, ' ');
-	execve(absolut_path[0], cmd1, total_env);
-	while (absolut_path[i])
-	{
-		free(absolut_path[i]);
-		i++;
-	}
-	free(absolut_path);
-	
-	ft_relative_path(cmd1, total_env, cur->content);
-	i = 0;
+	execve(get_cmd(cur), get_cmd_pipex(cur), total_env);
+	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur));
 	free_double_tabs(total_env);
 	data->code = 127;
 	return;
 }
 
 // Fonction qui execute le relative path en testant tous les binaires de l'env
-void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1)
+void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd)
 {
 	char	*good_line_envp;
 	char	**good_path;
@@ -128,16 +114,15 @@ void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1)
 			i = -1;
 			while (good_path[++i])
 			{
-				good_cmd = ft_strjoin_cmd(good_path[i], cmd1);
-				execve(good_cmd, splitted_cmd1, envp);
+				good_cmd = ft_strjoin_cmd(good_path[i], cmd);
+				execve(good_cmd, cmd_pipex, envp);
 				free(good_cmd);
 			}
 		}
 	}
 	if (good_line_envp != NULL)
 		free_double_tabs(good_path);
-	ft_putstr_msg(": command not found\n", 2, cmd1);
-	free_double_tabs(splitted_cmd1);
+	ft_putstr_msg(": command not found\n", 2, cmd);
 }
 
 //Check la redirection et agit agit en consequences

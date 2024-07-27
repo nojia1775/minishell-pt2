@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv8.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/07/22 11:15:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/27 19:27:54 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	free_tokens(t_token **tokens)
 	t_token	*cur;
 	t_token	*rm;
 	int		i;
+	int		j;
 	
 	i = 0;
 	while (tokens[i])
@@ -49,7 +50,12 @@ void	free_tokens(t_token **tokens)
 		{
 			rm = cur;
 			if (!cur->prev)
+			{
+				j = 0;
+				while (cur->cmd_pipex[j])
+					free(cur->cmd_pipex[j++]);
 				free(cur->cmd_pipex);
+			}
 			free_redir_files(cur);
 			free(cur->content);
 			cur = cur->next;

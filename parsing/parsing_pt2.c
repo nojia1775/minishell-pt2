@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/07/27 17:41:58 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/27 19:36:11 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 				printf("NULL\n");
 			cur = cur->next;
 		}
-		printf("cmd pipex = %s\n", get_cmd_pipex(tokens[i++]));
+		int k = 0;
+		while (tokens[i]->cmd_pipex[k])
+			printf("cmd pipex = %s\n", tokens[i]->cmd_pipex[k++]);
+		i++;
 	}
 	return (tokens);
 }

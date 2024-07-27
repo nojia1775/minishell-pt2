@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/27 19:15:52 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/27 19:30:54 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct	s_token
 	int		nbr_pipe;
 	int		code;
 	char	*content;
-	char	*cmd_pipex;
+	char	**cmd_pipex;
 	char	**files;
 	char	**redir;
 }		t_token;
@@ -200,12 +200,9 @@ void	is_in_quote(int *in_single, int *in_double, char c);
 void	free_tokens(t_token **tokens);
 int		add_token(t_token **tokens, char *content, int nbr_pipe);
 void	create_cmd_pipex(t_token **tokens);
-char	*get_cmd_pipex(t_token *line);
+char	**get_cmd_pipex(t_token *line);
 int 	files_and_redir(t_token **tokens);
 void	supp_token(t_token **tokens);
-
-/*exec noah*/
-int		exec(t_token **input, t_data *data, t_list *env, t_list *expv);
 
 /*-------export parsing-------*/
 void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
