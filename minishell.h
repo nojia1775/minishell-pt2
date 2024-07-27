@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/26 03:12:34 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:15:52 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
 char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
 int				check_redirection(t_token *cur, int *fd);
+char			*get_cmd(t_token *token);
 
 /*-------Exec Builtins-------*/
 int		is_a_builtin(char *cmd);
@@ -201,6 +202,7 @@ int		add_token(t_token **tokens, char *content, int nbr_pipe);
 void	create_cmd_pipex(t_token **tokens);
 char	*get_cmd_pipex(t_token *line);
 int 	files_and_redir(t_token **tokens);
+void	supp_token(t_token **tokens);
 
 /*exec noah*/
 int		exec(t_token **input, t_data *data, t_list *env, t_list *expv);

@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/07/27 15:02:56 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/27 17:48:48 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var)
 			vars.buffer[vars.ibuf++] = tokens->content[vars.i++];
 	}
 	free(tokens->content);
-	tokens->content = ft_strdup(vars.buffer);
+	if (ft_strlen(vars.buffer))
+		tokens->content = ft_strdup(vars.buffer);
+	else
+		tokens->content = NULL;
 }
 
 // expand les variables d'environnement
@@ -75,7 +78,7 @@ void	expand(t_token **tokens, t_list **env, t_list **exp_var)
 		{
 			if (!cur->prev)
 				search_replace(cur, env, exp_var);
-			else if (ft_strcmp(cur->prev->content, "<<"))
+			else if (!cur->prev->content || ft_strcmp(cur->prev->content, "<<"))
 				search_replace(cur, env, exp_var);
 			cur = cur->next;
 		}

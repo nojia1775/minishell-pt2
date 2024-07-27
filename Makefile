@@ -43,7 +43,8 @@ SRCS = minishell.c\
 	utils/utilsv5.c\
 	utils/utilsv6.c\
 	utils/utilsv7.c\
-	utils/utilsv8.c
+	utils/utilsv8.c \
+	utils/utilsv9.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/07/25 16:50:35 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:41:58 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 		}
 		while (cur)
 		{
-			printf("%d --- %s %d\n", i, cur->content, cur->type);
+			if (cur->content)
+				printf("%d --- %s %d\n", i, cur->content, cur->type);
+			else
+				printf("NULL\n");
 			cur = cur->next;
 		}
 		printf("cmd pipex = %s\n", get_cmd_pipex(tokens[i++]));
