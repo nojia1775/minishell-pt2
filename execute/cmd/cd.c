@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/27 20:14:50 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/28 02:24:18 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	ft_cd(t_token *cur, t_list **env, t_data *data)
 	flag = 0;
 	data->path = tab[1];
 	ft_cd2(flag, env, data);
-	free_double_tabs(tab);
 }
 
 void	ft_cd2(int flag, t_list **env, t_data *data)

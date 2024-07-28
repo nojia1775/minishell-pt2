@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/27 19:33:24 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/28 02:43:41 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 			if (pars_exp_var(export[i]) != -1)
 			{
 				export_variable(env, exp_var, cur->next->content, data);
+				cur = cur->next;
 				data->code = 0;
 			}
 			else 
@@ -39,7 +40,6 @@ void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 			i++;
 		}
 	}
-	free_double_tabs(export);
 }
 
 int 	pars_exp_var(char *str)

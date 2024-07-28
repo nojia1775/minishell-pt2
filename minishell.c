@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/26 00:43:46 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/28 02:03:28 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int ac, char **argv, char **envp)
 		}
 		else if (cur->nbr_pipe == 0)
 		{
-			if(setup_exe_simple_cmd(cur, &env, &exp_var, "", "", &data) == -1)
+			if(setup_exe_simple_cmd(cur, &env, &exp_var, &data) == -1)
 				exit(data.code);
 		}
 		if (ft_strncmp(data.str, "", 2) == 0)

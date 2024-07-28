@@ -3,33 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/27 20:13:53 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/28 03:00:29 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Fonction principale executent une commande simple du genre ls -l par exemple
-int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var,
-		char *file, char *redir, t_data *data)
+int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 {
 	int status;
 
 	status = 0;
 	pid_t	pid;
 	int		fd;
-	int		flag;
-	flag = 1;
+
 	fd = 1;
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
-		check_redirection(cur, &fd);
-		exec_redirection(redir, fd, &flag);
-		if (fd > 0)
-			return(exec_builtin(cur, env, exp_var, data));
+		if (check_redirection(cur, &fd) == 0)
+			return(exec_builtin(cur, env, exp_var, data, fd));
 		return (0);
 	}
 	pid = fork();
@@ -38,13 +34,6 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var,
 	if (pid == 0)
 	{
 		data->code = 0;
-		if (check_file(file) == -1)
-			if (chdir(file) != 0)
-			{
-				data->code = 1;
-				ft_putendl_fd(": Aucun fichier ou dossier de ce type", 2);
-				exit(EXIT_FAILURE);
-			}
 		if (check_redirection(cur ,&fd) == 0)
 			check_and_exe_cmd(cur, env, exp_var, fd, data);
 		exit(127);
@@ -135,22 +124,7 @@ int	check_redirection(t_token *cur, int *fd)
 	{
 		while (cur->redir[i])
 		{
-			if (ft_strcmp(">", cur->redir[i]) == 0)
-			{
-				*fd = open(cur->files[i], O_WRONLY | O_TRUNC, 0644);
-				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
-				{
-					ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
-					return (-1);
-				}
-				else
-				{
-					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-					if (access(cur->files[i], R_OK) != 0)
-						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
-				}
-			}
-			else if (ft_strcmp(">>", cur->redir[i]) == 0)
+			if (ft_strcmp(">>", cur->redir[i]) == 0)
 			{
 				*fd = open(cur->files[i], O_WRONLY | O_APPEND, 0644);
 				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
@@ -159,6 +133,21 @@ int	check_redirection(t_token *cur, int *fd)
 					return (-1);
 				}
 				else 
+				{
+					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_APPEND, 0777);
+					if (access(cur->files[i], R_OK) != 0)
+						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+				}
+			}
+			else if (ft_strcmp(">", cur->redir[i]) == 0)
+			{
+				*fd = open(cur->files[i], O_WRONLY | O_TRUNC, 0644);
+				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
+				{
+					ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+					return (-1);
+				}
+				else
 				{
 					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 					if (access(cur->files[i], R_OK) != 0)

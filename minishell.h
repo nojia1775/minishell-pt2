@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/27 20:29:23 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/28 02:17:50 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,7 @@ char			*find_echo_var(char *str, t_list **env, t_list **exp_var,
 					int *flag);
 
 /*-------Cmds-------*/
-int 			setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var,
-					char *file, char *redir, t_data *data);
+int 			setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
 void			check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var,
 					int fd, t_data *data);
 void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
@@ -157,7 +156,7 @@ char			*get_cmd(t_token *token);
 
 /*-------Exec Builtins-------*/
 int		is_a_builtin(char *cmd);
-int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
+int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, int fd);
 void	exec_redirection(char *redir, int fd, int *flag);
 
 /*-------Pipes-------*/
