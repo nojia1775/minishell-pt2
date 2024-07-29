@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/26 03:39:47 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/29 04:20:13 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,29 +54,37 @@ void	init_fd1(char **argv, t_pipes *pipes)
 	//		close(pipes->fd1);
 }
 
-void	pipex(t_pipes *pipes, char **envp, t_data *data, int count)
+int		pipex(t_token *cur, t_pipes *pipes, char **envp, t_data *data, int count, t_list **env, t_list **exp_var)
 {
 	pid_t	pid;
 	int		end[2];
+	int		fd;
 
-	//	int 	status;
-	// status = 0;
+	fd = -1;
 	count = count + 0;
 	data->code = 0;
 	if (pipe(end) == -1)
-		return ((perror("pipe")));
+		perror("pipe");
 	pid = fork();
 	if (pid == 0)
 	{
+		if (dup2(end[1], STDOUT_FILENO) == -1)
+        {
+            perror("dup2 (child - stdout)");
+            close(end[0]);
+            close(end[1]);
+            exit(EXIT_FAILURE);
+        }
 		close(end[0]);
-		dup2(end[1], STDOUT_FILENO);
 		close(end[1]);
-		//	if (count == 0)
-		//	{
-		//		dup2(pipes->fd1, STDIN_FILENO);
-		//		close(pipes->fd1);
-		//	}
-		child_pipes_process1(pipes, envp);
+		if (is_a_builtin(get_cmd(cur)) == 1)
+		{
+			if (check_redirection(cur, &fd) == 0)
+				return(exec_builtin(cur, env, exp_var, data, fd));
+			return (0);
+		}
+		if (check_redirection(cur, &fd) == 0)
+			child_pipes_process1(cur, pipes, envp, fd);
 		exit(127);
 	}
 	else if (pid > 0)
@@ -84,64 +92,57 @@ void	pipex(t_pipes *pipes, char **envp, t_data *data, int count)
 		close(end[1]);
 		dup2(end[0], STDIN_FILENO);
 		close(end[0]);
-		//	waitpid(pid, &status, 0);
-		//	if (WIFEXITED(status))
-		//		code->code = WEXITSTATUS(status);
 	}
 	else
 		perror("fork");
+	return (0);
 }
 
-void	main_pipes(int argc, char *argv[], char **envp, t_data *data)
+void	main_pipes(t_token **input_tokenised, char **envp, t_data *data, t_list **env, t_list **exp_var)
 {
 	t_pipes	pipes;
 	int		i;
-	int		count_cmd1;
 	int		count;
 	int		sv;
 	int		status;
 	pid_t	pid;
+	int		fd;
+	t_token *cur;
 
+	cur = *input_tokenised;
+
+	fd = -1;
 	count = 0;
-	// i = 0;
-	// ft_printf("%d\n", argc);
-	// while(argv[i])
-	//	printf("%s\n", argv[i++]);
+
+	if (set_exec_signals(data) == -1)
+		return;
 	sv = dup(STDIN_FILENO);
 	pipes.fd1 = -1;
 	pipes.fd2 = -1;
 	envp = envp + 0;
 	data->code = data->code + 0;
-	count_cmd1 = 0;
-	(void)data->str;
-	i = 2;
-	i = i + 0;
-	init_struct(argv, count_cmd1, argc, &pipes);
-	count_cmd1 = count_cmd1 + 2;
-	init_fd1(argv, &pipes);
-	while (i < argc - 2)
+	i = 0;
+	int nbr = cur->nbr_pipe;
+	while (i < nbr)
 	{
-		pipex(&pipes, envp, data, count);
+		cur = input_tokenised[i];
+		pipex(cur, &pipes, envp, data, count, env, exp_var);
 		count++;
 		i++;
-		init_struct(argv, count_cmd1, argc, &pipes);
 	}
-	init_fd2(argv, &pipes, argc);
+	fd = -1;
 	status = 0;
+	cur = input_tokenised[i++];
 	pid = fork();
 	if (pid == 0)
 	{
 		data->code = 0;
-		dup2(pipes.fd2, STDOUT_FILENO);
-		close (pipes.fd2);
-		child_pipes_process2(&pipes, envp);
+		if (check_redirection(cur, &fd) == 0)
+			child_pipes_process2(cur, &pipes, envp, sv, fd);
 		exit(127);
 	}
 	else if (pid > 0)
 	{
-		// waitpid(pid, &status, 0);
-		//	if (WIFEXITED(status))
-		//	code->code = WEXITSTATUS(status);
 		status = status + 0;
 	}
 	else

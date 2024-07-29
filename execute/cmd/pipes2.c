@@ -6,60 +6,63 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/25 20:22:48 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/29 04:13:02 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	child_pipes_process1(t_pipes *pipes, char *envp[])
+void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 {
-	int		i;
-	char	**absolut_path;
-	char	**cmd1;
+	int 	len;
 
-	cmd1 = ft_split(pipes->cmd1, ' ');
-	i = 0;
-	
-	absolut_path = ft_split(pipes->cmd1, ' ');
-	execve(absolut_path[0], cmd1, envp);
-	while (absolut_path[i])
-		i++;
-	free_double_tabs(absolut_path);
-	i = 0;
-	ft_relative_path1(pipes, envp, i);
-	i = -1;
-	while (cmd1[++i] != NULL)
-		free(cmd1[i]);
-	free(cmd1);
-}
-
-void	child_pipes_process2(t_pipes *pipes, char *envp[])
-{
-	int		i;
-	char	**absolut_path;
-	char	**cmd2;
-
-	cmd2 = ft_split(pipes->cmd2, ' ');
-	i = 0;
-	absolut_path = ft_split(pipes->cmd2, ' ');
-	execve(absolut_path[0], cmd2, envp);
-	while (absolut_path[i])
-		i++;
-	free_double_tabs(absolut_path);
-	i = 0;
-	ft_relative_path2(pipes, envp, i);
-	while (cmd2[i] != NULL)
+	len = 0;
+	len = ft_strlen_double_tab(cur->redir);
+	if (len != 0)
 	{
-		free(cmd2[i]);
-		i++;
+		len--;
+		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
+			dup2(fd, STDOUT_FILENO);
+		else if (ft_strcmp(cur->redir[len], "<") == 0)
+		{
+			if(dup2(fd, STDIN_FILENO) == -1)
+				perror("dup2");
+		}
+		close(fd);
 	}
-	free(cmd2);
+	execve(get_cmd(cur), get_cmd_pipex(cur), envp);
+	ft_relative_path1(get_cmd_pipex(cur), envp, get_cmd(cur), pipes);
+
 }
 
-void	ft_relative_path1(t_pipes *pipes, char **envp, int i)
+void	child_pipes_process2(t_token *cur, t_pipes *pipes, char *envp[], int sv, int fd)
 {
-	pipes->splited_cmd1 = ft_split(pipes->cmd1, ' ');
+	int 	len;
+
+	len = 0;
+	len = ft_strlen_double_tab(cur->redir);
+	if (len != 0)
+	{
+		len--;
+		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
+			dup2(fd, STDOUT_FILENO);
+		else if (ft_strcmp(cur->redir[len], "<") == 0)
+		{
+			if(dup2(fd, STDIN_FILENO) == -1)
+				perror("dup2");
+		}
+		close(fd);
+	}
+	else
+		dup2(sv, STDOUT_FILENO);
+	execve(get_cmd(cur), get_cmd_pipex(cur), envp);
+	ft_relative_path2(get_cmd_pipex(cur), envp, get_cmd(cur), pipes);
+}
+
+void	ft_relative_path1(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)
+{
+	int		i;
+
+	i = 0;
 	if (envp[0] != NULL)
 	{
 		while (envp[i])
@@ -74,21 +77,22 @@ void	ft_relative_path1(t_pipes *pipes, char **envp, int i)
 			i = -1;
 			while (pipes->good_path[++i])
 			{
-				pipes->good_cmd = ft_strjoin_cmd(pipes->good_path[i], pipes->cmd1);
-				execve(pipes->good_cmd, pipes->splited_cmd1, envp);
+				pipes->good_cmd = ft_strjoin_cmd(pipes->good_path[i], cmd);
+				execve(pipes->good_cmd, cmd_pipex, envp);
 				free(pipes->good_cmd);
 			}
 		}
 	}
 	if (pipes->good_line_envp != NULL)
 		free_double_tabs(pipes->good_path);
-	ft_putstr_fd_pipes(": command not found\n", 2, pipes->cmd1);
-	free_double_tabs(pipes->splited_cmd1);
+	ft_putstr_fd_pipes(":  command not found\n", 2, cmd);
 }
 
-void	ft_relative_path2(t_pipes *pipes, char **envp, int i)
+void	ft_relative_path2(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)
 {
-	pipes->splited_cmd2 = ft_split(pipes->cmd2, ' ');
+	int i;
+
+	i = 0;
 	if (envp[0] != NULL)
 	{
 		while (envp[i])
@@ -103,14 +107,14 @@ void	ft_relative_path2(t_pipes *pipes, char **envp, int i)
 			i = -1;
 			while (pipes->good_path[++i])
 			{
-				pipes->good_cmd = ft_strjoin_cmd(pipes->good_path[i], pipes->cmd2);
-				execve(pipes->good_cmd, pipes->splited_cmd2, envp);
+				pipes->good_cmd = ft_strjoin_cmd(pipes->good_path[i], cmd);
+				execve(pipes->good_cmd, cmd_pipex, envp);
 				free(pipes->good_cmd);
 			}
 		}
 	}
 	if (pipes->good_line_envp != NULL)
 		free_double_tabs(pipes->good_path);
-	ft_putstr_fd_pipes(": command not found\n", 2, pipes->cmd2);
+	ft_putstr_fd_pipes(": command not found \n", 2, cmd);
 	free_double_tabs(pipes->splited_cmd2);
 }

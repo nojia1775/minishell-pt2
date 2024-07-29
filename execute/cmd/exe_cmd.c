@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/28 03:00:29 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/29 04:20:22 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *
 	int		fd;
 
 	fd = 1;
+	if (set_exec_signals(data) == -1)
+		return(0);
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
 		if (check_redirection(cur, &fd) == 0)
@@ -29,8 +31,6 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *
 		return (0);
 	}
 	pid = fork();
-	if (set_exec_signals(data) == -1)
-		return(0);
 	if (pid == 0)
 	{
 		data->code = 0;

@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/28 02:17:50 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/29 03:59:18 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,15 +160,15 @@ int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, in
 void	exec_redirection(char *redir, int fd, int *flag);
 
 /*-------Pipes-------*/
-void			main_pipes(int argc, char *argv[], char **envp, t_data *data);
+void			main_pipes(t_token **input_tokenised, char **envp, t_data *data, t_list **env, t_list **exp_var);
 void			init_struct(char *argv[], int i, int argc, t_pipes *pipes);
-void			pipex(t_pipes *pipes, char **envp, t_data *code, int count);
+int				pipex(t_token *cur, t_pipes *pipes, char **envp, t_data *data, int count, t_list **env, t_list **exp_var);
 void			init_fd1(char **argv, t_pipes *pipes);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
-void			child_pipes_process1(t_pipes *pipes, char *envp[]);
-void			child_pipes_process2(t_pipes *pipes, char *envp[]);
-void			ft_relative_path1(t_pipes *pipes, char **envp, int i);
-void			ft_relative_path2(t_pipes *pipes, char **envp, int i);
+void			child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd);
+void			child_pipes_process2(t_token *cur, t_pipes *pipes, char *envp[], int sv, int fd);
+void			ft_relative_path1(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes);
+void			ft_relative_path2(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes);
 int				ft_dup2_one(t_pipes *pipes, int *end);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			ft_close_all(t_pipes *pipes);
