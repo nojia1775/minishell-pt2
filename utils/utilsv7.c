@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 18:13:15 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/26 02:27:59 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:40:38 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	checking_if_alpha(char *str)
 	int	i;
 
 	i = 0;
-	printf("%s\n", str);
 	while (str[i] && str[i] != '=')
 	{
 		if ((str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122))

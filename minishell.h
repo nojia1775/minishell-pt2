@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/29 03:59:18 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/30 03:24:58 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,7 @@ char			*get_total_setup(t_data *data);
 int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void	ft_echo(t_token *cur, int n_option, t_list **env, t_list **exp_var,
-			int *fd, int flag_redir, t_data *data);
+void		ft_echo(t_token *cur, int n_option, int *fd, int flag_redir, t_data *data);
 char			*find_echo_var(char *str, t_list **env, t_list **exp_var,
 					int *flag);
 
@@ -151,7 +150,7 @@ void			check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var,
 void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
 char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
-int				check_redirection(t_token *cur, int *fd);
+int				check_redirection(t_token *cur, int *fd, t_data *data);
 char			*get_cmd(t_token *token);
 
 /*-------Exec Builtins-------*/

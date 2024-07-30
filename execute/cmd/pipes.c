@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/29 04:20:13 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/30 03:24:12 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ int		pipex(t_token *cur, t_pipes *pipes, char **envp, t_data *data, int count, t
 		close(end[1]);
 		if (is_a_builtin(get_cmd(cur)) == 1)
 		{
-			if (check_redirection(cur, &fd) == 0)
+			if (check_redirection(cur, &fd, data) == 0)
 				return(exec_builtin(cur, env, exp_var, data, fd));
 			return (0);
 		}
-		if (check_redirection(cur, &fd) == 0)
+		if (check_redirection(cur, &fd, data) == 0)
 			child_pipes_process1(cur, pipes, envp, fd);
 		exit(127);
 	}
@@ -103,12 +103,14 @@ void	main_pipes(t_token **input_tokenised, char **envp, t_data *data, t_list **e
 	t_pipes	pipes;
 	int		i;
 	int		count;
-	int		sv;
 	int		status;
 	pid_t	pid;
 	int		fd;
 	t_token *cur;
 
+	int		sv;
+
+	sv = dup(STDIN_FILENO);
 	cur = *input_tokenised;
 
 	fd = -1;
@@ -116,11 +118,9 @@ void	main_pipes(t_token **input_tokenised, char **envp, t_data *data, t_list **e
 
 	if (set_exec_signals(data) == -1)
 		return;
-	sv = dup(STDIN_FILENO);
 	pipes.fd1 = -1;
 	pipes.fd2 = -1;
 	envp = envp + 0;
-	data->code = data->code + 0;
 	i = 0;
 	int nbr = cur->nbr_pipe;
 	while (i < nbr)
@@ -136,10 +136,17 @@ void	main_pipes(t_token **input_tokenised, char **envp, t_data *data, t_list **e
 	pid = fork();
 	if (pid == 0)
 	{
-		data->code = 0;
-		if (check_redirection(cur, &fd) == 0)
-			child_pipes_process2(cur, &pipes, envp, sv, fd);
-		exit(127);
+		if (is_a_builtin(get_cmd(cur)) == 1)
+		{
+			if (check_redirection(cur, &fd, data) == 0)
+				exec_builtin(cur, env, exp_var, data, fd);
+		}
+		else
+		{
+			if (check_redirection(cur, &fd, data) == 0)
+				child_pipes_process2(cur, &pipes, envp, sv, fd);
+			exit(127);
+		}
 	}
 	else if (pid > 0)
 	{

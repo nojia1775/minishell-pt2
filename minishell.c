@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/29 03:55:15 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/30 03:21:37 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int ac, char **argv, char **envp)
 	t_token	**input_tokenised;
 	t_token *cur;
 	
+	int sv;
 	data.code = 0;
 	exp_var = NULL;
 	env = NULL;
@@ -52,17 +53,22 @@ int	main(int ac, char **argv, char **envp)
 		}
 		else if (cur->nbr_pipe == 0)
 		{
+			sv = dup(STDIN_FILENO);
 			if(setup_exe_simple_cmd(cur, &env, &exp_var, &data) == -1)
 				exit(data.code);
+			dup2(sv, STDOUT_FILENO);
 		}
 		else if (cur->nbr_pipe > 0)
 		{
+			//sv = dup(STDIN_FILENO);
 			char 	**envv = stock_total_env(&env, &exp_var);
 			main_pipes(input_tokenised, envv, &data, &env, &exp_var);
+			//dup2(sv, STDOUT_FILENO);
 		}
 		else if (strncmp("here", data.str, 4) == 0)
 			here_doc(data.str);
 		free_tokens(input_tokenised);
+	//	printf("exit code is %lld\n",  data.code);
 	}
 	exit(data.code);
 }

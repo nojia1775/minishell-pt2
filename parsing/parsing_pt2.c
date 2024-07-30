@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/07/27 19:36:11 by noah             ###   ########.fr       */
+/*   Updated: 2024/07/29 17:23:41 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 {
 	t_token	**tokens;
-	t_token	*cur;
+//	t_token	*cur;
 	
 	if (input[0] == '\0')
 		return (NULL);
@@ -26,8 +26,8 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 	if (!conform_pipe(input))
 		return (printf("minishell : Syntax error\n"), NULL);
 	tokens = tokenisation(input, env, exp_var);
-	int i = 0;
-	while (tokens[i])
+	//int i = 0;
+/*	while (tokens[i])
 	{	
 		cur = tokens[i];
 		if (cur->redir)
@@ -51,6 +51,6 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var)
 		while (tokens[i]->cmd_pipex[k])
 			printf("cmd pipex = %s\n", tokens[i]->cmd_pipex[k++]);
 		i++;
-	}
+	}*/
 	return (tokens);
 }

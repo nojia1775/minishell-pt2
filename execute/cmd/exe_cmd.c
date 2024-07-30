@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/29 04:20:22 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/30 02:15:34 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,19 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *
 	status = 0;
 	pid_t	pid;
 	int		fd;
-
-	fd = 1;
+	fd = -1;
 	if (set_exec_signals(data) == -1)
 		return(0);
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
-		if (check_redirection(cur, &fd) == 0)
-			return(exec_builtin(cur, env, exp_var, data, fd));
-		return (0);
+		if (check_redirection(cur, &fd, data) == 0)
+			return (exec_builtin(cur, env, exp_var, data, fd));
 	}
 	pid = fork();
 	if (pid == 0)
 	{
 		data->code = 0;
-		if (check_redirection(cur ,&fd) == 0)
+		if (check_redirection(cur ,&fd, data) == 0)
 			check_and_exe_cmd(cur, env, exp_var, fd, data);
 		exit(127);
 	}
@@ -115,7 +113,7 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd)
 }
 
 //Check la redirection et agit agit en consequences
-int	check_redirection(t_token *cur, int *fd)
+int	check_redirection(t_token *cur, int *fd, t_data *data)
 {
 	int i;
 
@@ -130,13 +128,18 @@ int	check_redirection(t_token *cur, int *fd)
 				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
 				{
 					ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+					data->code = 1;
 					return (-1);
 				}
 				else 
 				{
 					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_APPEND, 0777);
 					if (access(cur->files[i], R_OK) != 0)
+					{
 						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+						data->code = 1;
+					}
+					data->code = 0;
 				}
 			}
 			else if (ft_strcmp(">", cur->redir[i]) == 0)
@@ -145,13 +148,18 @@ int	check_redirection(t_token *cur, int *fd)
 				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
 				{
 					ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+					data->code = 1;
 					return (-1);
 				}
 				else
 				{
 					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 					if (access(cur->files[i], R_OK) != 0)
+					{
+						data->code = 1;
 						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+					}
+					data->code = 0;
 				}
 			}
 			else if (ft_strcmp("<", cur->redir[i]) == 0)
@@ -159,6 +167,7 @@ int	check_redirection(t_token *cur, int *fd)
 				if (access(cur->files[i], F_OK) != 0)
 				{
 					ft_putstr_msg(": No such file or directory\n", 2, cur->files[i]);
+					data->code = 1;
 					return (-1);
 				}
 				else
@@ -167,8 +176,10 @@ int	check_redirection(t_token *cur, int *fd)
 					if (access(cur->files[i], R_OK) != 0)
 					{
 						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+						data->code = 1;
 						return (-1);
 					}
+					data->code = 0;
 				}
 			}
 			i++;

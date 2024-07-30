@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/28 02:48:27 by almichel         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:39:18 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int		is_a_builtin(char *cmd)
 		flag = 1;
 	else if (strcmp(cmd_splitted[0], "env") == 0)
 		flag = 1;
+	else if (strcmp(cmd_splitted[0], "pwd") == 0)
+		flag = 1;
 	free_double_tabs(cmd_splitted);
 	return (flag);
 }
@@ -51,16 +53,18 @@ void	exec_redirection(char *redir, int fd, int *flag)
 
 int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, int fd)
 {
-	int fd_temp = -1;
 	int len;
 	char **cmd_splitted;
 
+	fd = fd + 0;
 	len = ft_strlen_double_tab(cur->redir);
 	if (len != 0)
 	{
 		len--;
 		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
-			dup2(fd, STDOUT_FILENO);
+		{	
+					dup2(fd, STDOUT_FILENO);
+		}
 		else if (ft_strcmp(cur->redir[len], "<") == 0)
 		{
 			if(dup2(fd, STDIN_FILENO) == -1)
@@ -70,7 +74,7 @@ int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, in
 	}
 	cmd_splitted = cur->cmd_pipex;
 	if (ft_strcmp(get_cmd(cur), "echo") == 0)
-		ft_echo(cur, 1, env,  exp_var, &fd_temp, -1, data);
+		ft_echo(cur, 1, &fd, -1, data);
 	if (ft_strcmp(get_cmd(cur), "export") == 0)
 		pars_export(cur, env, exp_var, data);
 	else if (ft_strcmp(get_cmd(cur), "unset") == 0)
