@@ -140,8 +140,7 @@ int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
 void		ft_echo(t_token *cur, int n_option, int *fd, int flag_redir, t_data *data);
-char			*find_echo_var(char *str, t_list **env, t_list **exp_var,
-					int *flag);
+
 
 /*-------Cmds-------*/
 int 			setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *data);
