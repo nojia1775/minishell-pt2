@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/06 16:52:16 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:12:30 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, in
 	}
 	cmd_splitted = cur->cmd_pipex;
 	if (ft_strcmp(get_cmd(cur), "echo") == 0)
-		ft_echo(cur, &fd);
+		ft_echo(cur, &fd, data);
 	if (ft_strcmp(get_cmd(cur), "export") == 0)
 		pars_export(cur, env, exp_var, data);
 	else if (ft_strcmp(get_cmd(cur), "unset") == 0)

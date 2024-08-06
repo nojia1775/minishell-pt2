@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/06 17:00:10 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:12:06 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	is_n_option(char *str)
 	return (1);
 }
 
-void	ft_echo(t_token *cur, int *fd)
+void	ft_echo(t_token *cur, int *fd, t_data *data)
 {
 	int	option;
 	int	flag;
@@ -64,6 +64,7 @@ void	ft_echo(t_token *cur, int *fd)
 	}
 	if (!option)
 		ft_putstr_fd("\n", *fd);
+	data->code = 0;
 }
 
 
