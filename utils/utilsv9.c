@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv9.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 18:01:38 by noah              #+#    #+#             */
-/*   Updated: 2024/07/27 20:28:06 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/06 13:25:47 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*question_mark(char *str, long long code)
+{
+	char	*tmp;
+	
+	if (!ft_strncmp(str, "$?", 2))
+	{
+		tmp = ft_itoa((int)code);
+		if (!tmp)
+			return (NULL);
+		return (tmp);
+	}
+	return (NULL);
+}
 
 static t_token	*supp(t_token *cur)
 {

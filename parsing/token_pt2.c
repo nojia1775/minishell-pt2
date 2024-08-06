@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_pt2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/07/27 18:18:14 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/06 13:05:19 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	split_tokens(char *str, t_token **tokens, int nbr_pipe)
 
 // transformation de l'input en tokens 
 // (liste chainée avec le content et le type pour l 'exec)
-t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
+t_token	**tokenisation(char *str, t_list **env, t_list **exp_var, long long *code)
 {
 	t_token	**tokens;
 	size_t	nbr_pipe;
@@ -92,7 +92,7 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
 	if (!tokens)
 		return (NULL);
 	split_tokens(str, tokens, nbr_pipe - 1);
-	expand(tokens, env, exp_var);
+	expand(tokens, env, exp_var, code);
 	supp_token(tokens);
 	type_token(tokens);
 	quotes(tokens);

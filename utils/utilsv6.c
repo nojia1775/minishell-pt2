@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/19 15:27:16 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:34:53 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	word_len(char *str)
 	int	count;
 	int	i;
 
+	if (!ft_strncmp(str, "$?", 2))
+		return (2);
 	i = 0;
 	count = 0;
 	while (str[i] != ' ' && str[i] != 39 && str[i] != 34
@@ -30,14 +32,18 @@ int	word_len(char *str)
 	return (count);
 }
 
-char	*get_env_value(char *str, t_list **env, t_list **exp_var)
+char	*get_env_value(char *str, t_list **env, t_list **exp_var, long long code)
 {
 	char	*var;
 	char	*value;
 	char	*result;
 	char	*tmp;
 	int		len;
+	char	*ques;
 
+	ques = question_mark(str, code);
+	if (ques)
+		return (ques);
 	len = word_len(str);
 	var = (char *)malloc(sizeof(char) * len);
 	if (!var)
@@ -66,7 +72,7 @@ int	total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var)
 	while (index_of_var[i] != -1)
 	{
 		count -= word_len(&str[index_of_var[i]]);
-		value = get_env_value(&str[index_of_var[i]], env, exp_var);
+		value = get_env_value(&str[index_of_var[i]], env, exp_var, 0);
 		if (value)
 			count += ft_strlen(value);
 		i++;

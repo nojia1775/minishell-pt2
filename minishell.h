@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/30 03:24:58 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:29:48 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,19 +178,18 @@ char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
 
 /*-------parsing global-------*/
-int 	parsing(char **input, t_list **env, t_list **exp_var, t_data *data);
 int		nbr_quotes(char *str);
 int		word_len(char *str);
-char	*get_env_value(char *str, t_list **env, t_list **exp_var);
+char	*get_env_value(char *str, t_list **env, t_list **exp_var, long long code);
 int		total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var);
 void	rm_space(char *str);
 char	*find_var(char *str, t_list **env, t_list **exp_var);
 int		conform_pipe(char *str);
 int		count_pipe(char *str);
 int		conform_redir(char *str);
-t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var);
-t_token	**tokenisation(char *str, t_list **env, t_list **exp_var);
-void	expand(t_token **tokens, t_list **env, t_list **exp_var);
+t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var, long long *code);
+t_token	**tokenisation(char *str, t_list **env, t_list **exp_var, long long *code);
+void	expand(t_token **tokens, t_list **env, t_list **exp_var, long long *code);
 void	type_token(t_token **tokens);
 void	quotes(t_token **tokens);
 void	is_in_quote(int *in_single, int *in_double, char c);
@@ -251,5 +250,6 @@ void			sig_exec_handler(int signum);
 void			ft_simple_err(char *s, int fd);
 int				ft_strlen_double_tab(char **str);
 char			*get_lim(t_token *cur);
+char			*question_mark(char *str, long long code);
 
 #endif

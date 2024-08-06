@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpretation_pt2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/07/27 17:48:48 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/06 13:26:56 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ typedef struct s_var
 	int		ibuf;
 	int		in_single;
 	int		in_double;
+	long long	*code;
 }		t_var;
 
 // remplace les variables d'environnement par leur valeur
 static void	replace(t_token *tokens, t_list **env, t_list **exp_var, t_var *vars)
 {
-	vars->value = get_env_value(tokens->content + vars->i, env, exp_var);
+	vars->value = get_env_value(tokens->content + vars->i, env, exp_var, *(vars->code));
 	if (vars->value != NULL)
 	{
 		ft_strlcpy(&vars->buffer[vars->ibuf], vars->value, 
@@ -39,7 +40,7 @@ static void	replace(t_token *tokens, t_list **env, t_list **exp_var, t_var *vars
 }
 
 // cherche et remplace les variables d'environnement par leur valeur
-static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var)
+static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var, long long *code)
 {
 	t_var	vars;
 	
@@ -47,6 +48,7 @@ static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var)
 	vars.in_single = 0;
 	vars.ibuf = 0;
 	vars.i = 0;
+	vars.code = code;
 	ft_bzero(vars.buffer, sizeof(vars.buffer));
 	while (tokens->content[vars.i])
 	{
@@ -65,7 +67,7 @@ static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var)
 }
 
 // expand les variables d'environnement
-void	expand(t_token **tokens, t_list **env, t_list **exp_var)
+void	expand(t_token **tokens, t_list **env, t_list **exp_var, long long *code)
 {
 	t_token	*cur;
 	int		i;
@@ -77,9 +79,9 @@ void	expand(t_token **tokens, t_list **env, t_list **exp_var)
 		while (cur)
 		{
 			if (!cur->prev)
-				search_replace(cur, env, exp_var);
+				search_replace(cur, env, exp_var, code);
 			else if (!cur->prev->content || ft_strcmp(cur->prev->content, "<<"))
-				search_replace(cur, env, exp_var);
+				search_replace(cur, env, exp_var, code);
 			cur = cur->next;
 		}
 	}
