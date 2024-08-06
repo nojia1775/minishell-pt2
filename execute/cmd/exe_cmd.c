@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/30 02:15:34 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:57:25 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *
 	status = 0;
 	pid_t	pid;
 	int		fd;
-	fd = -1;
+	fd = STDOUT_FILENO;
 	if (set_exec_signals(data) == -1)
 		return(0);
 	if (is_a_builtin(get_cmd(cur)) == 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/30 03:24:12 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:56:34 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		pipex(t_token *cur, t_pipes *pipes, char **envp, t_data *data, int count, t
 	int		end[2];
 	int		fd;
 
-	fd = -1;
+	fd = STDOUT_FILENO;
 	count = count + 0;
 	data->code = 0;
 	if (pipe(end) == -1)
@@ -130,7 +130,7 @@ void	main_pipes(t_token **input_tokenised, char **envp, t_data *data, t_list **e
 		count++;
 		i++;
 	}
-	fd = -1;
+	fd = STDOUT_FILENO;
 	status = 0;
 	cur = input_tokenised[i++];
 	pid = fork();

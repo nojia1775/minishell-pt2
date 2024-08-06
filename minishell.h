@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/06 16:14:20 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:52:02 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ char			*get_total_setup(t_data *data);
 int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void		ft_echo(t_token *cur, int n_option, int *fd, int flag_redir, t_data *data);
+void		ft_echo(t_token *cur, int *fd);
 
 
 /*-------Cmds-------*/
