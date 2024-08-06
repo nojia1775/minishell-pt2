@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_pipex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:50:01 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/07/27 20:02:24 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/06 15:58:38 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*join(t_token *line)
 				return (free(tmp), NULL);
 			free(tmp);
 			tmp = cmd;
-			cmd = ft_strjoin(cmd, " ");
+			cmd = ft_strjoin(cmd, "\r");
 			if (!cur)
 				return (free(tmp), NULL);
 			free(tmp);
@@ -53,7 +53,7 @@ void	create_cmd_pipex(t_token **tokens)
 	while (tokens[pipe])
 	{
 		tmp = join(tokens[pipe]);
-		tokens[pipe]->cmd_pipex = ft_split(tmp,' ');
+		tokens[pipe]->cmd_pipex = ft_split(tmp, '\r');
 		free(tmp);
 		pipe++;
 	}

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 18:01:38 by noah              #+#    #+#             */
-/*   Updated: 2024/08/06 13:25:47 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:07:08 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static t_token	*supp(t_token *cur)
 	{
 		tmp = cur;
 		cur = cur->next;
-		cur->prev = NULL;
+		if (cur)
+			cur->prev = NULL;
 		free(tmp);
 	}
 	else if (!cur->next)
@@ -58,30 +59,46 @@ static t_token	*supp(t_token *cur)
 void	supp_token(t_token **tokens)
 {
 	int		i;
+	int		len;
 	t_token	*cur;
-
-	i = 0;
-	while (tokens[i])
+	
+	i = -1;
+	while (tokens[++i])
 	{
 		cur = tokens[i];
+		len = len_tokens(tokens);
 		while (cur)
 		{
 			if (!cur->content)
+			{
+				if (cur == tokens[i])
+					tokens[i] = cur->next;;
 				cur = supp(cur);
-			cur = cur->next;
+			}
+			else
+				cur = cur->next;
 		}
-		i++;
+		if (tokens[i] == NULL)
+			supp_pipe(tokens, len);
 	}
 }
 
 char	*get_cmd(t_token *token)
 {
 	t_token	*cur;
-
+	char	*tmp;
+	
 	cur = token;
 	while (cur->prev)
 		cur = cur->prev;
-	return (cur->content);
+	tmp = cur->content;
+	while (cur)
+	{
+		if (cur->type == CMD)
+			return (cur->content);
+		cur = cur->next;
+	}
+	return (tmp);
 }
 
 char	*get_lim(t_token *cur)

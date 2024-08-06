@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/08/06 13:30:10 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:45:38 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var, long long *co
 	if (!conform_pipe(input))
 		return (printf("minishell : Syntax error\n"), NULL);
 	tokens = tokenisation(input, env, exp_var, code);
+	if (!tokens)
+		return (NULL);
 	int i = 0;
 	while (tokens[i])
 	{	
@@ -49,7 +51,7 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var, long long *co
 		}
 		int k = 0;
 		while (tokens[i]->cmd_pipex[k])
-			printf("cmd pipex = %s\n", tokens[i]->cmd_pipex[k++]);
+			printf("cmd pipex = %s %d\n", tokens[i]->cmd_pipex[k++], tokens[i]->nbr_pipe);
 		i++;
 	}
 	return (tokens);

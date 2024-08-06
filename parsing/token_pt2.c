@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/08/06 13:05:19 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:42:56 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var, long long *cod
 	split_tokens(str, tokens, nbr_pipe - 1);
 	expand(tokens, env, exp_var, code);
 	supp_token(tokens);
+	if (tokens[0] == NULL)
+		return (free_tokens(tokens), NULL);
 	type_token(tokens);
 	quotes(tokens);
 	create_cmd_pipex(tokens);

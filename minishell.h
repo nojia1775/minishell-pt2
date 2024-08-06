@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/06 13:29:48 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:14:20 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,5 +251,8 @@ void			ft_simple_err(char *s, int fd);
 int				ft_strlen_double_tab(char **str);
 char			*get_lim(t_token *cur);
 char			*question_mark(char *str, long long code);
+void			supp_pipe(t_token **tokens, int len);
+int				len_tokens(t_token **tokens);
+int				there_is_cmd(t_token *list);
 
 #endif

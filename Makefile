@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 OBJS_DIR = obj
 
@@ -35,16 +35,17 @@ SRCS = minishell.c\
 	parsing/pipe.c \
 	parsing/redir.c \
 	parsing/cmd_pipex.c \
-	signals.c\
-	utils/utilsv1.c\
-	utils/utilsv2.c\
-	utils/utilsv3.c\
-	utils/utilsv4.c\
-	utils/utilsv5.c\
-	utils/utilsv6.c\
-	utils/utilsv7.c\
+	signals.c \
+	utils/utilsv1.c \
+	utils/utilsv2.c \
+	utils/utilsv3.c \
+	utils/utilsv4.c \
+	utils/utilsv5.c \
+	utils/utilsv6.c \
+	utils/utilsv7.c \
 	utils/utilsv8.c \
-	utils/utilsv9.c
+	utils/utilsv9.c \
+	utils/utilsv10.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
