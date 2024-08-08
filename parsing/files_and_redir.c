@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/08 13:58:35 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:53:21 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ static void	count_redir_files(t_token *list, int *redir, int *files)
 	cur = list;
 	while (cur)
 	{
-		if (cur->prev && is_redir(cur->prev->content)
-			&& ft_strcmp(cur->prev->content, "<<"))
+		if (cur->prev && is_redir(cur->prev->content))
 			(*files)++;
 		cur = cur->next;
 	}
@@ -77,13 +76,13 @@ static int 	add_files_redir(t_token *token, int index, char *content, int redir)
 	{
 		cur->redir[index] = ft_strdup(content);
 		if (!cur->redir[index])
-			return (0);
+			return (perror("content redir\n"), 0);
 	}
 	else
 	{
 		cur->files[index] = ft_strdup(content);
 		if (!cur->files[index])
-			return (0);
+			return (perror("content files\n"), 0);
 	}
 	return (1);
 }
@@ -101,20 +100,19 @@ int	files_and_redir(t_token **tokens)
 		{
 			var.cur->redir = create_tab(var.nbr_redir);
 			var.cur->files = create_tab(var.nbr_files);
-			if (!var.cur->redir || !var.cur->files)
-				return (0);
+			if (!var.cur->redir)
+				return (perror("malloc\n"), 0);
 			while (var.cur)
 			{
 				if (is_redir(var.cur->content))
 				{
 					if (!add_files_redir(var.cur, var.redir++, var.cur->content, 1))
-						return (0);
+						return (perror("add redir\n"), 0);
 				}
 				else if (var.cur->prev && is_redir(var.cur->prev->content))
 				{
-					if (ft_strcmp(var.cur->prev->content, "<<")
-						&& !add_files_redir(var.cur, var.files++, var.cur->content, 0))
-						return (0);
+					if (!add_files_redir(var.cur, var.files++, var.cur->content, 0))
+						return (perror("add files\n"), 0);
 				}
 				var.cur = var.cur->next;
 			}

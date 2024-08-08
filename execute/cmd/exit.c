@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/06 16:02:22 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:30:08 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_exit(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 	{
 		free_double_tabs(exit);
 		ft_printf("exit\n");
-		return;
+		return ;
 	}
 	else if(exit[2] != NULL)
 	{
