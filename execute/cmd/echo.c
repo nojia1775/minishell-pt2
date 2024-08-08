@@ -6,16 +6,17 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/06 17:12:06 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:46:54 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	write_fd(char *str, int fd)
+static void	write_fd(char *str, int fd, char *next)
 {
 	ft_putstr_fd(str, fd);
-	ft_putstr_fd(" ", fd);
+	if (next)
+		ft_putstr_fd(" ", fd);
 }
 
 static int	is_n_option(char *str)
@@ -55,12 +56,12 @@ void	ft_echo(t_token *cur, int *fd, t_data *data)
 		{
 			if (!is_n_option(cur->cmd_pipex[i]))
 			{
-				write_fd(cur->cmd_pipex[i], *fd);
+				write_fd(cur->cmd_pipex[i], *fd, cur->cmd_pipex[i + 1]);
 				flag = 0;
 			}
 		}
 		else
-			write_fd(cur->cmd_pipex[i], *fd);
+			write_fd(cur->cmd_pipex[i], *fd, cur->cmd_pipex[i + 1]);
 	}
 	if (!option)
 		ft_putstr_fd("\n", *fd);
