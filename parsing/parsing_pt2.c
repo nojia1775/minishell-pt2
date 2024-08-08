@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/08/08 14:52:15 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:36:55 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var, long long *code)
 {
 	t_token	**tokens;
-	t_token	*cur;
+	//t_token	*cur;
 	
 	if (input[0] == '\0')
 		return (NULL);
@@ -28,7 +28,7 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var, long long *co
 	tokens = tokenisation(input, env, exp_var, code);
 	if (!tokens)
 		return (NULL);
-	int i = 0;
+	/*int i = 0;
 	while (tokens[i])
 	{	
 		cur = tokens[i];
@@ -53,6 +53,6 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var, long long *co
 		while (tokens[i]->cmd_pipex[k])
 			printf("cmd pipex = %s\n", tokens[i]->cmd_pipex[k++]);
 		i++;
-	}
+	}*/
 	return (tokens);
 }

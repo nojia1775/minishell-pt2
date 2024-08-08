@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/08/06 13:26:56 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:28:23 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,18 @@ static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var, long
 {
 	t_var	vars;
 	
-	vars.in_double = 0;
-	vars.in_single = 0;
-	vars.ibuf = 0;
-	vars.i = 0;
+	ft_memset(&vars, 0, sizeof(vars));
 	vars.code = code;
 	ft_bzero(vars.buffer, sizeof(vars.buffer));
 	while (tokens->content[vars.i])
 	{
 		is_in_quote(&vars.in_single, &vars.in_double, 
 			tokens->content[vars.i]);
-		if (tokens->content[vars.i] == '$' && !vars.in_single)
+		if (tokens->content[vars.i] == '$' && !vars.in_single
+			&& (tokens->content[vars.i + 1] != '$'
+			&& tokens->content[vars.i + 1] != '\0'
+			&& tokens->content[vars.i + 1] != ' ')
+			&& tokens->content[vars.i + 1] != '"')
 			replace(tokens, env, exp_var, &vars);
 		else
 			vars.buffer[vars.ibuf++] = tokens->content[vars.i++];

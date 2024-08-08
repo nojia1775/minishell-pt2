@@ -3,21 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   quote_pt2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 22:17:51 by noah              #+#    #+#             */
-/*   Updated: 2024/07/27 13:19:59 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/08 16:51:50 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	rm(char *str, char quote, int in_quote)
+{
+	int	i;
+	int	k;
+	
+	i = 0;
+	if (str[i] == quote && !in_quote)
+	{
+		while (str[i] == quote)
+		{
+			k = i - 1;
+			while (str[++k])
+				str[k] = str[k + 1];
+		}
+	}
+}
 
 static void	rm_quotes(t_token *cur)
 {
 	int	i;
 	int	in_single;
 	int	in_double;
-	int	k;
 	
 	i = -1;
 	in_single = 0;
@@ -25,18 +41,8 @@ static void	rm_quotes(t_token *cur)
 	while (cur->content[++i])
 	{
 		is_in_quote(&in_single, &in_double, cur->content[i]);
-		if (cur->content[i] == '"' && !in_single)
-		{
-			k = i - 1;
-			while (cur->content[++k])
-				cur->content[k] = cur->content[k + 1];
-		}
-		if (cur->content[i] == '\'' && !in_double)
-		{
-			k = i - 1;
-			while (cur->content[++k])
-				cur->content[k] = cur->content[k + 1];
-		}
+		rm(&cur->content[i], '"', in_single);
+		rm(&cur->content[i], '\'', in_double);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 18:01:38 by noah              #+#    #+#             */
-/*   Updated: 2024/08/06 16:27:28 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:46:49 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	supp_token(t_token **tokens)
 		len = len_tokens(tokens);
 		while (cur)
 		{
-			if (!cur->content)
+			if (!cur->content || !cur->content[0])
 			{
 				if (cur == tokens[i])
 					tokens[i] = cur->next;;

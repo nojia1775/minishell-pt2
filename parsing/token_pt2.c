@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/08/06 15:42:56 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:17:47 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int	actions(t_token **tokens, char *str, t_var *vars, int nbr_pipe)
 		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
 	}
-	else if ((str[vars->i] == '<' || str[vars->i] == '>')
+	else if (!vars->in_double && !vars->in_single &&
+		(str[vars->i] == '<' || str[vars->i] == '>')
 		&& vars->i && (str[vars->i - 1] != '<'
 			&& str[vars->i - 1] != '>'))
 		if (!create_token(vars, tokens, nbr_pipe))
@@ -49,7 +50,8 @@ static int	actions(t_token **tokens, char *str, t_var *vars, int nbr_pipe)
 		|| ((str[vars->i] == ' ' || str[vars->i] == '|')
 		&& (vars->in_double || vars->in_single))) && str[vars->i])
 		vars->buffer[vars->ibuf++] = str[vars->i];
-	if ((str[vars->i] == '>' || str[vars->i] == '<')
+	if (!vars->in_double && !vars->in_single &&
+		(str[vars->i] == '>' || str[vars->i] == '<')
 		&& str[vars->i + 1] != '<' && str[vars->i + 1] != '>')
 		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
@@ -98,6 +100,9 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var, long long *cod
 		return (free_tokens(tokens), NULL);
 	type_token(tokens);
 	quotes(tokens);
+	supp_token(tokens);
+	if (tokens[0] == NULL)
+		return (free_tokens(tokens), NULL);
 	create_cmd_pipex(tokens);
 	if (!files_and_redir(tokens))
 		return (free_tokens(tokens), NULL);

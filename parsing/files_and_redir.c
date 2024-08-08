@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/08 14:53:21 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:18:23 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,14 @@ typedef struct	s_vars
 }		t_vars;
 
 
-static int 	is_redir(char *str)
+static int 	is_redir(t_token *cur)
 {
-	if (!ft_strcmp(str, "<") || !ft_strcmp(str, ">") || !ft_strcmp(str, ">>")
-		|| !ft_strcmp(str, "<<"))
+	if (cur->type != HEREDOC && cur->type != INREDIR
+		&& cur->type != OUTREDIR && cur->type != INREDIRAPP)
+		return (0);
+	if (!ft_strcmp(cur->content, "<") || !ft_strcmp(cur->content, ">")
+		|| !ft_strcmp(cur->content, ">>")
+		|| !ft_strcmp(cur->content, "<<"))
 		return (1);
 	return (0);
 }
@@ -38,15 +42,14 @@ static void	count_redir_files(t_token *list, int *redir, int *files)
 	cur = list;
 	while (cur)
 	{
-		if (!ft_strcmp(cur->content, ">") || !ft_strcmp(cur->content, ">>")
-			|| !ft_strcmp(cur->content, "<") || !ft_strcmp(cur->content, "<<"))
+		if (is_redir(cur))
 			(*redir)++;
 		cur = cur->next;
 	}
 	cur = list;
 	while (cur)
 	{
-		if (cur->prev && is_redir(cur->prev->content))
+		if (cur->prev && is_redir(cur->prev))
 			(*files)++;
 		cur = cur->next;
 	}
@@ -104,12 +107,12 @@ int	files_and_redir(t_token **tokens)
 				return (perror("malloc\n"), 0);
 			while (var.cur)
 			{
-				if (is_redir(var.cur->content))
+				if (is_redir(var.cur))
 				{
 					if (!add_files_redir(var.cur, var.redir++, var.cur->content, 1))
 						return (perror("add redir\n"), 0);
 				}
-				else if (var.cur->prev && is_redir(var.cur->prev->content))
+				else if (var.cur->prev && is_redir(var.cur->prev))
 				{
 					if (!add_files_redir(var.cur, var.files++, var.cur->content, 0))
 						return (perror("add files\n"), 0);
