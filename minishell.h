@@ -88,6 +88,7 @@ typedef struct	s_token
 	int		type;
 	int		nbr_pipe;
 	int		code;
+	int		flag;
 	char	*content;
 	char	**cmd_pipex;
 	char	**files;

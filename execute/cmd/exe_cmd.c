@@ -52,12 +52,14 @@ void	check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var, int fd, t_
 {
 	char	**total_env;
 	int 	len;
-
+	
 	len = 0;
 	len = ft_strlen_double_tab(cur->redir);
 	if (len != 0)
 	{
 		len--;
+		while(ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+			len--;
 		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(cur->redir[len], "<") == 0)
@@ -65,7 +67,8 @@ void	check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var, int fd, t_
 			if(dup2(fd, STDIN_FILENO) == -1)
 				perror("dup2");
 		}
-		close(fd);
+		if (cur->flag == 1)
+			close(fd);
 	}
 	total_env = stock_total_env(envp, exp_var);
 	execve(get_cmd(cur), get_cmd_pipex(cur), total_env);
@@ -118,6 +121,7 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 	int	i_redir;
 	int	i_files;
 
+	cur->flag = 0;
 	i_redir = 0;
 	i_files = 0;
 	if (cur->redir)
@@ -141,6 +145,7 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 						ft_putstr_msg(": Permission denied\n", 2, cur->files[i_files]);
 						data->code = 1;
 					}
+					cur->flag = 1;
 					data->code = 0;
 				}
 				i_files++;
@@ -162,6 +167,7 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 						data->code = 1;
 						ft_putstr_msg(": Permission denied\n", 2, cur->files[i_files]);
 					}
+					cur->flag = 1;
 					data->code = 0;
 				}
 				i_files++;
@@ -183,8 +189,14 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 						data->code = 1;
 						return (-1);
 					}
+					cur->flag = 1;
 					data->code = 0;
 				}
+				i_files++;
+			}
+			else if (ft_strcmp("<<", cur->redir[i_redir]) == 0)
+			{        
+				here_doc(cur->files[i_files]);
 				i_files++;
 			}
 			i_redir++;
