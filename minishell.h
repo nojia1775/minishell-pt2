@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/09 14:02:37 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:55:26 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ char	*find_var(char *str, t_list **env, t_list **exp_var);
 int		conform_pipe(char *str);
 int		count_pipe(char *str);
 int		conform_redir(char *str);
-int	parsing_pt2(char *input, t_global *global);
+t_token	**parsing_pt2(char *input, t_global *global);
 t_token	**tokenisation(char *str, t_global *global);
 void	expand(t_token **tokens, t_global *global);
 void	type_token(t_token **tokens);

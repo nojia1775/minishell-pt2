@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/08/09 14:06:12 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:32:05 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ static void	replace(t_token *tokens, t_list **env, t_list **exp_var, t_var *vars
 		vars->i += word_len(tokens->content + vars->i);
 }
 
+static int	arg_redir(char *str)
+{
+	if (!ft_strcmp(str, ">>") || !ft_strcmp(str, ">")
+		|| !ft_strcmp(str, "<"))
+		return (1);
+	return (0);
+}
+
 // cherche et remplace les variables d'environnement par leur valeur
 static void	search_replace(t_token *tokens, t_global *global)
 {
@@ -65,6 +73,8 @@ static void	search_replace(t_token *tokens, t_global *global)
 		tokens->content = ft_strdup(vars.buffer);
 	else
 		tokens->content = NULL;
+	if (arg_redir(tokens->content))
+		tokens->type = ARG;
 }
 
 // expand les variables d'environnement

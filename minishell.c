@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 14:04:23 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:57:11 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,11 @@ static int	init_global(t_global *global)
 
 int	main(int ac, char **argv, char **envp)
 {
-	// t_list	*env;
-	// t_data	data;
-	// t_list	*exp_var;
-	// t_token *cur;
-	// t_token	**input_tokenised;
 	t_global	global;
 	
 	if (!init_global(&global))
 		return (9);
 	int sv;
-	// data->code = 0;
-	// exp_var = NULL;
-	// env = NULL;
 	global.data->code = 0;
 	global.exp_var = NULL;
 	global.env = NULL;
@@ -56,8 +48,8 @@ int	main(int ac, char **argv, char **envp)
 		if (set_interactive_signals() == -1)
 			exit(1);
 		global.data->str = readline(global.data->total_setup);
-		parsing_pt2(global.data->str, &global);
-		if (!global.tokens)
+		global.tokens = parsing_pt2(global.data->str, &global);
+		if (global.tokens == NULL)
 			continue ;
 		else
 			global.cur = *(global.tokens);

@@ -6,27 +6,32 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/08/09 13:07:11 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:02:16 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	parsing_pt2(char *input, t_global *global)
+t_token	**parsing_pt2(char *input, t_global *global)
 {
 	//t_token	*cur;
+	t_token	**tokens;
+	char	*tmp;
 	
-	if (input[0] == '\0')
-		return (0);
-	if (!nbr_quotes(input))
-		return (printf("minishell : syntax error\n"), 0);
-	if (!conform_redir(input))
-		return (printf("minishell : syntax error near unexpected token `>'\n"), 0);
-	if (!conform_pipe(input))
-		return (printf("minishell : Syntax error\n"), 0);
-	global->tokens = tokenisation(input, global);
-	if (!global->tokens)
-		return (0);
+	tmp = ft_strtrim(input, " ");
+	if (!tmp)
+		return (NULL);
+	if (tmp[0] == '\0')
+		return (NULL);
+	if (!nbr_quotes(tmp))
+		return (printf("minishell : syntax error\n"), NULL);
+	if (!conform_redir(tmp))
+		return (printf("minishell : syntax error near unexpected token `>'\n"), NULL);
+	if (!conform_pipe(tmp))
+		return (printf("minishell : Syntax error\n"), NULL);
+	tokens = tokenisation(tmp, global);
+	if (!tokens)
+		return (NULL);
 	/*int i = 0;
 	while (tokens[i])
 	{	
@@ -53,5 +58,5 @@ int	parsing_pt2(char *input, t_global *global)
 			printf("cmd pipex = %s\n", tokens[i]->cmd_pipex[k++]);
 		i++;
 	}*/
-	return (1);
+	return (tokens);
 }
