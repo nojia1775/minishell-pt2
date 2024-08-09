@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 18:01:38 by noah              #+#    #+#             */
-/*   Updated: 2024/08/09 12:25:01 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:40:18 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,19 @@ void	supp_token(t_token **tokens)
 char	*get_cmd(t_token *token)
 {
 	t_token	*cur;
+	char	*tmp;
 	
 	cur = token;
 	while (cur->prev)
 		cur = cur->prev;
+	tmp = cur->content;
 	while (cur)
 	{
 		if (cur->type == CMD)
 			return (cur->content);
 		cur = cur->next;
 	}
-	return (NULL);
+	return (tmp);
 }
 
 char	*get_lim(t_token *cur)

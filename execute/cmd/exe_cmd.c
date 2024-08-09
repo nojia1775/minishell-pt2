@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 13:37:59 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:43:07 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int 	setup_exe_simple_cmd(t_token *cur, t_global *global)
 	int		fd;
 	fd = STDOUT_FILENO;
 	if (set_exec_signals(global->data) == -1)
-		return(0);
+		return (0);
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
 		if (check_redirection(cur, &fd, global->data) == 0)
@@ -112,7 +112,9 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd)
 	}
 	if (good_line_envp != NULL)
 		free_double_tabs(good_path);
-	ft_putstr_msg(": command not found\n", 2, cmd);
+	if (ft_strcmp(cmd, ">") && ft_strcmp(cmd, ">>")
+		&& ft_strcmp(cmd, "<"))
+		ft_putstr_msg(": command not found\n", 2, cmd);
 }
 
 //Check la redirection et agit agit en consequences
