@@ -143,7 +143,7 @@ char			*get_total_setup(t_data *data);
 int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void		ft_echo(t_token *cur, int *fd, t_data *data);
+void		ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag);
 
 
 /*-------Cmds-------*/

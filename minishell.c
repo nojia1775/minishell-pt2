@@ -48,6 +48,11 @@ int	main(int ac, char **argv, char **envp)
 		if (set_interactive_signals() == -1)
 			exit(1);
 		global.data->str = readline(global.data->total_setup);
+		if (global.data->str == NULL)
+		{
+			printf("exit\n");
+			exit (global.data->code);
+		}
 		global.tokens = parsing_pt2(global.data->str, &global);
 		if (global.tokens == NULL)
 			continue ;
@@ -55,12 +60,7 @@ int	main(int ac, char **argv, char **envp)
 			global.cur = *(global.tokens);
 		if (global.data->str != NULL)
 			add_history(global.data->str);
-		if (global.data->str == NULL)
-		{
-			printf("exit\n");
-			exit (global.data->code);
-		}
-		else if (global.cur->nbr_pipe == 0)
+		if (global.cur->nbr_pipe == 0)
 		{
 			sv = dup(STDIN_FILENO);
 			if(setup_exe_simple_cmd(global.cur, &global) == -1)

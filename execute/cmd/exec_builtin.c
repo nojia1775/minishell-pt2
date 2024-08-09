@@ -55,26 +55,29 @@ int		exec_builtin(t_token *cur, t_global *global, int fd)
 {
 	int len;
 	char **cmd_splitted;
-
+	int redir_flag;
+	int sv;
+	redir_flag = 0;
 	fd = fd + 0;
 	len = ft_strlen_double_tab(cur->redir);
 	if (len != 0)
 	{
 		len--;
+		while(ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+			len--;
 		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
-		{	
-					dup2(fd, STDOUT_FILENO);
-		}
+			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(cur->redir[len], "<") == 0)
 		{
+			redir_flag = 1;
+			sv = dup(STDIN_FILENO);
 			if(dup2(fd, STDIN_FILENO) == -1)
 				perror("dup2");
 		}
-		close(fd);
 	}
 	cmd_splitted = cur->cmd_pipex;
 	if (ft_strcmp(get_cmd(cur), "echo") == 0)
-		ft_echo(cur, &fd, global->data);
+		ft_echo(cur, &fd, global->data, redir_flag);
 	if (ft_strcmp(get_cmd(cur), "export") == 0)
 		pars_export(cur, global);
 	else if (ft_strcmp(get_cmd(cur), "unset") == 0)
@@ -89,8 +92,16 @@ int		exec_builtin(t_token *cur, t_global *global, int fd)
 		print_env(&global->env, &global->exp_var, global->data);
 	else if (ft_strcmp(get_cmd(cur), "exit") == 0)
 	{
+		if (cur->flag == 1)
+			close(fd);
 		ft_exit(cur, global);
 		return (-1);
+	}
+	if (cur->flag == 1)
+	{
+		if (redir_flag)
+			dup2(sv, STDIN_FILENO);
+		close(fd);
 	}
 	return (0);
 }

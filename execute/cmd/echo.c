@@ -12,12 +12,20 @@
 
 #include "../../minishell.h"
 
-static void	write_fd(char *str, int fd, char *next)
+static void	write_fd(char *str, int fd, char *next, int redir_flag)
 {
+	if (redir_flag == 1)
+	{
+		printf("%s",str);
+		if (next)
+			printf(" ");
+		return;
+	}
 	ft_putstr_fd(str, fd);
 	if (next)
 		ft_putstr_fd(" ", fd);
 }
+
 
 static int	is_n_option(char *str)
 {
@@ -34,7 +42,7 @@ static int	is_n_option(char *str)
 	return (1);
 }
 
-void	ft_echo(t_token *cur, int *fd, t_data *data)
+void	ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag)
 {
 	int	option;
 	int	flag;
@@ -56,14 +64,19 @@ void	ft_echo(t_token *cur, int *fd, t_data *data)
 		{
 			if (!is_n_option(cur->cmd_pipex[i]))
 			{
-				write_fd(cur->cmd_pipex[i], *fd, cur->cmd_pipex[i + 1]);
+				write_fd(cur->cmd_pipex[i], *fd, cur->cmd_pipex[i + 1], redir_flag);
 				flag = 0;
 			}
 		}
 		else
-			write_fd(cur->cmd_pipex[i], *fd, cur->cmd_pipex[i + 1]);
+			write_fd(cur->cmd_pipex[i], *fd, cur->cmd_pipex[i + 1], redir_flag);
 	}
 	if (!option)
-		ft_putstr_fd("\n", *fd);
+	{
+		if (redir_flag == 1)
+			printf("\n");
+		else
+			ft_putstr_fd("\n", *fd);
+	}
 	data->code = 0;
 }
