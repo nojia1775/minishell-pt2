@@ -6,14 +6,14 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/08 14:10:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:37:59 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Fonction principale executent une commande simple du genre ls -l par exemple
-int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
+int 	setup_exe_simple_cmd(t_token *cur, t_global *global)
 {
 	int status;
 
@@ -21,26 +21,26 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *
 	pid_t	pid;
 	int		fd;
 	fd = STDOUT_FILENO;
-	if (set_exec_signals(data) == -1)
+	if (set_exec_signals(global->data) == -1)
 		return(0);
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
-		if (check_redirection(cur, &fd, data) == 0)
-			return (exec_builtin(cur, env, exp_var, data, fd));
+		if (check_redirection(cur, &fd, global->data) == 0)
+			return (exec_builtin(cur, global, fd));
 	}
 	pid = fork();
 	if (pid == 0)
 	{
-		data->code = 0;
-		if (check_redirection(cur ,&fd, data) == 0)
-			check_and_exe_cmd(cur, env, exp_var, fd, data);
+		global->data->code = 0;
+		if (check_redirection(cur ,&fd, global->data) == 0)
+			check_and_exe_cmd(cur, global, fd);
 		exit(127);
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
-			data->code = WEXITSTATUS(status);
+			global->data->code = WEXITSTATUS(status);
 	}
 	else
 		perror("fork");
@@ -48,7 +48,7 @@ int 	setup_exe_simple_cmd(t_token *cur, t_list **env, t_list **exp_var, t_data *
 }
 
 // fonction qui tente l'absolut path et s' il ne s'execute pas il test le relative path(fonction en dessous)
-void	check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var, int fd, t_data *data)
+void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 {
 	char	**total_env;
 	int 	len;
@@ -70,11 +70,11 @@ void	check_and_exe_cmd(t_token *cur, t_list **envp, t_list **exp_var, int fd, t_
 		if (cur->flag == 1)
 			close(fd);
 	}
-	total_env = stock_total_env(envp, exp_var);
+	total_env = stock_total_env(&global->env, &global->exp_var);
 	execve(get_cmd(cur), get_cmd_pipex(cur), total_env);
 	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur));
 	free_double_tabs(total_env);
-	data->code = 127;
+	global->data->code = 127;
 	return;
 }
 

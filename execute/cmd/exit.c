@@ -6,18 +6,18 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/08 14:30:08 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:05:07 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_exit(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
+void	ft_exit(t_token *cur, t_global *global)
 {
 	char **exit;
 	
 	exit = cur->cmd_pipex;
-	ft_free_lists(env, exp_var);
+	ft_free_lists(&global->env, &global->exp_var);
 	if (exit[1] == NULL)
 	{
 		free_double_tabs(exit);
@@ -26,13 +26,13 @@ void	ft_exit(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 	}
 	else if(exit[2] != NULL)
 	{
-		data->code = 1;
+		global->data->code = 1;
 		free_double_tabs(exit);
 		ft_printf("exit\n");
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		return;
 	}
-	ft_exit2(data, exit);
+	ft_exit2(global->data, exit);
 }
 
 void	ft_exit2(t_data *data, char **exit)

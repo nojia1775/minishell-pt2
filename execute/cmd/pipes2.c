@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/30 03:23:16 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:01:49 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 
 }
 
-void	child_pipes_process2(t_token *cur, t_pipes *pipes, char *envp[], int sv, int fd)
+void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)
 {
 	int 	len;
 
@@ -54,8 +54,8 @@ void	child_pipes_process2(t_token *cur, t_pipes *pipes, char *envp[], int sv, in
 	}
 	else
 		dup2(sv, STDOUT_FILENO);
-	execve(get_cmd(cur), get_cmd_pipex(cur), envp);
-	ft_relative_path2(get_cmd_pipex(cur), envp, get_cmd(cur), pipes);
+	execve(get_cmd(cur), get_cmd_pipex(cur), global->envv);
+	ft_relative_path2(get_cmd_pipex(cur), global->envv, get_cmd(cur), global->pipes);
 }
 
 void	ft_relative_path1(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/06 17:12:30 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:34:08 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_redirection(char *redir, int fd, int *flag)
 	}
 }
 
-int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, int fd)
+int		exec_builtin(t_token *cur, t_global *global, int fd)
 {
 	int len;
 	char **cmd_splitted;
@@ -74,22 +74,22 @@ int		exec_builtin(t_token *cur, t_list **env, t_list **exp_var, t_data *data, in
 	}
 	cmd_splitted = cur->cmd_pipex;
 	if (ft_strcmp(get_cmd(cur), "echo") == 0)
-		ft_echo(cur, &fd, data);
+		ft_echo(cur, &fd, global->data);
 	if (ft_strcmp(get_cmd(cur), "export") == 0)
-		pars_export(cur, env, exp_var, data);
+		pars_export(cur, global);
 	else if (ft_strcmp(get_cmd(cur), "unset") == 0)
-		pars_unset(cur, env, exp_var, data);
+		pars_unset(cur, global);
 	else if (ft_strcmp(get_cmd(cur), "pwd") == 0)
-		print_pwd(get_cmd(cur), data);
+		print_pwd(get_cmd(cur), global->data);
 	else if (ft_strlen_double_tab(cmd_splitted) > 1 && ft_strcmp(get_cmd(cur), "cd") == 0 && ft_strcmp(cur->next->content, "~") == 0)
-		ft_cd_home(data, env);
+		ft_cd_home(global);
 	else if (ft_strcmp(get_cmd(cur), "cd") == 0)
-		ft_cd(cur, env, data);
+		ft_cd(cur, global);
 	else if (strcmp(get_cmd(cur), "env") == 0)
-		print_env(env, exp_var, data);
+		print_env(&global->env, &global->exp_var, global->data);
 	else if (ft_strcmp(get_cmd(cur), "exit") == 0)
 	{
-		ft_exit(cur, env, exp_var, data);
+		ft_exit(cur, global);
 		return (-1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/08/08 17:17:47 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:03:05 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ static int	split_tokens(char *str, t_token **tokens, int nbr_pipe)
 
 // transformation de l'input en tokens 
 // (liste chainée avec le content et le type pour l 'exec)
-t_token	**tokenisation(char *str, t_list **env, t_list **exp_var, long long *code)
+t_token	**tokenisation(char *str, t_global *global)
 {
-	t_token	**tokens;
 	size_t	nbr_pipe;
+	t_token	**tokens;
 	
 	nbr_pipe = count_pipe(str) + 1;
 	tokens = (t_token **)ft_calloc(nbr_pipe + 1, sizeof(t_token *)
@@ -94,7 +94,7 @@ t_token	**tokenisation(char *str, t_list **env, t_list **exp_var, long long *cod
 	if (!tokens)
 		return (NULL);
 	split_tokens(str, tokens, nbr_pipe - 1);
-	expand(tokens, env, exp_var, code);
+	expand(tokens, global);
 	supp_token(tokens);
 	if (tokens[0] == NULL)
 		return (free_tokens(tokens), NULL);

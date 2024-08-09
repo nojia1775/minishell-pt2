@@ -6,28 +6,27 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/08/08 17:36:55 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:07:11 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var, long long *code)
+int	parsing_pt2(char *input, t_global *global)
 {
-	t_token	**tokens;
 	//t_token	*cur;
 	
 	if (input[0] == '\0')
-		return (NULL);
+		return (0);
 	if (!nbr_quotes(input))
-		return (printf("minishell : syntax error\n"), NULL);
+		return (printf("minishell : syntax error\n"), 0);
 	if (!conform_redir(input))
-		return (printf("minishell : syntax error near unexpected token `>'\n"), NULL);
+		return (printf("minishell : syntax error near unexpected token `>'\n"), 0);
 	if (!conform_pipe(input))
-		return (printf("minishell : Syntax error\n"), NULL);
-	tokens = tokenisation(input, env, exp_var, code);
-	if (!tokens)
-		return (NULL);
+		return (printf("minishell : Syntax error\n"), 0);
+	global->tokens = tokenisation(input, global);
+	if (!global->tokens)
+		return (0);
 	/*int i = 0;
 	while (tokens[i])
 	{	
@@ -54,5 +53,5 @@ t_token	**parsing_pt2(char *input, t_list **env, t_list **exp_var, long long *co
 			printf("cmd pipex = %s\n", tokens[i]->cmd_pipex[k++]);
 		i++;
 	}*/
-	return (tokens);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/08/08 17:28:23 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:06:12 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ static void	replace(t_token *tokens, t_list **env, t_list **exp_var, t_var *vars
 }
 
 // cherche et remplace les variables d'environnement par leur valeur
-static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var, long long *code)
+static void	search_replace(t_token *tokens, t_global *global)
 {
 	t_var	vars;
 	
 	ft_memset(&vars, 0, sizeof(vars));
-	vars.code = code;
+	vars.code = &global->data->code;
 	ft_bzero(vars.buffer, sizeof(vars.buffer));
 	while (tokens->content[vars.i])
 	{
@@ -56,7 +56,7 @@ static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var, long
 			&& tokens->content[vars.i + 1] != '\0'
 			&& tokens->content[vars.i + 1] != ' ')
 			&& tokens->content[vars.i + 1] != '"')
-			replace(tokens, env, exp_var, &vars);
+			replace(tokens, &global->env, &global->exp_var, &vars);
 		else
 			vars.buffer[vars.ibuf++] = tokens->content[vars.i++];
 	}
@@ -68,7 +68,7 @@ static void	search_replace(t_token *tokens, t_list **env, t_list **exp_var, long
 }
 
 // expand les variables d'environnement
-void	expand(t_token **tokens, t_list **env, t_list **exp_var, long long *code)
+void	expand(t_token **tokens, t_global *global)
 {
 	t_token	*cur;
 	int		i;
@@ -80,9 +80,9 @@ void	expand(t_token **tokens, t_list **env, t_list **exp_var, long long *code)
 		while (cur)
 		{
 			if (!cur->prev)
-				search_replace(cur, env, exp_var, code);
+				search_replace(cur, global);
 			else if (!cur->prev->content || ft_strcmp(cur->prev->content, "<<"))
-				search_replace(cur, env, exp_var, code);
+				search_replace(cur, global);
 			cur = cur->next;
 		}
 	}

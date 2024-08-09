@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/06 16:56:34 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:02:03 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,14 @@ void	init_fd1(char **argv, t_pipes *pipes)
 	//		close(pipes->fd1);
 }
 
-int		pipex(t_token *cur, t_pipes *pipes, char **envp, t_data *data, int count, t_list **env, t_list **exp_var)
+int	pipex(t_token *cur, t_global *global)
 {
 	pid_t	pid;
 	int		end[2];
 	int		fd;
 
 	fd = STDOUT_FILENO;
-	count = count + 0;
-	data->code = 0;
+	global->data->code = 0;
 	if (pipe(end) == -1)
 		perror("pipe");
 	pid = fork();
@@ -79,12 +78,12 @@ int		pipex(t_token *cur, t_pipes *pipes, char **envp, t_data *data, int count, t
 		close(end[1]);
 		if (is_a_builtin(get_cmd(cur)) == 1)
 		{
-			if (check_redirection(cur, &fd, data) == 0)
-				return(exec_builtin(cur, env, exp_var, data, fd));
+			if (check_redirection(cur, &fd, global->data) == 0)
+				return(exec_builtin(cur, global, fd));
 			return (0);
 		}
-		if (check_redirection(cur, &fd, data) == 0)
-			child_pipes_process1(cur, pipes, envp, fd);
+		if (check_redirection(cur, &fd, global->data) == 0)
+			child_pipes_process1(cur, global->pipes, global->envv, fd);
 		exit(127);
 	}
 	else if (pid > 0)
@@ -98,9 +97,8 @@ int		pipex(t_token *cur, t_pipes *pipes, char **envp, t_data *data, int count, t
 	return (0);
 }
 
-void	main_pipes(t_token **input_tokenised, char **envp, t_data *data, t_list **env, t_list **exp_var)
+void	main_pipes(t_global *global)
 {
-	t_pipes	pipes;
 	int		i;
 	int		count;
 	int		status;
@@ -111,50 +109,45 @@ void	main_pipes(t_token **input_tokenised, char **envp, t_data *data, t_list **e
 	int		sv;
 
 	sv = dup(STDIN_FILENO);
-	cur = *input_tokenised;
+	cur = *(global->tokens);
 
 	fd = -1;
 	count = 0;
 
-	if (set_exec_signals(data) == -1)
+	if (set_exec_signals(global->data) == -1)
 		return;
-	pipes.fd1 = -1;
-	pipes.fd2 = -1;
-	envp = envp + 0;
+	global->pipes->fd1 = -1;
+	global->pipes->fd2 = -1;
 	i = 0;
 	int nbr = cur->nbr_pipe;
 	while (i < nbr)
 	{
-		cur = input_tokenised[i];
-		pipex(cur, &pipes, envp, data, count, env, exp_var);
+		cur = global->tokens[i];
+		pipex(cur, global);
 		count++;
 		i++;
 	}
 	fd = STDOUT_FILENO;
 	status = 0;
-	cur = input_tokenised[i++];
+	cur = global->tokens[i++];
 	pid = fork();
 	if (pid == 0)
 	{
 		if (is_a_builtin(get_cmd(cur)) == 1)
 		{
-			if (check_redirection(cur, &fd, data) == 0)
-				exec_builtin(cur, env, exp_var, data, fd);
+			if (check_redirection(cur, &fd, global->data) == 0)
+				exec_builtin(cur, global, fd);
 		}
 		else
 		{
-			if (check_redirection(cur, &fd, data) == 0)
-				child_pipes_process2(cur, &pipes, envp, sv, fd);
+			if (check_redirection(cur, &fd, global->data) == 0)
+				child_pipes_process2(cur, global, sv, fd);
 			exit(127);
 		}
 	}
-	else if (pid > 0)
-	{
-		status = status + 0;
-	}
-	else
+	else if (pid < 0)
 		perror("fork");
 	dup2(sv, STDIN_FILENO);
 	while (wait(&status) != -1);
-	data->code = WEXITSTATUS(status);
+	global->data->code = WEXITSTATUS(status);
 }

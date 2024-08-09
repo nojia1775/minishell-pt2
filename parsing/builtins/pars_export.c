@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pars_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/29 17:40:35 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:22:50 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
+void	pars_export(t_token *cur, t_global *global)
 {
 	char **export;
 	int		i;
@@ -21,7 +21,7 @@ void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 	export = cur->cmd_pipex;
 	if (export[1] == NULL)
 	{
-		ft_export(env, exp_var);
+		ft_export(&global->env, &global->exp_var);
 		return;
 	}
 	else 
@@ -30,12 +30,12 @@ void	pars_export(t_token *cur, t_list **env, t_list **exp_var, t_data *data)
 		{
 			if (pars_exp_var(export[i]) != -1)
 			{
-				export_variable(env, exp_var, cur->next->content, data);
+				export_variable(&global->env, &global->exp_var, cur->next->content, global->data);
 				cur = cur->next;
-				data->code = 0;
+				global->data->code = 0;
 			}
 			else 
-				data->code = 1;
+				global->data->code = 1;
 			i++;
 		}
 	}
