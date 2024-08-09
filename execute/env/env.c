@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 18:03:16 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:47:46 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	update_env(t_list **env)
 		{
 			cwd = getcwd(buf, sizeof(buf));
 			new_content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
-			ft_strcpy(new_content, "PWD=", 4);
+			ft_strlcpy(new_content, "PWD=", 4);
 			ft_strcat(new_content, cwd);
 			new_case = ft_lstnew(new_content);
 			ft_lstadd_back(env, new_case);
@@ -92,7 +92,7 @@ void	print_env(t_list **envp, t_list **exp_var, t_data *data)
 	{
 		while (top)
 		{
-			ft_printf("%s\n", top->content);
+			printf("%s\n", (char *)top->content);
 			top = top->next;
 		}
 	}
@@ -100,7 +100,7 @@ void	print_env(t_list **envp, t_list **exp_var, t_data *data)
 	{
 		while (current)
 		{
-			ft_printf("%s\n", current->content);
+			printf("%s\n", (char *)current->content);
 			current = current->next;
 		}
 	}

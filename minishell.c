@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 14:57:11 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:43:53 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int ac, char **argv, char **envp)
 			add_history(global.data->str);
 		if (global.data->str == NULL)
 		{
-			ft_printf("exit\n");
+			printf("exit\n");
 			exit (global.data->code);
 		}
 		else if (global.cur->nbr_pipe == 0)

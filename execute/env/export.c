@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:10:18 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 13:13:19 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:44:51 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_export(t_list **env, t_list **exp_var)
 	i = 0;
 	if (!env)
 	{
-		ft_printf("env: «export»: Aucun fichier ou dossier de ce type\n");
+		printf("env: «export»: Aucun fichier ou dossier de ce type\n");
 		return;
 	}
 	i = ft_lstlen(env);
@@ -93,7 +93,7 @@ void	print_export(char **export)
 	if (export)
 	{
 		while (export[i])
-			ft_printf("%s\n", export[i++]);
+			printf("%s\n", export[i++]);
 		free_double_tabs(export);
 	}
 }

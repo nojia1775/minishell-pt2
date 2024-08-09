@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 01:55:01 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 13:27:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:44:02 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_cd_home(t_global *global)
 	}
 	else
 	{
-		ft_printf("cd: ~: No such file or directory \n");
+		printf("cd: ~: No such file or directory \n");
 		global->data->code = 1;
 	}
 }

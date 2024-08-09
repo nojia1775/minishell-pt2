@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 01:43:37 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/28 01:44:19 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:50:05 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	update_oldpwd(t_list **env)
 		cwd = malloc((7) * sizeof(char));
 		if (!cwd)
 			return;
-		ft_strcpy(cwd, "OLDPWD=", 7);
+		ft_strlcpy(cwd, "OLDPWD=", 7);
 	}
 	while (current)
 	{
@@ -66,7 +66,7 @@ char	*get_actualpwd(t_list **env)
 			cwd = malloc(((ft_strlen(current->content) + 4) * sizeof(char)));
 			if (!cwd)
 				return (NULL);
-			ft_strcpy(cwd, "OLD", 3);
+			ft_strlcpy(cwd, "OLD", 3);
 			cwd = ft_strcat(cwd, current->content);
 			return (cwd);
 		}

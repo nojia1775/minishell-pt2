@@ -6,14 +6,13 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/09 14:55:26 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:44:20 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "./ft_printf/ft_printf.h"
 # include "./libft42/libft.h"
 # include "./get_next_line/get_next_line.h"
 # include <fcntl.h>

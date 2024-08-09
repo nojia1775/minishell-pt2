@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_lobby.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/25 04:38:26 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:49:36 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*init_lobby(t_data *data)
 		data->logname = malloc((16 * sizeof(char)));
 		if (!data->logname)
 			return (NULL);
-		ft_strcpy(data->logname, "user", 5);
+		ft_strlcpy(data->logname, "user", 5);
 	}
 	add_minishell(data);
 	add_pwd(data);

@@ -53,9 +53,8 @@ NAME = minishell
 
 $(NAME): $(OBJS)
 	@make -C libft42/
-	@make -C ft_printf/
 	@make -C get_next_line/
-	$(CC) $(CFLAGS) $^ -o $@ libft42/libft.a ft_printf/libftprintf.a get_next_line/gnl.a -lreadline
+	$(CC) $(CFLAGS) $^ -o $@ libft42/libft.a get_next_line/gnl.a -lreadline
 	
 $(OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -69,13 +68,11 @@ all: $(NAME)
 clean:
 	@make clean -C libft42/
 	@make clean -C get_next_line/
-	@make clean -C ft_printf/
 	rm -rf $(OBJS_DIR)
 
 fclean: clean
 	@make fclean -C libft42/
 	@make fclean -C get_next_line/
-	@make fclean -C ft_printf/
 	rm -f $(NAME)
 
 re: fclean all
