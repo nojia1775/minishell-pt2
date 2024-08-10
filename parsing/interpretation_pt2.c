@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/08/10 17:27:54 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/10 17:47:48 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 typedef struct s_var
 {
-	char	buffer[10000];
+	char	buffer[1000000];
 	char	*value;
 	int		i;
 	int		ibuf;

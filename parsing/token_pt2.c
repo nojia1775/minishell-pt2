@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/08/10 17:41:30 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/10 19:35:16 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 typedef struct s_var
 {
-	char	buffer[10000];
+	char	buffer[1000000];
 	int		in_double;
 	int		in_single;
 	int		ibuf;
@@ -83,7 +83,7 @@ static int	split_tokens(char *str, t_token **tokens, int nbr_pipe)
 
 // transformation de l'input en tokens 
 // (liste chainée avec le content et le type pour l 'exec)
-t_token	**tokenisation(char *str, t_global *global)
+t_token	**tokenisation(char *str, t_global *global, int *error_flag)
 {
 	size_t	nbr_pipe;
 	t_token	**tokens;
@@ -92,7 +92,7 @@ t_token	**tokenisation(char *str, t_global *global)
 	tokens = (t_token **)ft_calloc(nbr_pipe + 1, sizeof(t_token *)
 			* (nbr_pipe + 1));
 	if (!tokens)
-		return (NULL);
+		return (change_flag(error_flag), NULL);
 	split_tokens(str, tokens, nbr_pipe - 1);
 	expand(tokens, global);
 	supp_token(tokens);
@@ -104,7 +104,7 @@ t_token	**tokenisation(char *str, t_global *global)
 	if (tokens[0] == NULL)
 		return (free_tokens(tokens), NULL);
 	create_cmd_pipex(tokens);
-	if (!files_and_redir(tokens))
+	if (!files_and_redir(tokens, error_flag))
 		return (free_tokens(tokens), NULL);
 	return (tokens);
 }

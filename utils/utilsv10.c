@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv10.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:59:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/06 16:13:33 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:30:57 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,9 @@ int	there_is_cmd(t_token *list)
 		cur = cur->next;
 	}
 	return (0);
+}
+
+void	change_flag(int *error)
+{
+	*error = 1;
 }

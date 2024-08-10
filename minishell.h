@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/09 15:44:20 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:54:29 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef enum	e_type
 	INREDIR, // = 1
 	INREDIRAPP, // = 2
 	OUTREDIR, // = 3
-	CMD, // = 4
-	HEREDOC, // = 5
+	HEREDOC, // = 4
+	CMD, // = 5
 	LIM, // = 6
 	OPT // = 7
 }		t_type;
@@ -190,8 +190,8 @@ char	*find_var(char *str, t_list **env, t_list **exp_var);
 int		conform_pipe(char *str);
 int		count_pipe(char *str);
 int		conform_redir(char *str);
-t_token	**parsing_pt2(char *input, t_global *global);
-t_token	**tokenisation(char *str, t_global *global);
+t_token	**parsing_pt2(char *input, t_global *global, int *error_flag);
+t_token	**tokenisation(char *str, t_global *global, int *error_flag);
 void	expand(t_token **tokens, t_global *global);
 void	type_token(t_token **tokens);
 void	quotes(t_token **tokens);
@@ -200,8 +200,9 @@ void	free_tokens(t_token **tokens);
 int		add_token(t_token **tokens, char *content, int nbr_pipe);
 void	create_cmd_pipex(t_token **tokens);
 char	**get_cmd_pipex(t_token *line);
-int 	files_and_redir(t_token **tokens);
+int 	files_and_redir(t_token **tokens, int *flag);
 void	supp_token(t_token **tokens);
+void	print_error(int error);
 
 /*-------export parsing-------*/
 void	pars_export(t_token *cur, t_global *global);
@@ -257,5 +258,6 @@ char			*question_mark(char *str, long long code);
 void			supp_pipe(t_token **tokens, int len);
 int				len_tokens(t_token **tokens);
 int				there_is_cmd(t_token *list);
+void		change_flag(int *error);
 
 #endif

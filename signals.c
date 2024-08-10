@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:48:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 00:33:18 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:00:55 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	set_interactive_signals(void)
 		return (-1);
 	}
 	return (1);
-
 }
 void	sig_exec_handler(int signum)
 {

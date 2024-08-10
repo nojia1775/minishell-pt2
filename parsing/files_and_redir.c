@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_and_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/08 17:18:23 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:53:48 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int 	add_files_redir(t_token *token, int index, char *content, int redir)
 	return (1);
 }
 
-int	files_and_redir(t_token **tokens)
+int	files_and_redir(t_token **tokens, int *flag)
 {
 	t_vars  var;
 	
@@ -104,18 +104,18 @@ int	files_and_redir(t_token **tokens)
 			var.cur->redir = create_tab(var.nbr_redir);
 			var.cur->files = create_tab(var.nbr_files);
 			if (!var.cur->redir)
-				return (perror("malloc\n"), 0);
+				return (change_flag(flag), ("malloc\n"), 0);
 			while (var.cur)
 			{
 				if (is_redir(var.cur))
 				{
 					if (!add_files_redir(var.cur, var.redir++, var.cur->content, 1))
-						return (perror("add redir\n"), 0);
+						return (change_flag(flag), perror("add redir\n"), 0);
 				}
 				else if (var.cur->prev && is_redir(var.cur->prev))
 				{
 					if (!add_files_redir(var.cur, var.files++, var.cur->content, 0))
-						return (perror("add files\n"), 0);
+						return (change_flag(flag), perror("add files\n"), 0);
 				}
 				var.cur = var.cur->next;
 			}

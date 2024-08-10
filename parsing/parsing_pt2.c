@@ -3,60 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/08/09 15:02:16 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:57:23 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	**parsing_pt2(char *input, t_global *global)
+void	print_error(int error)
 {
-	//t_token	*cur;
-	t_token	**tokens;
-	char	*tmp;
+	char	*msg[2];
 	
-	tmp = ft_strtrim(input, " ");
-	if (!tmp)
-		return (NULL);
-	if (tmp[0] == '\0')
-		return (NULL);
-	if (!nbr_quotes(tmp))
-		return (printf("minishell : syntax error\n"), NULL);
-	if (!conform_redir(tmp))
-		return (printf("minishell : syntax error near unexpected token `>'\n"), NULL);
-	if (!conform_pipe(tmp))
-		return (printf("minishell : Syntax error\n"), NULL);
-	tokens = tokenisation(tmp, global);
-	if (!tokens)
-		return (NULL);
-	/*int i = 0;
+	msg[0] = "minishell: syntax error";
+	msg[1] = "minishell: syntax error near unexpected token `newline'";
+	printf("%s\n", msg[error]);
+}
+
+/*
+static int	error(t_token **tokens)
+{
+	t_token	*cur;
+	int		i;
+
+	i = 0;
 	while (tokens[i])
-	{	
+	{
 		cur = tokens[i];
-		if (cur->redir)
-		{
-			int j = 0;
-			while (cur->redir[j])
-				printf("+++ %s\n", cur->redir[j++]);
-			j = 0;
-			while (cur->files[j])
-				printf("*** %s\n", cur->files[j++]);
-		}
 		while (cur)
 		{
-			if (cur->content)
-				printf("%d --- %s %d\n", i, cur->content, cur->type);
-			else
-				printf("NULL\n");
-			cur = cur->next;
+			if (cur->type >= INREDIR && cur->type <= HEREDOC
+				&& !cur->next)
+				return (print_error(1), 1);
 		}
-		int k = 0;
-		while (tokens[i]->cmd_pipex[k])
-			printf("cmd pipex = %s\n", tokens[i]->cmd_pipex[k++]);
-		i++;
-	}*/
+		cur = cur->next;
+	}
+	return (0);
+}
+*/
+
+t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
+{
+	t_token	**tokens;
+
+	*error_flag = 0;
+	if (input[0] == '\0')
+		return (NULL);
+	if (!nbr_quotes(input))
+		return (print_error(0), NULL);
+	if (!conform_pipe(input))
+		return (print_error(0), NULL);
+	tokens = tokenisation(input, global, error_flag);
+	/*if (error(tokens))
+		return (NULL);*/
 	return (tokens);
 }

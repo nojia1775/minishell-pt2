@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 15:43:53 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:53:07 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	init_global(t_global *global)
 int	main(int ac, char **argv, char **envp)
 {
 	t_global	global;
+	int		pars_error;
 	
 	if (!init_global(&global))
 		return (9);
@@ -53,7 +54,7 @@ int	main(int ac, char **argv, char **envp)
 			printf("exit\n");
 			exit (global.data->code);
 		}
-		global.tokens = parsing_pt2(global.data->str, &global);
+		global.tokens = parsing_pt2(global.data->str, &global, &pars_error);
 		if (global.tokens == NULL)
 			continue ;
 		else
