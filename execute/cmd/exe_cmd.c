@@ -27,6 +27,11 @@ int 	setup_exe_simple_cmd(t_token *cur, t_global *global)
 	{
 		if (check_redirection(cur, &fd, global->data) == 0)
 			return (exec_builtin(cur, global, fd));
+		else
+		{
+			global->data->code = 1;
+			return (1);
+		}
 	}
 	pid = fork();
 	if (pid == 0)
