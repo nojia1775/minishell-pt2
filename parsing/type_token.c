@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:52:16 by noah              #+#    #+#             */
-/*   Updated: 2024/08/06 14:02:45 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:34:47 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ static int	is_redir(t_token *cur)
 	else if (!ft_strcmp(cur->content, "<") && cur->type == -1)
 	{
 		cur->type = OUTREDIR;
-		if (cur->next->next)
-			cur->next->next->type = CMD;
+		if (cur->next)
+			if (cur->next->next)
+				cur->next->next->type = CMD;
 	}
 	else if (!ft_strcmp(cur->content, ">") && cur->type == -1)
 		cur->type = INREDIR;

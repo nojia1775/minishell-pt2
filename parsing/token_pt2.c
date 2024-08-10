@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_pt2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/08/09 13:03:05 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:41:30 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 typedef struct s_var
 {
-	char	buffer[100];
+	char	buffer[10000];
 	int		in_double;
 	int		in_single;
 	int		ibuf;

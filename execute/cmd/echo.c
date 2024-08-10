@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 15:44:12 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:37:54 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static int	is_n_option(char *str)
 {
 	int	i;
 	
+	if (!str)
+		return (0);
 	if (str[0] != '-')
 		return (0);
 	if (str[1] != 'n')
