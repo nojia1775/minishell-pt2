@@ -126,7 +126,9 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd)
 int	check_redirection(t_token *cur, int *fd, t_data *data)
 {
 	int i;
+	int fd2;
 
+	fd2 = -1;
 	i = 0;
 
 	cur->flag = 0;
@@ -202,7 +204,13 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 			}
 			else if (ft_strcmp("<<", cur->redir[i]) == 0)
 			{        
-				here_doc(cur->files[i]);
+				here_doc(cur->files[i], cur);
+				fd2 = open(cur->here_file, O_RDONLY);
+			//	cur->flag = 1;
+				if(dup2(fd2, STDIN_FILENO) == -1)
+					perror("dup2");
+				unlink(cur->here_file);
+				close(fd2);
 			}
 			i++;
 		}

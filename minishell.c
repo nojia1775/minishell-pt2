@@ -46,9 +46,9 @@ int	main(int ac, char **argv, char **envp)
 	global.data->str = NULL;
 	while (1)
 	{
-		global.data->str = readline(global.data->total_setup);
 		if (set_interactive_signals() == -1)
 			exit(1);
+		global.data->str = readline(global.data->total_setup);
 		if (global.data->str == NULL)
 		{
 			printf("exit\n");
@@ -75,8 +75,6 @@ int	main(int ac, char **argv, char **envp)
 			main_pipes(&global);
 			//dup2(sv, STDOUT_FILENO);
 		}
-		else if (strncmp("here", global.data->str, 4) == 0)
-			here_doc(global.data->str);
 		free_tokens(global.tokens);
 	//	printf("exit code is %lld\n",  data.code);
 	}

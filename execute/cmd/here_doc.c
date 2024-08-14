@@ -23,7 +23,7 @@ char	*change_str(char *str, int i, char *new_str)
 }
 
 //creer un fichier temporaire pour le here_doc, ajoute un suffixe en nombre si le nom existe deja
-int	create_temp_file(char *str)
+int	create_temp_file(char *str, t_token *cur)
 {
 	int		i;
 	char	*new_str;
@@ -51,6 +51,7 @@ int	create_temp_file(char *str)
 			if (access(new_str, F_OK) != 0)
 			{	
 				fd_temp = open(new_str, O_WRONLY | O_CREAT, 0666);
+				cur->here_file = ft_strdup(new_str);
 				free(new_str);
 				flag = 1;
 				return (fd_temp);
@@ -62,13 +63,13 @@ int	create_temp_file(char *str)
 		return (-1);
 }
 
-void	here_doc(char *limit_word)
+void	here_doc(char *limit_word, t_token *cur)
 {
 	char *line;
 	int	fd;
 
 	fd = -1;
-	fd = create_temp_file("temp");
+	fd = create_temp_file("temp", cur);
 	if (fd == -1)
 	{
 		write(2, "Here doc error!\n", 17);

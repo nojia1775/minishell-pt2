@@ -85,6 +85,7 @@ typedef struct		s_token
 	char		**cmd_pipex;
 	char		**files;
 	char		**redir;
+	char		*here_file;
 }			t_token;
 
 typedef struct	s_global
@@ -175,8 +176,8 @@ void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			ft_close_all(t_pipes *pipes);
 
 /*-------here_doc-------*/
-void			here_doc(char *limit_word);
-int				create_temp_file(char *str);
+void			here_doc(char *limit_word, t_token *cur);
+int				create_temp_file(char *str, t_token *cur);
 char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
 
