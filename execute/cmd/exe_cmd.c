@@ -125,88 +125,86 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd)
 //Check la redirection et agit agit en consequences
 int	check_redirection(t_token *cur, int *fd, t_data *data)
 {
-	int	i_redir;
-	int	i_files;
+	int i;
+
+	i = 0;
 
 	cur->flag = 0;
-	i_redir = 0;
-	i_files = 0;
+
 	if (cur->redir)
 	{
-		while (cur->redir[i_redir])
+		while (cur->redir[i])
 		{
-			if (ft_strcmp(">>", cur->redir[i_redir]) == 0)
+			if (ft_strcmp(">>", cur->redir[i]) == 0)
 			{
-				*fd = open(cur->files[i_files], O_WRONLY | O_APPEND, 0644);
-				if (access(cur->files[i_files], W_OK) == -1 && access(cur->files[i_files], F_OK) == 0)
+				*fd = open(cur->files[i], O_WRONLY | O_APPEND, 0644);
+				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
 				{
-					ft_putstr_msg(": Permission denied\n", 2, cur->files[i_files]);
+					ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
 					data->code = 1;
 					return (-1);
 				}
 				else 
 				{
-					*fd = open(cur->files[i_files], O_WRONLY | O_CREAT | O_APPEND, 0777);
-					if (access(cur->files[i_files], R_OK) != 0)
+					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_APPEND, 0777);
+					if (access(cur->files[i], R_OK) != 0)
 					{
-						ft_putstr_msg(": Permission denied\n", 2, cur->files[i_files]);
-						data->code = 1;
-					}
-					cur->flag = 1;
-					data->code = 0;
-				}
-				i_files++;
-			}
-			else if (ft_strcmp(">", cur->redir[i_redir]) == 0)
-			{
-				*fd = open(cur->files[i_files], O_WRONLY | O_TRUNC, 0644);
-				if (access(cur->files[i_files], W_OK) == -1 && access(cur->files[i_files], F_OK) == 0)
-				{
-					ft_putstr_msg(": Permission denied\n", 2, cur->files[i_files]);
-					data->code = 1;
-					return (-1);
-				}
-				else
-				{
-					*fd = open(cur->files[i_files], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-					if (access(cur->files[i_files], R_OK) != 0)
-					{
-						data->code = 1;
-						ft_putstr_msg(": Permission denied\n", 2, cur->files[i_files]);
-					}
-					cur->flag = 1;
-					data->code = 0;
-				}
-				i_files++;
-			}
-			else if (ft_strcmp("<", cur->redir[i_redir]) == 0)
-			{
-				if (access(cur->files[i_files], F_OK) != 0)
-				{
-					ft_putstr_msg(": No such file or directory\n", 2, cur->files[i_files]);
-					data->code = 1;
-					return (-1);
-				}
-				else
-				{
-					*fd = open(cur->files[i_files], O_RDONLY);
-					if (access(cur->files[i_files], R_OK) != 0)
-					{
-						ft_putstr_msg(": Permission denied\n", 2, cur->files[i_files]);
+						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
 						data->code = 1;
 						return (-1);
 					}
 					cur->flag = 1;
 					data->code = 0;
 				}
-				i_files++;
 			}
-			else if (ft_strcmp("<<", cur->redir[i_redir]) == 0)
+			else if (ft_strcmp(">", cur->redir[i]) == 0)
+			{
+				*fd = open(cur->files[i], O_WRONLY | O_TRUNC, 0644);
+				if (access(cur->files[i], W_OK) == -1 && access(cur->files[i], F_OK) == 0)
+				{
+					ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+					data->code = 1;
+					return (-1);
+				}
+				else
+				{
+					*fd = open(cur->files[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+					if (access(cur->files[i], R_OK) != 0)
+					{
+						data->code = 1;
+						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+						return (-1);
+					}
+					cur->flag = 1;
+					data->code = 0;
+				}
+			}
+			else if (ft_strcmp("<", cur->redir[i]) == 0)
+			{
+				if (access(cur->files[i], F_OK) != 0)
+				{
+					ft_putstr_msg(": No such file or directory\n", 2, cur->files[i]);
+					data->code = 1;
+					return (-1);
+				}
+				else
+				{
+					*fd = open(cur->files[i], O_RDONLY);
+					if (access(cur->files[i], R_OK) != 0)
+					{
+						ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
+						data->code = 1;
+						return (-1);
+					}
+					cur->flag = 1;
+					data->code = 0;
+				}
+			}
+			else if (ft_strcmp("<<", cur->redir[i]) == 0)
 			{        
-				here_doc(cur->files[i_files]);
-				i_files++;
+				here_doc(cur->files[i]);
 			}
-			i_redir++;
+			i++;
 		}
 	}
 	return (0);

@@ -20,6 +20,8 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 	if (len != 0)
 	{
 		len--;
+		while(ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+			len--;
 		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(cur->redir[len], "<") == 0)
@@ -27,7 +29,8 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 			if(dup2(fd, STDIN_FILENO) == -1)
 				perror("dup2");
 		}
-		close(fd);
+		if (cur->flag == 1)
+			close(fd);
 	}
 	execve(get_cmd(cur), get_cmd_pipex(cur), envp);
 	ft_relative_path1(get_cmd_pipex(cur), envp, get_cmd(cur), pipes);
@@ -43,6 +46,8 @@ void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)
 	if (len != 0)
 	{
 		len--;
+		while(ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+			len--;
 		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(cur->redir[len], "<") == 0)
@@ -50,7 +55,8 @@ void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)
 			if(dup2(fd, STDIN_FILENO) == -1)
 				perror("dup2");
 		}
-		close(fd);
+		if (cur->flag == 1)
+			close(fd);
 	}
 	else
 		dup2(sv, STDOUT_FILENO);

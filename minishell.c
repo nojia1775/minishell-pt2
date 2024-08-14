@@ -46,9 +46,9 @@ int	main(int ac, char **argv, char **envp)
 	global.data->str = NULL;
 	while (1)
 	{
+		global.data->str = readline(global.data->total_setup);
 		if (set_interactive_signals() == -1)
 			exit(1);
-		global.data->str = readline(global.data->total_setup);
 		if (global.data->str == NULL)
 		{
 			printf("exit\n");
