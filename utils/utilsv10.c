@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv10.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:59:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/10 19:30:57 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/15 16:05:56 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,14 @@ int	there_is_cmd(t_token *list)
 void	change_flag(int *error)
 {
 	*error = 1;
+}
+
+void	free_all(t_global *global)
+{
+	if (global->tokens)
+		free_tokens(global->tokens);
+	ft_free_lists(&global->env, &global->exp_var);
+	free(global->data->logname);
+	free(global->data->total_setup);
+	free(global->data->extract_pwd);
 }

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 14:43:07 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:56:23 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur));
 	free_double_tabs(total_env);
 	global->data->code = 127;
-	return;
+	return ;
 }
 
 // Fonction qui execute le relative path en testant tous les binaires de l'env

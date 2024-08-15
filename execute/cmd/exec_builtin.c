@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 13:34:08 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:56:40 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int		exec_builtin(t_token *cur, t_global *global, int fd)
 	char **cmd_splitted;
 	int redir_flag;
 	int sv;
+	
 	redir_flag = 0;
 	fd = fd + 0;
 	len = ft_strlen_double_tab(cur->redir);

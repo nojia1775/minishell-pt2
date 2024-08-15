@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/15 12:45:20 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/15 13:49:03 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	main_pipes(t_global *global)
 	global->pipes->fd1 = -1;
 	global->pipes->fd2 = -1;
 	i = 0;
-	printf("+++ %d\n", cur->nbr_pipe);
 	int nbr = cur->nbr_pipe;
 	while (i < nbr)
 	{

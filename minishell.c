@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/10 19:53:07 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/15 15:54:45 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ int	main(int ac, char **argv, char **envp)
 			exit (global.data->code);
 		}
 		global.tokens = parsing_pt2(global.data->str, &global, &pars_error);
-		if (global.tokens == NULL)
-			continue ;
-		else
+		if (pars_error)
+			return (printf("ERROR PARSING\n"));
+		if (global.tokens)
 			global.cur = *(global.tokens);
 		if (global.data->str != NULL)
 			add_history(global.data->str);
 		if (global.cur->nbr_pipe == 0)
 		{
 			sv = dup(STDIN_FILENO);
-			if(setup_exe_simple_cmd(global.cur, &global) == -1)
+			if (setup_exe_simple_cmd(global.cur, &global) == -1)
 				exit(global.data->code);
 			dup2(sv, STDOUT_FILENO);
 		}
