@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_and_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/10 19:53:48 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/15 12:40:24 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ typedef struct	s_vars
 	int    	redir;
 	int	nbr_files;
 	int	nbr_redir;
-	int    	pipe;
 	t_token	*cur;
 }		t_vars;
 
@@ -93,18 +92,20 @@ static int 	add_files_redir(t_token *token, int index, char *content, int redir)
 int	files_and_redir(t_token **tokens, int *flag)
 {
 	t_vars  var;
+	int		i;
 	
-	ft_memset(&var, 0, sizeof(var));
-	while (tokens[var.pipe])
+	i = 0;
+	while (tokens[i])
 	{
-		var.cur = tokens[var.pipe];
+		ft_memset(&var, 0, sizeof(var));
+		var.cur = tokens[i];
 		count_redir_files(var.cur, &var.nbr_redir, &var.nbr_files);
 		if (var.nbr_redir || var.nbr_files)
 		{
 			var.cur->redir = create_tab(var.nbr_redir);
 			var.cur->files = create_tab(var.nbr_files);
-			if (!var.cur->redir)
-				return (change_flag(flag), ("malloc\n"), 0);
+			if (!var.cur->redir || !var.cur->files)
+				return (change_flag(flag), printf("malloc\n"), 0);
 			while (var.cur)
 			{
 				if (is_redir(var.cur))
@@ -120,7 +121,7 @@ int	files_and_redir(t_token **tokens, int *flag)
 				var.cur = var.cur->next;
 			}
 		}
-		var.pipe++;
+		i++;
 	}
 	return (1);
 }

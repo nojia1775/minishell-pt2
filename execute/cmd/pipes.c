@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 14:02:03 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/15 12:45:20 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	main_pipes(t_global *global)
 	global->pipes->fd1 = -1;
 	global->pipes->fd2 = -1;
 	i = 0;
+	printf("+++ %d\n", cur->nbr_pipe);
 	int nbr = cur->nbr_pipe;
 	while (i < nbr)
 	{
@@ -84,9 +85,9 @@ void	main_pipes(t_global *global)
 		count++;
 		i++;
 	}
+	cur = global->tokens[i];
 	fd = -1;
 	status = 0;
-	cur = global->tokens[i++];
 	pid = fork();
 	if (pid == 0)
 	{
@@ -98,7 +99,6 @@ void	main_pipes(t_global *global)
 		}
 		else
 		{
-
 			if (check_redirection(cur, &fd, global->data) == 0)
 				child_pipes_process2(cur, global, sv, fd);
 			exit(127);
