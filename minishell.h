@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/10 19:54:29 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/16 20:46:30 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ void			get_home_path(t_data *data, t_list **env);
 void			ft_unset(t_list **env, t_list **exp_var, char *var, t_data *data);
 void			ft_unset2(int flag, t_list **exp_var, char *var);
 /*-------Exit-------*/
-void			ft_exit(t_token *cur, t_global *global);
-void			ft_exit2(t_data *data, char **exit);
+int			ft_exit(t_token *cur, t_global *global);
+int			ft_exit2(t_global *global, char **exit);
 
 /*-------Ctrls-------*/
 void			signalHandler(int signum);
@@ -260,5 +260,6 @@ void			supp_pipe(t_token **tokens, int len);
 int				len_tokens(t_token **tokens);
 int				there_is_cmd(t_token *list);
 void		change_flag(int *error);
+void		free_all(t_global *global);
 
 #endif

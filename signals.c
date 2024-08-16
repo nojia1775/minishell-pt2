@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:48:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/10 18:00:55 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/16 20:46:48 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	sig_exec_handler(int signum)
 	write(2, "\n", 1);
 }
 
-/*Signals detection when a command process is running*/
+//Signals detection when a command process is running
 int	set_exec_signals(t_data *data)
 {
 	sigint_received = 0;

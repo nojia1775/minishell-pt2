@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/15 15:58:55 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:42:37 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_exit(t_token *cur, t_global *global)
+int	ft_exit(t_token *cur, t_global *global)
 {
 	char **exit;
 	
@@ -21,38 +21,34 @@ void	ft_exit(t_token *cur, t_global *global)
 	if (exit[1] == NULL)
 	{
 		//free_double_tabs(exit);
-		free_tokens(global->tokens);
+		free_all(global);
 		printf("exit\n");
-		return ;
+		return (0);
 	}
 	else if(exit[2] != NULL)
 	{
-		global->data->code = 1;
 		//free_double_tabs(exit);
-		free_tokens(global->tokens);
+		free_all(global);
 		printf("exit\n");
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		return;
+		return (2);
 	}
-	free_tokens(global->tokens);
-	ft_exit2(global->data, exit);
+	return (ft_exit2(global, exit));
 }
 
-void	ft_exit2(t_data *data, char **exit)
+int	ft_exit2(t_global *global, char **exit)
 {
 	if (ft_is_digit(exit[1]) == -1 || ft_check_long(exit[1]) == -1)
 	{
-		data->code = 2;
 		printf("exit\n");
 		ft_putendl_fd("exit: numeric argument required", 2);
-		free_double_tabs(exit);
-		return;
+		free_all(global);
+		return (2);
 	}
 	else
 	{
 		printf("exit\n");
-		data->code = ft_atoi_long(exit[1]) % 256;
-		free_double_tabs(exit);
-		return;
+		free_all(global);
+		return (ft_atoi_long(exit[1]) % 256);
 	}
 }
