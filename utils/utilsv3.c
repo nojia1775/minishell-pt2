@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:12:33 by almichel          #+#    #+#             */
-/*   Updated: 2024/07/27 20:13:23 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/16 23:42:30 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,6 @@ void	ft_putstr_msg(char *s, int fd, char *str)
 	total = ft_strlen(error);
 	write(fd, error, total);
 	free(error);
-}
-
-void	free_double_tabs(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (str)
-	{
-		while (str[i])
-		{
-			free(str[i]);
-			i++;
-		}
-		free(str);
-	}
 }
 
 

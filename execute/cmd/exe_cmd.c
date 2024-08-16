@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/15 15:56:23 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/16 23:55:20 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 // Fonction principale executent une commande simple du genre ls -l par exemple
 int 	setup_exe_simple_cmd(t_token *cur, t_global *global)
 {
-	int status;
+	int	status;
+	int	fd;
+	pid_t	pid;
 
 	status = 0;
-	pid_t	pid;
-	int		fd;
 	fd = STDOUT_FILENO;
 	if (set_exec_signals(global->data) == -1)
 		return (0);
@@ -77,14 +77,14 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 	}
 	total_env = stock_total_env(&global->env, &global->exp_var);
 	execve(get_cmd(cur), get_cmd_pipex(cur), total_env);
-	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur));
+	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur), global);
 	free_double_tabs(total_env);
-	global->data->code = 127;
+	//global->data->code = 127;
 	return ;
 }
 
 // Fonction qui execute le relative path en testant tous les binaires de l'env
-void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd)
+void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd, t_global *global)
 {
 	char	*good_line_envp;
 	char	**good_path;
@@ -119,7 +119,10 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd)
 		free_double_tabs(good_path);
 	if (ft_strcmp(cmd, ">") && ft_strcmp(cmd, ">>")
 		&& ft_strcmp(cmd, "<"))
+	{
 		ft_putstr_msg(": command not found\n", 2, cmd);
+		free_all(global);
+	}
 }
 
 //Check la redirection et agit agit en consequences
@@ -211,6 +214,7 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 					perror("dup2");
 				unlink(cur->here_file);
 				close(fd2);
+				return (1);
 			}
 			i++;
 		}

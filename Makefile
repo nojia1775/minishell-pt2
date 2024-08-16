@@ -36,6 +36,7 @@ SRCS = minishell.c\
 	parsing/redir.c \
 	parsing/cmd_pipex.c \
 	signals.c \
+	utils/free.c \
 	utils/utilsv1.c \
 	utils/utilsv2.c \
 	utils/utilsv3.c \

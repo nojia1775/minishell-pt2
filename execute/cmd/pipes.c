@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/15 13:49:03 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/17 00:04:16 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,5 @@ void	main_pipes(t_global *global)
 	dup2(sv, STDIN_FILENO);
 	while (wait(&status) != -1);
 	global->data->code = WEXITSTATUS(status);
+	free_pipes_tokens(global);
 }

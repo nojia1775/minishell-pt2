@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:59:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/16 20:22:44 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/16 23:06:03 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,4 @@ int	there_is_cmd(t_token *list)
 void	change_flag(int *error)
 {
 	*error = 1;
-}
-
-void	free_all(t_global *global)
-{
-	if (global->tokens)
-		free_tokens(global->tokens);
-	if (global->env && global->exp_var)
-		ft_free_lists(&global->env, &global->exp_var);
-	if (global->data)
-	{
-		if (global->data->total_setup)
-			free(global->data->total_setup);
-		free(global->data);
-	}
-	if (global->pipes)
-		free(global->pipes);
 }

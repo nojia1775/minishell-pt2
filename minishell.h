@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/16 20:46:30 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/16 23:22:56 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void		ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag);
 /*-------Cmds-------*/
 int 			setup_exe_simple_cmd(t_token *cur, t_global *global);
 void			check_and_exe_cmd(t_token *cur, t_global *global, int fd);
-void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
+void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1, t_global *global);
 char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
 int				check_redirection(t_token *cur, int *fd, t_data *data);
@@ -235,7 +235,7 @@ int				ft_lstlen(t_list **lst);
 void			ft_strcpy_wn(char *dest, char *src, int size);
 int				ft_len_equal(char *str);
 int				ft_check_equal(char *str);
-void			ft_free_lists(t_list **env, t_list **exp_var);
+void			ft__lists(t_list **env, t_list **exp_var);
 void			ft_putstr_msg(char *s, int fd, char *str);
 void			free_double_tabs(char **str);
 char			*ft_strjoin_error(char const *s1, char const *s2);
@@ -261,5 +261,7 @@ int				len_tokens(t_token **tokens);
 int				there_is_cmd(t_token *list);
 void		change_flag(int *error);
 void		free_all(t_global *global);
+void		free_pipes_tokens(t_global *global);
+void		ft_free_lists(t_list **env, t_list **exp_var);
 
 #endif
