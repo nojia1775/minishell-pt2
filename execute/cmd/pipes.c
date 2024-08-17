@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/17 00:04:16 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/17 15:07:11 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	main_pipes(t_global *global)
 	int		i;
 	int		count;
 	int		status;
-	pid_t	pid;
 	int		fd;
+	pid_t	pid;
 	t_token *cur;
 
 	int		sv;
@@ -108,5 +108,4 @@ void	main_pipes(t_global *global)
 	dup2(sv, STDIN_FILENO);
 	while (wait(&status) != -1);
 	global->data->code = WEXITSTATUS(status);
-	free_pipes_tokens(global);
 }

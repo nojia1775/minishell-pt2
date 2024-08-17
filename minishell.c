@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/17 00:04:41 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/17 14:45:18 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	routine(t_global *global)
 		main_pipes(global);
 		//dup2(sv, STDOUT_FILENO);
 	}
-	//free_pipes_tokens(global);
+	free_all(global);
 }
 
 int	main(int ac, char **argv, char **envp)
@@ -56,18 +56,18 @@ int	main(int ac, char **argv, char **envp)
 	t_global	global;
 	int		pars_error;
 	
-	if (!init_global(&global))
-		return (9);
 	signal(SIGINT, signalHandler);
 	signal(SIGQUIT, signalHandler);
 	(void)ac;
 	(void)argv;
-	stock_env(envp, &global.env);
-	global.data->envp = envp;
-	global.data->pwd = getcwd(global.data->buf, sizeof(global.data->buf));
-	global.data->total_setup = init_lobby(global.data);
 	while (1)
 	{
+		if (!init_global(&global))
+			return (9);
+		stock_env(envp, &global.env);
+		global.data->envp = envp;
+		global.data->pwd = getcwd(global.data->buf, sizeof(global.data->buf));
+		global.data->total_setup = init_lobby(global.data);
 		if (set_interactive_signals() == -1)
 			exit(1);
 		global.data->str = readline(global.data->total_setup);

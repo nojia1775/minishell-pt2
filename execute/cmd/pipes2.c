@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 14:01:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:09:31 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,5 @@ void	ft_relative_path2(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)
 	if (pipes->good_line_envp != NULL)
 		free_double_tabs(pipes->good_path);
 	ft_putstr_fd_pipes(": command not found \n", 2, cmd);
-	free_double_tabs(pipes->splited_cmd2);
+	//free_double_tabs(pipes->splited_cmd2);
 }

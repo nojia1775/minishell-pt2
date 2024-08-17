@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/16 19:42:37 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/17 14:58:09 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	ft_exit(t_token *cur, t_global *global)
 
 int	ft_exit2(t_global *global, char **exit)
 {
+	long long	exit_code;
+	
 	if (ft_is_digit(exit[1]) == -1 || ft_check_long(exit[1]) == -1)
 	{
 		printf("exit\n");
@@ -48,7 +50,8 @@ int	ft_exit2(t_global *global, char **exit)
 	else
 	{
 		printf("exit\n");
+		exit_code = ft_atoi_long(exit[1]) % 256;
 		free_all(global);
-		return (ft_atoi_long(exit[1]) % 256);
+		return (exit_code);
 	}
 }
