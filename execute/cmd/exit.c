@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/17 14:58:09 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 20:56:44 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_exit(t_token *cur, t_global *global)
 	char **exit;
 	
 	exit = cur->cmd_pipex;
-	ft_free_lists(&global->env, &global->exp_var);
+	ft_free_lists(&global->data->env, &global->data->exp_var);
 	if (exit[1] == NULL)
 	{
 		//free_double_tabs(exit);

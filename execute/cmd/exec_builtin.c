@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/16 19:43:50 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 20:54:12 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_redirection(char *redir, int fd, int *flag)
 	}
 }
 
-int		exec_builtin(t_token *cur, t_global *global, int fd)
+int	exec_builtin(t_token *cur, t_global *global, int fd)
 {
 	int len;
 	char **cmd_splitted;
@@ -90,7 +90,7 @@ int		exec_builtin(t_token *cur, t_global *global, int fd)
 	else if (ft_strcmp(get_cmd(cur), "cd") == 0)
 		ft_cd(cur, global);
 	else if (strcmp(get_cmd(cur), "env") == 0)
-		print_env(&global->env, &global->exp_var, global->data);
+		print_env(&global->data->env, &global->data->exp_var, global->data);
 	else if (ft_strcmp(get_cmd(cur), "exit") == 0)
 	{
 		if (cur->flag == 1)

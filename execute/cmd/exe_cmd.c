@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/17 15:04:47 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 20:58:43 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 		if (cur->flag == 1)
 			close(fd);
 	}
-	total_env = stock_total_env(&global->env, &global->exp_var);
+	total_env = stock_total_env(&global->data->env, &global->data->exp_var);
 	execve(get_cmd(cur), get_cmd_pipex(cur), total_env);
 	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur), global);
 	free_double_tabs(total_env);
@@ -121,7 +121,7 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd, t_global *global
 		&& ft_strcmp(cmd, "<"))
 	{
 		ft_putstr_msg(": command not found\n", 2, cmd);
-		free_all(global);
+		free_reset_global(global);
 	}
 }
 

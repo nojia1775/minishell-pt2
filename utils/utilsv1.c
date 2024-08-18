@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:59:35 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/15 17:41:49 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/18 19:37:22 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ char	*ft_str3cat(char *dest, char *src1, char *src2, char *total_setup)
 	return (total_setup);
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+/*void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last;
 
 	last = *lst;
-	if (*lst == NULL)
+	if (lst == NULL)
 	{
 		*lst = new;
 		return ;
@@ -95,7 +95,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	while (last->next)
 		last = last->next;
 	last->next = new;
-}
+}*/
 
 t_list	*ft_lstnew(void *content)
 {

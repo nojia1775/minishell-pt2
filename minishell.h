@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/16 23:22:56 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 19:50:03 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ typedef enum	e_type
 
 typedef struct s_data
 {
+	t_list		*env;
+	t_list		*exp_var;
+	char		**envv;
 	char		**envp;
 	char		**export;
 	char		*logname;
@@ -92,11 +95,8 @@ typedef struct	s_global
 {
 	t_token	**tokens;
 	t_data	*data;
-	t_list	*env;
-	t_list	*exp_var;
 	t_token	*cur;
 	t_pipes	*pipes;
-	char	**envv;
 }		t_global;
 
 /*-------Init Lobby-------*/
@@ -261,7 +261,7 @@ int				len_tokens(t_token **tokens);
 int				there_is_cmd(t_token *list);
 void		change_flag(int *error);
 void		free_all(t_global *global);
-void		free_pipes_tokens(t_global *global);
+void		free_reset_global(t_global *global);
 void		ft_free_lists(t_list **env, t_list **exp_var);
 
 #endif

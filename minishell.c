@@ -6,26 +6,23 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/17 14:45:18 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 20:51:03 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	init_global(t_global *global)
+static int	init_global(t_global *global, t_data *data)
 {
-	global->data = (t_data *)malloc(sizeof(t_data));
-	if (!global->data)
-		return (0);
 	global->pipes = (t_pipes *)malloc(sizeof(t_pipes));
 	if (!global->pipes)
-		return (free(global->data), 0);
+		return (0);
 	global->cur = NULL;
-	global->data->code = 0;
-	global->exp_var = NULL;
-	global->env = NULL;
-	global->data->path = NULL;
-	global->data->str = NULL;
+	data->code = 0;
+	data->path = NULL;
+	data->str = NULL;
+	data->exp_var = NULL;
+	global->data = data;
 	return (1);
 }
 
@@ -44,30 +41,33 @@ static void	routine(t_global *global)
 	else if (global->cur->nbr_pipe > 0)
 	{
 		//sv = dup(STDIN_FILENO);
-		global->envv = stock_total_env(&global->env, &global->exp_var);
+		global->data->envv = stock_total_env(&global->data->env,
+			&global->data->exp_var);
 		main_pipes(global);
 		//dup2(sv, STDOUT_FILENO);
 	}
-	free_all(global);
+	free_reset_global(global);
 }
 
 int	main(int ac, char **argv, char **envp)
 {
 	t_global	global;
+	t_data		data;
 	int		pars_error;
 	
 	signal(SIGINT, signalHandler);
 	signal(SIGQUIT, signalHandler);
 	(void)ac;
 	(void)argv;
+	data.envp = envp;
+	data.pwd = getcwd(data.buf, sizeof(data.buf));
+	data.total_setup = init_lobby(&data);
+	data.env = NULL;
+	stock_env(envp, &data.env);
 	while (1)
 	{
-		if (!init_global(&global))
-			return (9);
-		stock_env(envp, &global.env);
-		global.data->envp = envp;
-		global.data->pwd = getcwd(global.data->buf, sizeof(global.data->buf));
-		global.data->total_setup = init_lobby(global.data);
+		if (!init_global(&global, &data))
+			return (free(global.pipes), 9);
 		if (set_interactive_signals() == -1)
 			exit(1);
 		global.data->str = readline(global.data->total_setup);

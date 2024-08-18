@@ -97,5 +97,3 @@ void	print_export(char **export)
 		free_double_tabs(export);
 	}
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/17 15:07:11 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 20:56:29 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	pipex(t_token *cur, t_global *global)
 			exit(127);
 		}
 		if (check_redirection(cur, &fd, global->data) == 0)
-			child_pipes_process1(cur, global->pipes, global->envv, fd);
+			child_pipes_process1(cur, global->pipes, global->data->envv, fd);
 		exit(127);
 	}
 	else if (pid > 0)

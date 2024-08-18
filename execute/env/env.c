@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 15:47:46 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:54:27 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	update_env(t_list **env)
 		find_pwd(&flag, env);
 		if (flag == 0)
 		{
+			
 			cwd = getcwd(buf, sizeof(buf));
 			new_content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
 			ft_strlcpy(new_content, "PWD=", 4);

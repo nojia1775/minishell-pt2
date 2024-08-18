@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/08/17 13:54:17 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 20:56:44 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	search_replace(t_token *tokens, t_global *global)
 			&& tokens->content[vars.i + 1] != '\0'
 			&& tokens->content[vars.i + 1] != ' ')
 			&& tokens->content[vars.i + 1] != '"')
-			replace(tokens, &global->env, &global->exp_var, &vars);
+			replace(tokens, &global->data->env, &global->data->exp_var, &vars);
 		else
 			vars.buffer[vars.ibuf++] = tokens->content[vars.i++];
 	}

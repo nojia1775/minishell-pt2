@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/17 15:09:31 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 20:56:29 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)
 	}
 	else
 		dup2(sv, STDOUT_FILENO);
-	execve(get_cmd(cur), get_cmd_pipex(cur), global->envv);
-	ft_relative_path2(get_cmd_pipex(cur), global->envv, get_cmd(cur), global->pipes);
+	execve(get_cmd(cur), get_cmd_pipex(cur), global->data->envv);
+	ft_relative_path2(get_cmd_pipex(cur), global->data->envv, get_cmd(cur), global->pipes);
 }
 
 void	ft_relative_path1(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)

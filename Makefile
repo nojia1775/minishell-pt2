@@ -53,7 +53,7 @@ OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 NAME = minishell
 
 $(NAME): $(OBJS)
-	@make -C libft42/
+	@make bonus -C libft42/
 	@make -C get_next_line/
 	$(CC) $(CFLAGS) $^ -o $@ libft42/libft.a get_next_line/gnl.a -lreadline
 	

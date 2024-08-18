@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:05:39 by noah              #+#    #+#             */
-/*   Updated: 2024/08/17 14:41:09 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/18 20:56:44 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_all(t_global *global)
 {
 	if (global->tokens)
 		free_tokens(global->tokens);
-	ft_free_lists(&global->env, &global->exp_var);
+	//ft_free_lists(&global->data->env, &global->data->exp_var);
 	if (global->data)
 	{
 		if (global->data->total_setup)
@@ -90,7 +90,7 @@ void	free_double_tabs(char **str)
 	}
 }
 
-void	free_pipes_tokens(t_global *global)
+void	free_reset_global(t_global *global)
 {
 	if (global->tokens)
 		free_tokens(global->tokens);

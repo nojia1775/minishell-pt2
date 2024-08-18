@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 13:31:33 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:56:29 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_cd2(int flag, t_global *global)
 		global->data->pwd = getcwd(global->data->buf, sizeof(global->data->buf));
 		free(global->data->total_setup);
 		global->data->total_setup = init_lobby(global->data);
-		update_env(&global->env);
+		update_env(&global->data->env);
 		if (flag == 1)
 			free(global->data->path);
 		global->data->code = 0;

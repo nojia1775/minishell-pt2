@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 02:08:02 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 13:24:30 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:56:44 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	pars_unset(t_token *cur, t_global *global)
 		{
 			while (unset[i])
 			{
-				ft_unset(&global->env, &global->exp_var, cur->next->content, global->data);
+				ft_unset(&global->data->env, &global->data->exp_var, cur->next->content, global->data);
 				cur = cur->next;
 				i++;
 			}

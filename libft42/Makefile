@@ -57,7 +57,7 @@ CC = cc $(FLAGS)
 all: $(NAME)
 
 clean:
-		rm -f $(OBJECTS)
+		rm -f $(OBJECTS) $(OBJECTS_BONUS)
 
 fclean:	clean
 			rm -f $(NAME)
