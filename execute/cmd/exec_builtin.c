@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/18 20:54:12 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/19 08:18:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	exec_builtin(t_token *cur, t_global *global, int fd)
 	{
 		if (cur->flag == 1)
 			close(fd);
-		exit (ft_exit(cur, global));
+		exit(ft_exit(cur, global));
 	}
 	if (cur->flag == 1)
 	{

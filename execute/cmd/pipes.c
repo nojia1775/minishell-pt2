@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/18 20:56:29 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/19 08:16:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	pipex(t_token *cur, t_global *global)
 	if (pid == 0)
 	{
 		if (dup2(end[1], STDOUT_FILENO) == -1)
-        {
-            perror("dup2 (child - stdout)");
-            close(end[0]);
-            close(end[1]);
-            exit(EXIT_FAILURE);
-        }
+        	{
+        	    perror("dup2 (child - stdout)");
+        	    close(end[0]);
+        	    close(end[1]);
+        	    exit(EXIT_FAILURE);
+        	}
 		close(end[0]);
 		close(end[1]);
 		if (is_a_builtin(get_cmd(cur)) == 1)
@@ -61,16 +61,14 @@ void	main_pipes(t_global *global)
 	int		count;
 	int		status;
 	int		fd;
+	int		sv;
 	pid_t	pid;
 	t_token *cur;
-
-	int		sv;
 
 	sv = dup(STDIN_FILENO);
 	cur = *(global->tokens); 
 	fd = -1;
 	count = 0;
-
 	if (set_exec_signals(global->data) == -1)
 		return;
 	global->pipes->fd1 = -1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/18 20:51:03 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/19 08:17:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ static int	init_global(t_global *global, t_data *data)
 	if (!global->pipes)
 		return (0);
 	global->cur = NULL;
-	data->code = 0;
-	data->path = NULL;
 	data->str = NULL;
-	data->exp_var = NULL;
 	global->data = data;
 	return (1);
 }
@@ -44,9 +41,9 @@ static void	routine(t_global *global)
 		global->data->envv = stock_total_env(&global->data->env,
 			&global->data->exp_var);
 		main_pipes(global);
+		free_reset_global(global);
 		//dup2(sv, STDOUT_FILENO);
 	}
-	free_reset_global(global);
 }
 
 int	main(int ac, char **argv, char **envp)
@@ -63,17 +60,18 @@ int	main(int ac, char **argv, char **envp)
 	data.pwd = getcwd(data.buf, sizeof(data.buf));
 	data.total_setup = init_lobby(&data);
 	data.env = NULL;
+	data.exp_var = NULL;
 	stock_env(envp, &data.env);
 	while (1)
 	{
 		if (!init_global(&global, &data))
-			return (free(global.pipes), 9);
+			return (free_all(&global), 9);
 		if (set_interactive_signals() == -1)
 			exit(1);
 		global.data->str = readline(global.data->total_setup);
 		if (global.data->str == NULL)
 		{
-			free_all(&global);
+			free_reset_global(&global);
 			printf("exit\n");
 			exit (1);
 		}

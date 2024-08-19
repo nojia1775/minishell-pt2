@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/18 20:58:43 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/19 08:04:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd, t_global *global
 	char	*good_cmd;
 	int		i;
 
+	(void)global;
 	i = 0;
 	good_path = NULL;
 	good_line_envp = NULL;
@@ -119,10 +120,7 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd, t_global *global
 		free_double_tabs(good_path);
 	if (ft_strcmp(cmd, ">") && ft_strcmp(cmd, ">>")
 		&& ft_strcmp(cmd, "<"))
-	{
 		ft_putstr_msg(": command not found\n", 2, cmd);
-		free_reset_global(global);
-	}
 }
 
 //Check la redirection et agit agit en consequences
