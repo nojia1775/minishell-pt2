@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 09:38:06 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/19 10:33:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,14 @@ void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd, t_global *global
 	}
 	if (good_line_envp != NULL)
 		free_double_tabs(good_path);
+	if (envp)
+		free_double_tabs(envp);
 	if (ft_strcmp(cmd, ">") && ft_strcmp(cmd, ">>")
 		&& ft_strcmp(cmd, "<"))
+	{
 		ft_putstr_msg(": command not found\n", 2, cmd);
+		free_reset_global(global);
+	}
 }
 
 //Check la redirection et agit agit en consequences
@@ -207,6 +212,7 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 			{        
 				here_doc(cur->files[i], cur);
 				fd2 = open(cur->here_file, O_RDONLY);
+				printf("temp = %s\n", cur->here_file);
 			//	cur->flag = 1;
 				if(dup2(fd2, STDIN_FILENO) == -1)
 					perror("dup2");

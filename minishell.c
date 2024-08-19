@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 09:44:16 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/19 10:25:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ int	main(int ac, char **argv, char **envp)
 	(void)argv;
 	data.envp = envp;
 	data.pwd = getcwd(data.buf, sizeof(data.buf));
-	data.total_setup = init_lobby(&data);
 	data.env = NULL;
 	data.envv = NULL;
 	data.exp_var = NULL;
 	stock_env(envp, &data.env);
 	while (1)
 	{
+		data.total_setup = init_lobby(&data);
 		if (!init_global(&global, &data))
 			return (free_all(&global), 9);
 		if (set_interactive_signals() == -1)

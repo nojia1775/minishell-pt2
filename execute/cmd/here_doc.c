@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 01:42:03 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/17 17:56:55 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/19 10:17:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*change_str(char *str, int i, char *new_str)
 {
-	char *nbr;
+	char	*nbr;
 
 	nbr = ft_itoa(i);
 	new_str = ft_return_strcat(str, nbr, new_str);
@@ -60,7 +60,7 @@ int	create_temp_file(char *str, t_token *cur)
 			i++;
 		}
 	}
-		return (-1);
+	return (-1);
 }
 
 void	here_doc(char *limit_word, t_token *cur)
@@ -82,8 +82,8 @@ void	here_doc(char *limit_word, t_token *cur)
 			break;
 		if (ft_strcmp(line, limit_word) == 0)
 		{
-			break;
 			free(line);
+			break;
 		}
 		parse_line(fd, line);
 		free(line);

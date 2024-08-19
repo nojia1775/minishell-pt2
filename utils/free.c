@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:05:39 by noah              #+#    #+#             */
-/*   Updated: 2024/08/19 09:50:21 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/19 10:45:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ static void	free_redir_files(t_token *token)
 	if (token->redir)
 		while (token->redir[i])
 			free(token->redir[i++]);
+	free(token->redir);
 	i = 0;
 	if (token->files)
 		while (token->files[i])
 			free(token->files[i++]);
+	free(token->files);
 }
 
 void	free_all(t_global *global)
@@ -100,11 +102,13 @@ void	free_reset_global(t_global *global)
 		free(global->pipes);
 	if (global->data)
 	{
+		if (global->data->total_setup)
+			free(global->data->total_setup);
 		if (global->data->envv)
 		{
-			printf("ICI\n");
 			while (global->data->envv[i])
 				free(global->data->envv[i++]);
+			free(global->data->envv);
 			global->data->envv = NULL;
 		}
 	}
