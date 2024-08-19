@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/18 20:56:29 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/19 09:46:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 	}
 	execve(get_cmd(cur), get_cmd_pipex(cur), envp);
 	ft_relative_path1(get_cmd_pipex(cur), envp, get_cmd(cur), pipes);
-
 }
 
 void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)

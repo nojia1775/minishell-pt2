@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:05:39 by noah              #+#    #+#             */
-/*   Updated: 2024/08/18 20:56:44 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/19 09:50:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ void	free_all(t_global *global)
 {
 	if (global->tokens)
 		free_tokens(global->tokens);
-	//ft_free_lists(&global->data->env, &global->data->exp_var);
 	if (global->data)
 	{
+		ft_free_lists(global->data->env, global->data->exp_var);
 		if (global->data->total_setup)
 			free(global->data->total_setup);
-		free(global->data);
 	}
 	if (global->pipes)
 		free(global->pipes);
@@ -92,8 +91,21 @@ void	free_double_tabs(char **str)
 
 void	free_reset_global(t_global *global)
 {
+	int	i;
+
+	i = 0;
 	if (global->tokens)
 		free_tokens(global->tokens);
 	if (global->pipes)
 		free(global->pipes);
+	if (global->data)
+	{
+		if (global->data->envv)
+		{
+			printf("ICI\n");
+			while (global->data->envv[i])
+				free(global->data->envv[i++]);
+			global->data->envv = NULL;
+		}
+	}
 }

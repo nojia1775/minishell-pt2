@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 08:17:45 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/19 09:44:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	routine(t_global *global)
 		if (setup_exe_simple_cmd(global->cur, global) == -1)
 			exit(global->data->code);
 		dup2(sv, STDOUT_FILENO);
+		free_reset_global(global);
 	}
 	else if (global->cur->nbr_pipe > 0)
 	{
@@ -41,8 +42,8 @@ static void	routine(t_global *global)
 		global->data->envv = stock_total_env(&global->data->env,
 			&global->data->exp_var);
 		main_pipes(global);
-		free_reset_global(global);
 		//dup2(sv, STDOUT_FILENO);
+		free_reset_global(global);
 	}
 }
 
@@ -60,6 +61,7 @@ int	main(int ac, char **argv, char **envp)
 	data.pwd = getcwd(data.buf, sizeof(data.buf));
 	data.total_setup = init_lobby(&data);
 	data.env = NULL;
+	data.envv = NULL;
 	data.exp_var = NULL;
 	stock_env(envp, &data.env);
 	while (1)
@@ -82,7 +84,7 @@ int	main(int ac, char **argv, char **envp)
 			return (printf("ERROR PARSING\n"));
 		if (global.tokens)
 			routine(&global);
-	//	printf("exit code is %lld\n",  data.code);
+		//free_reset_global(&global);
 	}
 	exit(global.data->code);
 }

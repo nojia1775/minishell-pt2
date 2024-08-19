@@ -3,23 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:12:33 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/16 23:42:30 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/19 09:13:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_free_lists(t_list **env, t_list **exp_var)
+void	ft_free_lists(t_list *env, t_list *exp_var)
+{
+	t_list	*cur;
+	t_list	*rm;
+
+	cur = env;
+	while (cur)
+	{
+		free(cur->content);
+		rm = cur;
+		cur = cur->next;
+		free(rm);
+	}
+	env = NULL;
+	cur = exp_var;
+	while (cur)
+	{
+		free(cur->content);
+		rm = cur;
+		cur = cur->next;
+		free(rm);
+	}
+	exp_var = NULL;
+}
+
+/*void	ft_free_lists(t_list **env, t_list **exp_var)
 {
 	t_list	*current;
 	t_list	*head;
 
 	current = *env;
 	head = *exp_var;
-	if (env && *env)
+	if (env)
 	{
 		while (*env)
 		{
@@ -39,7 +64,7 @@ void	ft_free_lists(t_list **env, t_list **exp_var)
 			(*exp_var) = head;
 		}
 	}
-}
+}*/
 
 void	ft_putstr_msg(char *s, int fd, char *str)
 {

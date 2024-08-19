@@ -59,7 +59,8 @@
   "files.associations": {
     "*.embeddedhtml": "html",
     "cstdio": "c",
-    "minishell.h": "c"
+    "minishell.h": "c",
+    "algorithm": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

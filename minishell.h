@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/18 19:50:03 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/19 09:11:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,6 @@ int				there_is_cmd(t_token *list);
 void		change_flag(int *error);
 void		free_all(t_global *global);
 void		free_reset_global(t_global *global);
-void		ft_free_lists(t_list **env, t_list **exp_var);
+void		ft_free_lists(t_list *env, t_list *exp_var);
 
 #endif

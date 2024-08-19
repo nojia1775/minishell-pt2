@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 08:04:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/19 09:38:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int 	setup_exe_simple_cmd(t_token *cur, t_global *global)
 	if (pid == 0)
 	{
 		global->data->code = 0;
-		if (check_redirection(cur ,&fd, global->data) == 0)
+		if (check_redirection(cur, &fd, global->data) == 0)
 			check_and_exe_cmd(cur, global, fd);
 		exit(127);
 	}
