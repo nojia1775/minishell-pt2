@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/20 13:34:45 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/20 18:37:09 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,6 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 			//	cur->flag = 1;
 				if(dup2(fd2, STDIN_FILENO) == -1)
 					perror("dup2");
-				unlink(cur->here_file);
 				close(fd2);
 				return (1);
 			}

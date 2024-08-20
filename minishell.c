@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 10:25:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/20 18:19:52 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int ac, char **argv, char **envp)
 		global.data->str = readline(global.data->total_setup);
 		if (global.data->str == NULL)
 		{
-			free_reset_global(&global);
+			//free_reset_global(&global);
 			printf("exit\n");
 			exit (1);
 		}

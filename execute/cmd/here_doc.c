@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 01:42:03 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/20 13:27:34 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/20 17:51:40 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	create_temp_file(char *str, t_token *cur)
 	if (access(str, F_OK) != 0)
 	{
 		fd_temp = open(str, O_WRONLY | O_CREAT, 0666);
+		if (fd_temp < 0)
+			return (-1);
 		return (fd_temp);
 	}
 	else
@@ -51,6 +53,8 @@ int	create_temp_file(char *str, t_token *cur)
 			if (access(new_str, F_OK) != 0)
 			{	
 				fd_temp = open(new_str, O_WRONLY | O_CREAT, 0666);
+				if (fd_temp < 0)
+					return (-1);
 				cur->here_file = ft_strdup(new_str);
 				free(new_str);
 				flag = 1;
@@ -88,6 +92,7 @@ void	here_doc(char *limit_word, t_token *cur)
 		parse_line(fd, line);
 		free(line);
 	}
+	close(fd);
 }
 
 void	parse_line(int fd, char *line)
