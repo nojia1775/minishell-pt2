@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 10:33:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/20 13:34:45 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 	total_env = stock_total_env(&global->data->env, &global->data->exp_var);
 	execve(get_cmd(cur), get_cmd_pipex(cur), total_env);
 	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur), global);
-	free_double_tabs(total_env);
 	//global->data->code = 127;
 	return ;
 }
@@ -212,7 +211,6 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 			{        
 				here_doc(cur->files[i], cur);
 				fd2 = open(cur->here_file, O_RDONLY);
-				printf("temp = %s\n", cur->here_file);
 			//	cur->flag = 1;
 				if(dup2(fd2, STDIN_FILENO) == -1)
 					perror("dup2");

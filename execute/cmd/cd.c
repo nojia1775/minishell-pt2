@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 08:50:06 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/20 17:37:34 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static char	*get_oldpwd(t_list *env)
+{
+	t_list	*cur;
+
+	cur = env;
+	while (cur)
+	{
+		if (!ft_strncmp(cur->content, "OLDPWD=", 7))
+			return (cur->content + 7);
+		cur = cur->next;
+	}
+	return (NULL);
+}
 
 // Fonction principale de cd,
 //  A chaque cd, je dois update le dossier dans le quel on se trouve
@@ -23,13 +37,22 @@ void	ft_cd(t_token *cur, t_global *global)
 	tab = cur->cmd_pipex;
 	if (ft_strlen_double_tab(tab) >= 3)
 	{
-		free_double_tabs(tab);
 		ft_putendl_fd("cd: too many arguments", 2);
 		global->data->code = 1;
 		return;
 	}
 	flag = 0;
-	global->data->path = tab[1];
+	if (ft_strlen_double_tab(tab) == 1)
+		return (ft_cd_home(global));
+	else if (!ft_strcmp(tab[1], "-"))
+	{
+		global->data->path = get_oldpwd(global->data->env);
+		printf("%s\n", global->data->path);
+	}
+	else if (!ft_strcmp(tab[1], "~"))
+		return (ft_cd_home(global));
+	else
+		global->data->path = tab[1];
 	ft_cd2(flag, global);
 }
 

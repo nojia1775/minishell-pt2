@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 08:18:25 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/20 17:28:52 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exec_redirection(char *redir, int fd, int *flag)
 int	exec_builtin(t_token *cur, t_global *global, int fd)
 {
 	int len;
-	char **cmd_splitted;
+	//char **cmd_splitted;
 	int redir_flag;
 	int sv;
 	
@@ -76,7 +76,7 @@ int	exec_builtin(t_token *cur, t_global *global, int fd)
 				perror("dup2");
 		}
 	}
-	cmd_splitted = cur->cmd_pipex;
+	//cmd_splitted = cur->cmd_pipex;
 	if (ft_strcmp(get_cmd(cur), "echo") == 0)
 		ft_echo(cur, &fd, global->data, redir_flag);
 	if (ft_strcmp(get_cmd(cur), "export") == 0)
@@ -85,8 +85,8 @@ int	exec_builtin(t_token *cur, t_global *global, int fd)
 		pars_unset(cur, global);
 	else if (ft_strcmp(get_cmd(cur), "pwd") == 0)
 		print_pwd(get_cmd(cur), global->data);
-	else if (ft_strlen_double_tab(cmd_splitted) > 1 && ft_strcmp(get_cmd(cur), "cd") == 0 && ft_strcmp(cur->next->content, "~") == 0)
-		ft_cd_home(global);
+	/*else if (ft_strlen_double_tab(cmd_splitted) > 1 && ft_strcmp(get_cmd(cur), "cd") == 0 && ft_strcmp(cur->next->content, "~") == 0)
+		ft_cd_home(global);*/
 	else if (ft_strcmp(get_cmd(cur), "cd") == 0)
 		ft_cd(cur, global);
 	else if (strcmp(get_cmd(cur), "env") == 0)
