@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/06 13:34:53 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:06:22 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var, long long code)
 	char	*value;
 	char	*result;
 	char	*tmp;
-	int		len;
 	char	*ques;
+	int		len;
 
 	ques = question_mark(str, code);
 	if (ques)
