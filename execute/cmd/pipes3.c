@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:20:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/30 19:46:00 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:57:58 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,5 @@ int	ft_dup2_two(t_pipes *pipes, int *end)
 
 void	ft_close_all(t_pipes *pipes)
 {
-	//if (pipes->flag1 == 0)
-	//	close(pipes->fd1);
 	close(pipes->fd2);
 }

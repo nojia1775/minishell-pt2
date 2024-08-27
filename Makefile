@@ -7,6 +7,7 @@ OBJS_DIR = obj
 SRCS = minishell.c\
 	execute/cmd/cd.c \
 	execute/cmd/cd2.c\
+	execute/cmd/check_redirection.c \
 	execute/cmd/echo.c\
 	execute/cmd/exec_builtin.c  \
 	execute/cmd/exe_cmd.c\

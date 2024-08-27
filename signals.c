@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:48:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/16 20:46:48 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/27 14:21:48 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	sigint_received;
+volatile sig_atomic_t	g_sigint_received;
 
-// Ca c'est ce qui permet de faire un retour a la ligne a chaque ctrl C et quitte le programme quand tu ctrl D
-void	signalHandler(int sig)
+// Ca c'est ce qui permet de faire un retour a la ligne a chaque
+// ctrl C et quitte le programme quand tu ctrl D
+void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -30,13 +31,13 @@ void	signalHandler(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	sigint_received = 1;
+	g_sigint_received = 1;
 }
 
 int	set_interactive_signals(void)
 {
-	sigint_received  = 0;
-	if (signal(SIGINT, signalHandler) == SIG_ERR)
+	g_sigint_received = 0;
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
 	{
 		perror("signal");
 		return (-1);
@@ -53,9 +54,10 @@ int	set_interactive_signals(void)
 	}
 	return (1);
 }
+
 void	sig_exec_handler(int signum)
 {
-	sigint_received = signum;
+	g_sigint_received = signum;
 	if (signum == SIGQUIT)
 		write(2, "Quit (core dumped)", 19);
 	write(2, "\n", 1);
@@ -64,7 +66,7 @@ void	sig_exec_handler(int signum)
 //Signals detection when a command process is running
 int	set_exec_signals(t_data *data)
 {
-	sigint_received = 0;
+	g_sigint_received = 0;
 	if (signal(SIGINT, sig_exec_handler) == SIG_ERR)
 	{
 		data->code = 131;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv10.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:59:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/16 23:06:03 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/27 18:24:41 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,41 @@ int	there_is_cmd(t_token *list)
 void	change_flag(int *error)
 {
 	*error = 1;
+}
+// Rassemble l'env dans un double tab car execve prends comme argument un double tab (l'env)
+char	**stock_total_env(t_list **envp, t_list **exp_var)
+{
+	int		len;
+	int		i;
+	t_list	*head;
+	t_list	*current;
+	char	**total_env;
+
+	i = 0;
+	head = *envp;
+	current = *exp_var;
+	len = ft_lstlen(envp) + ft_lstlen(exp_var) + 1;
+	total_env = malloc(len * sizeof(char *));
+	if (!total_env)
+		return (NULL);
+	if (envp && *envp)
+	{
+		while (head)
+		{
+			total_env[i] = ft_strdup(head->content);
+			i++;
+			head = head->next;
+		}
+	}
+	if (exp_var && *exp_var)
+	{
+		while (current)
+		{
+			total_env[i] = ft_strdup(current->content);
+			i++;
+			current = current->next;
+		}
+	}
+	total_env[i] = NULL;
+	return (total_env);
 }

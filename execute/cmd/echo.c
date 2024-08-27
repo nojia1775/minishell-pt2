@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/10 17:37:54 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/27 17:12:19 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,20 @@ static void	write_fd(char *str, int fd, char *next, int redir_flag)
 {
 	if (redir_flag == 1)
 	{
-		printf("%s",str);
+		printf("%s", str);
 		if (next)
 			printf(" ");
-		return;
+		return ;
 	}
 	ft_putstr_fd(str, fd);
 	if (next)
 		ft_putstr_fd(" ", fd);
 }
 
-
 static int	is_n_option(char *str)
 {
 	int	i;
-	
+
 	if (!str)
 		return (0);
 	if (str[0] != '-')
@@ -44,12 +43,36 @@ static int	is_n_option(char *str)
 	return (1);
 }
 
+static void	loop(t_token *cur, int flag, int redir_flag, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (cur->cmd_pipex[++i])
+	{
+		if (flag)
+		{
+			if (!is_n_option(cur->cmd_pipex[i]))
+			{
+				write_fd(cur->cmd_pipex[i], fd,
+					cur->cmd_pipex[i + 1], redir_flag);
+				flag = 0;
+			}
+		}
+		else
+		{
+			write_fd(cur->cmd_pipex[i], fd,
+				cur->cmd_pipex[i + 1], redir_flag);
+		}
+	}
+}
+
 void	ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag)
 {
 	int	option;
 	int	flag;
 	int	i;
-	
+
 	i = 0;
 	option = 1;
 	flag = 1;
@@ -60,19 +83,7 @@ void	ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag)
 		option = 0;
 		flag = 0;
 	}
-	while (cur->cmd_pipex[++i])
-	{
-		if (flag)
-		{
-			if (!is_n_option(cur->cmd_pipex[i]))
-			{
-				write_fd(cur->cmd_pipex[i], *fd, cur->cmd_pipex[i + 1], redir_flag);
-				flag = 0;
-			}
-		}
-		else
-			write_fd(cur->cmd_pipex[i], *fd, cur->cmd_pipex[i + 1], redir_flag);
-	}
+	loop(cur, flag, redir_flag, *fd);
 	if (!option)
 	{
 		if (redir_flag == 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_pt2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/08/17 14:05:34 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/27 18:19:38 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ t_token	**tokenisation(char *str, t_global *global, int *error_flag)
 	if (!tokens)
 		return (change_flag(error_flag), NULL);
 	split_tokens(str, tokens, nbr_pipe - 1);
+	free(str);
 	expand(tokens, global);
 	supp_token(tokens);
 	if (tokens[0] == NULL)

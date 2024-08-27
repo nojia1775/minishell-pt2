@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 01:55:01 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 08:49:53 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/27 17:14:59 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	ft_cd_home(t_global *global)
 	get_home_path(global->data, &global->data->env);
 	if (chdir(global->data->path) == 0)
 	{
-		global->data->pwd = getcwd(global->data->buf, sizeof(global->data->buf));
+		global->data->pwd = getcwd(global->data->buf,
+				sizeof(global->data->buf));
 		free(global->data->total_setup);
 		init_lobby(global->data);
 		update_env(&global->data->env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/08/17 14:04:54 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/27 18:19:29 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static int	full_whitespace(char *str)
 t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 {
 	t_token	**tokens;
-
+	char	*tmp;
+	
 	*error_flag = 0;
 	if (input[0] == '\0')
 		return (NULL);
@@ -51,38 +52,8 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 		return (print_error(0), NULL);
 	if (!conform_pipe(input))
 		return (print_error(0), NULL);
-	tokens = tokenisation(input, global, error_flag);
-	/*if (error(tokens))
-		return (NULL);*/
-	// int i = 0;
-	// t_token *cur;
-	// while (tokens[i])
-	// {
-	// 	cur = tokens[i];
-	// 	if (cur->redir)
-	// 	{
-	// 		int k = -1;
-	// 		while (cur->redir[++k] && cur->files[k])
-	// 			printf("redir = %s | files = %s\n", cur->redir[k], cur->files[k]);
-	// 	}
-	// 	while (cur)
-	// 	{
-	// 		printf("%s | type = %d\n", cur->content, cur->type);
-	// 		cur = cur->next;
-	// 	}
-	// 	printf("\n");
-	// 	int j = 0;
-	// 	if (tokens[i]->redir)
-	// 	{
-	// 		while (tokens[i]->redir[j])
-	// 		{
-	// 			printf("redir = %s | files = %s\n", tokens[i]->redir[j], tokens[i]->files[j]);
-	// 			j++;
-	// 		}	
-	// 	}
-	// 	else
-	// 		printf("NO REDIR\n");
-	// 	i++;
-	// }
+	tmp = ft_strtrim(input, "\t \v\r\b");
+	free(input);
+	tokens = tokenisation(tmp, global, error_flag);
 	return (tokens);
 }

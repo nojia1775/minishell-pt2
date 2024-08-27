@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/20 17:37:34 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/27 17:14:39 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,19 @@ static char	*get_oldpwd(t_list *env)
 
 // Fonction principale de cd,
 //  A chaque cd, je dois update le dossier dans le quel on se trouve
-// la fonction update_env que j'appelle permet d'update la ligne PWD et OLDPWD de l'env a chaque cd
+// la fonction update_env que j'appelle permet d'update la ligne
+// PWD et OLDPWD de l'env a chaque cd
 void	ft_cd(t_token *cur, t_global *global)
 {
-	int	flag;
-	char **tab;
-	
+	int		flag;
+	char	**tab;
+
 	tab = cur->cmd_pipex;
 	if (ft_strlen_double_tab(tab) >= 3)
 	{
 		ft_putendl_fd("cd: too many arguments", 2);
 		global->data->code = 1;
-		return;
+		return ;
 	}
 	flag = 0;
 	if (ft_strlen_double_tab(tab) == 1)
@@ -58,12 +59,13 @@ void	ft_cd(t_token *cur, t_global *global)
 
 void	ft_cd2(int flag, t_global *global)
 {
-	char *join1;
-	char *join2;
-	
+	char	*join1;
+	char	*join2;
+
 	if (chdir(global->data->path) == 0)
 	{
-		global->data->pwd = getcwd(global->data->buf, sizeof(global->data->buf));
+		global->data->pwd = getcwd(global->data->buf,
+				sizeof(global->data->buf));
 		free(global->data->total_setup);
 		init_lobby(global->data);
 		update_env(&global->data->env);
@@ -84,6 +86,7 @@ void	ft_cd2(int flag, t_global *global)
 	}
 }
 // J'extrais la variable Home de mon env pour la donner a la fonction au dessus
+
 void	get_home_path(t_data *data, t_list **env)
 {
 	t_list	*current;

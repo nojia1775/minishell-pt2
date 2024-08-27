@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/19 09:11:21 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/27 14:21:12 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,16 @@
 # include <termios.h>
 # include <unistd.h>
 
-
-typedef enum	e_type
+typedef enum e_type
 {
-	ARG, // = 0
-	INREDIR, // = 1
-	INREDIRAPP, // = 2
-	OUTREDIR, // = 3
-	HEREDOC, // = 4
-	CMD, // = 5
-	LIM, // = 6
-	OPT // = 7
+	ARG,
+	INREDIR,
+	INREDIRAPP,
+	OUTREDIR,
+	HEREDOC,
+	CMD,
+	LIM,
+	OPT
 }		t_type;
 
 typedef struct s_data
@@ -54,7 +53,7 @@ typedef struct s_data
 	char		*extract_pwd;
 	char		*total_setup;
 	char		*str;
-	long long			code;
+	long long	code;
 	char		buf[1024];
 	int			exit_code;
 }				t_data;
@@ -76,22 +75,22 @@ typedef struct s_pipes
 	int		*status;
 }			t_pipes;
 
-typedef struct		s_token
+typedef struct s_token
 {
 	struct s_token	*next;
 	struct s_token	*prev;
-	int		type;
-	int		nbr_pipe;
-	int		code;
-	int		flag;
-	char		*content;
-	char		**cmd_pipex;
-	char		**files;
-	char		**redir;
-	char		*here_file;
+	int				type;
+	int				nbr_pipe;
+	int				code;
+	int				flag;
+	char			*content;
+	char			**cmd_pipex;
+	char			**files;
+	char			**redir;
+	char			*here_file;
 }			t_token;
 
-typedef struct	s_global
+typedef struct s_global
 {
 	t_token	**tokens;
 	t_data	*data;
@@ -111,9 +110,11 @@ void			ft_export(t_list **env, t_list **exp_var);
 void			update_env(t_list **env);
 void			export_variable(t_list **env, t_list **exp_var, char *var,
 					t_data *data);
-void			export_variable2(t_list *current, t_list **list, int *flag, char *var);	
+void			export_variable2(t_list *current, t_list **list,
+					int *flag, char *var);
 void			trie_export(char **export, int i);			
-void			add_declare_x(char **export, t_list *current, t_list **list, int *i);
+void			add_declare_x(char **export, t_list *current,
+					t_list **list, int *i);
 void			print_export(char **export);
 
 /*-------Env-------*/
@@ -132,34 +133,35 @@ void			ft_cd_home(t_global *global);
 void			get_home_path(t_data *data, t_list **env);
 
 /*-------Unset-------*/
-void			ft_unset(t_list **env, t_list **exp_var, char *var, t_data *data);
+void			ft_unset(t_list **env, t_list **exp_var, char *var,
+					t_data *data);
 void			ft_unset2(int flag, t_list **exp_var, char *var);
 /*-------Exit-------*/
-int			ft_exit(t_token *cur, t_global *global);
-int			ft_exit2(t_global *global, char **exit);
+int				ft_exit(t_token *cur, t_global *global);
+int				ft_exit2(t_global *global, char **exit);
 
 /*-------Ctrls-------*/
-void			signalHandler(int signum);
+void			signal_handler(int signum);
 char			*get_total_setup(t_data *data);
 int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void		ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag);
-
+void			ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag);
 
 /*-------Cmds-------*/
-int 			setup_exe_simple_cmd(t_token *cur, t_global *global);
+int				setup_exe_simple_cmd(t_token *cur, t_global *global);
 void			check_and_exe_cmd(t_token *cur, t_global *global, int fd);
-void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1, t_global *global);
+void			ft_relative_path(char **splitted_cmd1, char **envp,
+					char *cmd1, t_global *global);
 char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
 int				check_redirection(t_token *cur, int *fd, t_data *data);
 char			*get_cmd(t_token *token);
 
 /*-------Exec Builtins-------*/
-int		is_a_builtin(char *cmd);
-int		exec_builtin(t_token *cur, t_global *global, int fd);
-void	exec_redirection(char *redir, int fd, int *flag);
+int				is_a_builtin(char *cmd);
+int				exec_builtin(t_token *cur, t_global *global, int fd);
+void			exec_redirection(char *redir, int fd, int *flag);
 
 /*-------Pipes-------*/
 void			main_pipes(t_global *global);
@@ -167,10 +169,14 @@ void			init_struct(char *argv[], int i, int argc, t_pipes *pipes);
 int				pipex(t_token *cur, t_global *global);
 void			init_fd1(char **argv, t_pipes *pipes);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
-void			child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd);
-void			child_pipes_process2(t_token *cur, t_global *global, int sv, int fd);
-void			ft_relative_path1(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes);
-void			ft_relative_path2(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes);
+void			child_pipes_process1(t_token *cur, t_pipes *pipes,
+					char *envp[], int fd);
+void			child_pipes_process2(t_token *cur, t_global *global,
+					int sv, int fd);
+void			ft_relative_path1(char **cmd_pipex, char **envp,
+					char *cmd, t_pipes *pipes);
+void			ft_relative_path2(char **cmd_pipex, char **envp,
+					char *cmd, t_pipes *pipes);
 int				ft_dup2_one(t_pipes *pipes, int *end);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			ft_close_all(t_pipes *pipes);
@@ -182,33 +188,35 @@ char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
 
 /*-------parsing global-------*/
-int		nbr_quotes(char *str);
-int		word_len(char *str);
-char	*get_env_value(char *str, t_list **env, t_list **exp_var, long long code);
-int		total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var);
-void	rm_space(char *str);
-char	*find_var(char *str, t_list **env, t_list **exp_var);
-int		conform_pipe(char *str);
-int		count_pipe(char *str);
-int		conform_redir(char *str);
-t_token	**parsing_pt2(char *input, t_global *global, int *error_flag);
-t_token	**tokenisation(char *str, t_global *global, int *error_flag);
-void	expand(t_token **tokens, t_global *global);
-void	type_token(t_token **tokens);
-void	quotes(t_token **tokens);
-void	is_in_quote(int *in_single, int *in_double, char c);
-void	free_tokens(t_token **tokens);
-int		add_token(t_token **tokens, char *content, int nbr_pipe);
-void	create_cmd_pipex(t_token **tokens);
-char	**get_cmd_pipex(t_token *line);
-int 	files_and_redir(t_token **tokens, int *flag);
-void	supp_token(t_token **tokens);
-void	print_error(int error);
+int				nbr_quotes(char *str);
+int				word_len(char *str);
+char			*get_env_value(char *str, t_list **env,
+					t_list **exp_var, long long code);
+int				total_len_str(char *str, int *index_of_var,
+					t_list **env, t_list **exp_var);
+void			rm_space(char *str);
+char			*find_var(char *str, t_list **env, t_list **exp_var);
+int				conform_pipe(char *str);
+int				count_pipe(char *str);
+int				conform_redir(char *str);
+t_token			**parsing_pt2(char *input, t_global *global, int *error_flag);
+t_token			**tokenisation(char *str, t_global *global, int *error_flag);
+void			expand(t_token **tokens, t_global *global);
+void			type_token(t_token **tokens);
+void			quotes(t_token **tokens);
+void			is_in_quote(int *in_single, int *in_double, char c);
+void			free_tokens(t_token **tokens);
+int				add_token(t_token **tokens, char *content, int nbr_pipe);
+void			create_cmd_pipex(t_token **tokens);
+char			**get_cmd_pipex(t_token *line);
+int				files_and_redir(t_token **tokens, int *flag);
+void			supp_token(t_token **tokens);
+void			print_error(int error);
 
 /*-------export parsing-------*/
-void	pars_export(t_token *cur, t_global *global);
-int 	pars_exp_var(char *str);
-int		checking_if_alpha(char *str);
+void			pars_export(t_token *cur, t_global *global);
+int				pars_exp_var(char *str);
+int				checking_if_alpha(char *str);
 /*
 int		checking_order_quotes(char *str);
 char	*del_all_quotes(char *str);
@@ -220,11 +228,9 @@ char 	*ft_strdup_outside_quotes(const char *s);
 char	*del_outside_quotes(char *str);
 */
 
-
 /*-------Unset  parsing-------*/
 
-void	pars_unset(t_token *cur, t_global *global);
-
+void			pars_unset(t_token *cur, t_global *global);
 
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
@@ -235,7 +241,7 @@ int				ft_lstlen(t_list **lst);
 void			ft_strcpy_wn(char *dest, char *src, int size);
 int				ft_len_equal(char *str);
 int				ft_check_equal(char *str);
-void			ft__lists(t_list **env, t_list **exp_var);
+void			ft_lists(t_list **env, t_list **exp_var);
 void			ft_putstr_msg(char *s, int fd, char *str);
 void			free_double_tabs(char **str);
 char			*ft_strjoin_error(char const *s1, char const *s2);
@@ -246,7 +252,7 @@ int				ft_check_long(char *str);
 long long		ft_atoi_long(const char *nptr);
 int				check_nbr(char *str, char *cmpr);
 void			ft_putendl_fd(char *s, int fd);
-int 			check_file(char *str);
+int				check_file(char *str);
 void			ft_putstr_fd_pipes(char *s, int fd, char *str);
 int				ft_strlen_egal(const char *str);
 int				set_interactive_signals(void);
@@ -259,9 +265,9 @@ char			*question_mark(char *str, long long code);
 void			supp_pipe(t_token **tokens, int len);
 int				len_tokens(t_token **tokens);
 int				there_is_cmd(t_token *list);
-void		change_flag(int *error);
-void		free_all(t_global *global);
-void		free_reset_global(t_global *global);
-void		ft_free_lists(t_list *env, t_list *exp_var);
+void			change_flag(int *error);
+void			free_all(t_global *global);
+void			free_reset_global(t_global *global);
+void			ft_free_lists(t_list *env, t_list *exp_var);
 
 #endif
