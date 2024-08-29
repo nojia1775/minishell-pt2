@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 09:06:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/28 19:42:56 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 int	ft_exit(t_token *cur, t_global *global)
 {
-	char **exit;
-	
+	char	**exit;
+
 	exit = cur->cmd_pipex;
 	if (exit[1] == NULL)
 	{
-		//free_double_tabs(exit);
 		free_all(global);
 		printf("exit\n");
 		return (0);
 	}
-	else if(exit[2] != NULL)
+	else if (exit[2] != NULL)
 	{
-		//free_double_tabs(exit);
 		free_all(global);
 		printf("exit\n");
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
@@ -38,7 +36,7 @@ int	ft_exit(t_token *cur, t_global *global)
 int	ft_exit2(t_global *global, char **exit)
 {
 	long long	exit_code;
-	
+
 	if (ft_is_digit(exit[1]) == -1 || ft_check_long(exit[1]) == -1)
 	{
 		printf("exit\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_lobby2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 02:05:24 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 08:51:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/28 21:14:49 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*get_total_setup(t_data *data)
 	data->total_setup = malloc((len) * sizeof(char));
 	if (!data->total_setup)
 		return (NULL);
-	data->total_setup = ft_str3cat(data->logname, data->extract_pwd, " \u27a4 ", data->total_setup);
+	data->total_setup = ft_str3cat(data->logname,
+			data->extract_pwd, " \u27a4 ", data->total_setup);
 	free(data->logname);
 	free(data->extract_pwd);
 	return (data->total_setup);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/27 17:12:19 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:45:45 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ void	ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag)
 {
 	int	option;
 	int	flag;
-	int	i;
 
-	i = 0;
 	option = 1;
 	flag = 1;
 	if (!cur->next)

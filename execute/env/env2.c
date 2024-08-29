@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 01:43:37 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/20 17:11:25 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/28 21:10:39 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ void	update_oldpwd(t_list **env)
 	cwd = get_actualpwd(env);
 	if (cwd == NULL)
 	{
-		cwd = malloc((7) * sizeof(char));
+		cwd = ft_strdup("OLDPWD=");
 		if (!cwd)
-			return;
-		ft_strlcpy(cwd, "OLDPWD=", 7);
+			return ;
 	}
 	while (current)
 	{
@@ -45,14 +44,15 @@ void	update_oldpwd(t_list **env)
 
 void	add_back_oldpwd(int flag, char *cwd, t_list **env)
 {
-	t_list *new_case;
-	
+	t_list	*new_case;
+
 	if (flag == 0)
 	{
 		new_case = ft_lstnew(cwd);
 		ft_lstadd_back(env, new_case);
 	}
 }
+
 // Fonction qui m'aide pour update la ligne OLDPWD a chaque cd
 char	*get_actualpwd(t_list **env)
 {

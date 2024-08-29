@@ -6,11 +6,34 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/20 18:12:13 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/28 19:10:09 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static void	child_process_pipex(int *end, int *fd, t_global *global,
+t_token *cur)
+{
+	if (dup2(end[1], STDOUT_FILENO) == -1)
+	{
+		perror("dup2 (child - stdout)");
+		close(end[0]);
+		close(end[1]);
+		exit(EXIT_FAILURE);
+	}
+	close(end[0]);
+	close(end[1]);
+	if (is_a_builtin(get_cmd(cur)) == 1)
+	{
+		if (check_redirection(cur, fd, global->data) == 0)
+			exec_builtin(cur, global, *fd);
+		exit(127);
+	}
+	if (check_redirection(cur, fd, global->data) == 0)
+		child_pipes_process1(cur, global->pipes, global->data->envv, *fd);
+	exit(127);
+}
 
 int	pipex(t_token *cur, t_global *global)
 {
@@ -24,26 +47,7 @@ int	pipex(t_token *cur, t_global *global)
 		perror("pipe");
 	pid = fork();
 	if (pid == 0)
-	{
-		if (dup2(end[1], STDOUT_FILENO) == -1)
-        	{
-        	    perror("dup2 (child - stdout)");
-        	    close(end[0]);
-        	    close(end[1]);
-        	    exit(EXIT_FAILURE);
-        	}
-		close(end[0]);
-		close(end[1]);
-		if (is_a_builtin(get_cmd(cur)) == 1)
-		{
-			if (check_redirection(cur, &fd, global->data) == 0)
-				exec_builtin(cur, global, fd);
-			exit(127);
-		}
-		if (check_redirection(cur, &fd, global->data) == 0)
-			child_pipes_process1(cur, global->pipes, global->data->envv, fd);
-		exit(127);
-	}
+		child_process_pipex(end, &fd, global, cur);
 	else if (pid > 0)
 	{
 		close(end[1]);
@@ -55,55 +59,72 @@ int	pipex(t_token *cur, t_global *global)
 	return (0);
 }
 
-void	main_pipes(t_global *global)
+typedef struct s_vars
 {
-	int		i;
-	int		count;
-	int		status;
-	int		fd;
-	int		sv;
-	pid_t	pid;
-	t_token *cur;
+	int	i;
+	int	count;
+	int	status;
+	int	fd;
+	int	sv;
+	int	nbr;
+}	t_vars;
 
-	sv = dup(STDIN_FILENO);
-	cur = *(global->tokens); 
-	fd = -1;
-	count = 0;
+static void	child_process_main(t_vars *vars, t_token *cur, t_global *global)
+{
+	if (is_a_builtin(get_cmd(cur)) == 1)
+	{
+		if (check_redirection(cur, &vars->fd, global->data) == 0)
+			exec_builtin(cur, global, vars->fd);
+		exit(127);
+	}
+	else
+	{
+		if (check_redirection(cur, &vars->fd, global->data) == 0)
+			child_pipes_process2(cur, global, vars->sv, vars->fd);
+		exit(127);
+	}
+}
+
+static int	init(t_vars *vars, t_global *global, t_token **cur)
+{
+	vars->sv = dup(STDIN_FILENO);
+	*cur = *(global->tokens);
+	vars->fd = -1;
+	vars->count = 0;
 	if (set_exec_signals(global->data) == -1)
-		return;
+		return (0);
 	global->pipes->fd1 = -1;
 	global->pipes->fd2 = -1;
-	i = 0;
-	int nbr = cur->nbr_pipe;
-	while (i < nbr)
+	vars->i = 0;
+	vars->nbr = (*cur)->nbr_pipe;
+	return (1);
+}
+
+void	main_pipes(t_global *global)
+{
+	t_vars	vars;
+	pid_t	pid;
+	t_token	*cur;
+
+	if (!init(&vars, global, &cur))
+		return ;
+	while (vars.i < vars.nbr)
 	{
-		cur = global->tokens[i];
+		cur = global->tokens[vars.i];
 		pipex(cur, global);
-		count++;
-		i++;
+		vars.count++;
+		vars.i++;
 	}
-	cur = global->tokens[i];
-	fd = -1;
-	status = 0;
+	cur = global->tokens[vars.i];
+	vars.fd = -1;
+	vars.status = 0;
 	pid = fork();
 	if (pid == 0)
-	{
-		if (is_a_builtin(get_cmd(cur)) == 1)
-		{
-			if (check_redirection(cur, &fd, global->data) == 0)
-				exec_builtin(cur, global, fd);
-			exit (127);
-		}
-		else
-		{
-			if (check_redirection(cur, &fd, global->data) == 0)
-				child_pipes_process2(cur, global, sv, fd);
-			exit(127);
-		}
-	}
+		child_process_main(&vars, cur, global);
 	else if (pid < 0)
 		perror("fork");
-	dup2(sv, STDIN_FILENO);
-	while (wait(&status) != -1);
-	global->data->code = WEXITSTATUS(status);
+	dup2(vars.sv, STDIN_FILENO);
+	while (wait(&vars.status) != -1)
+		;
+	global->data->code = WEXITSTATUS(vars.status);
 }

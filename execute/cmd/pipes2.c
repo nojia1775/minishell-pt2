@@ -3,30 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   pipes2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 09:46:57 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/28 19:15:58 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 {
-	int 	len;
+	int	len;
 
 	len = 0;
 	len = ft_strlen_double_tab(cur->redir);
 	if (len != 0)
 	{
 		len--;
-		while(ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+		while (ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
 			len--;
-		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
+		if (ft_strcmp(cur->redir[len], ">") == 0
+			|| ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(cur->redir[len], "<") == 0)
 		{
-			if(dup2(fd, STDIN_FILENO) == -1)
+			if (dup2(fd, STDIN_FILENO) == -1)
 				perror("dup2");
 		}
 		if (cur->flag == 1)
@@ -38,20 +40,21 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 
 void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)
 {
-	int 	len;
+	int	len;
 
 	len = 0;
 	len = ft_strlen_double_tab(cur->redir);
 	if (len != 0)
 	{
 		len--;
-		while(ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+		while (ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
 			len--;
-		if (ft_strcmp(cur->redir[len], ">") == 0 || ft_strcmp(cur->redir[len], ">>") == 0)
+		if (ft_strcmp(cur->redir[len], ">") == 0
+			|| ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(cur->redir[len], "<") == 0)
 		{
-			if(dup2(fd, STDIN_FILENO) == -1)
+			if (dup2(fd, STDIN_FILENO) == -1)
 				perror("dup2");
 		}
 		if (cur->flag == 1)
@@ -60,21 +63,22 @@ void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)
 	else
 		dup2(sv, STDOUT_FILENO);
 	execve(get_cmd(cur), get_cmd_pipex(cur), global->data->envv);
-	ft_relative_path2(get_cmd_pipex(cur), global->data->envv, get_cmd(cur), global->pipes);
+	ft_relative_path2(get_cmd_pipex(cur),
+		global->data->envv, get_cmd(cur), global->pipes);
 }
 
-void	ft_relative_path1(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)
+void	ft_relative_path1(char **cmd_pipex, char **envp, char *cmd,
+	t_pipes *pipes)
 {
-	int		i;
+	int	i;
 
-	i = 0;
+	i = -1;
 	if (envp[0] != NULL)
 	{
-		while (envp[i])
+		while (envp[++i])
 		{
 			if (ft_strncmp("PATH", envp[i], 4) == 0)
 				pipes->good_line_envp = envp[i];
-			i++;
 		}
 		if (pipes->good_line_envp != NULL)
 		{
@@ -93,18 +97,18 @@ void	ft_relative_path1(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)
 	ft_putstr_fd_pipes(":  command not found\n", 2, cmd);
 }
 
-void	ft_relative_path2(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)
+void	ft_relative_path2(char **cmd_pipex, char **envp, char *cmd,
+	t_pipes *pipes)
 {
-	int i;
+	int	i;
 
-	i = 0;
+	i = -1;
 	if (envp[0] != NULL)
 	{
-		while (envp[i])
+		while (envp[++i])
 		{
 			if (ft_strncmp("PATH", envp[i], 4) == 0)
 				pipes->good_line_envp = envp[i];
-			i++;
 		}
 		if (pipes->good_line_envp != NULL)
 		{
@@ -121,5 +125,4 @@ void	ft_relative_path2(char **cmd_pipex, char **envp, char *cmd, t_pipes *pipes)
 	if (pipes->good_line_envp != NULL)
 		free_double_tabs(pipes->good_path);
 	ft_putstr_fd_pipes(": command not found \n", 2, cmd);
-	//free_double_tabs(pipes->splited_cmd2);
 }

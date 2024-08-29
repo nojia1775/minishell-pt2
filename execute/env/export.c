@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:10:18 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/09 15:44:51 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/28 21:15:44 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_export(t_list **env, t_list **exp_var)
 	if (!env)
 	{
 		printf("env: «export»: Aucun fichier ou dossier de ce type\n");
-		return;
+		return ;
 	}
 	i = ft_lstlen(env);
 	if (exp_var != NULL)
@@ -65,7 +65,7 @@ void	trie_export(char **export, int i)
 	char	*temp;
 	int		max;
 	int		j;
-	
+
 	max = i;
 	i = 0;
 	while (i < max - 1)

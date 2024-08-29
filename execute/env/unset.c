@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 16:57:41 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/26 03:33:32 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/28 21:15:20 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_unset(t_list **env, t_list **exp_var, char *var, t_data *data)
 	int		flag;
 	t_list	*temp;
 
-	data->code =  0;
+	data->code = 0;
 	ptr = env;
 	flag = 0;
 	while (*ptr)
@@ -41,7 +41,7 @@ void	ft_unset(t_list **env, t_list **exp_var, char *var, t_data *data)
 		}
 	}
 	if (exp_var && *exp_var)
-		ft_unset2(flag,  exp_var, var);
+		ft_unset2(flag, exp_var, var);
 }
 
 void	ft_unset2(int flag, t_list **exp_var, char *var)
