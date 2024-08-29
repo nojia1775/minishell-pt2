@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:50:25 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/08 17:19:55 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:17:34 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	in_or_not(char c, int *in_double, int *in_single)
 		*in_single = 1;
 	else if (c == 39 && *in_single && !(*in_double))
 		*in_single = 0;
-
 }
 
 int	nbr_quotes(char *str)

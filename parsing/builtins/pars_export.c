@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/18 20:55:51 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/29 12:56:35 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,33 @@
 
 void	pars_export(t_token *cur, t_global *global)
 {
-	char **export;
 	int		i;
 
 	i = 1;
-	export = cur->cmd_pipex;
-	if (export[1] == NULL)
+	if (cur->cmd_pipex[1] == NULL)
 	{
 		ft_export(&global->data->env, &global->data->exp_var);
-		return;
+		return ;
 	}
-	else 
+	else
 	{
-		while (export[i])
+		while (cur->cmd_pipex[i])
 		{
-			if (pars_exp_var(export[i]) != -1)
+			if (pars_exp_var(cur->cmd_pipex[i]) != -1)
 			{
-				export_variable(&global->data->env, &global->data->exp_var, cur->next->content, global->data);
+				export_variable(&global->data->env, &global->data->exp_var,
+					cur->next->content, global->data);
 				cur = cur->next;
 				global->data->code = 0;
 			}
-			else 
+			else
 				global->data->code = 1;
 			i++;
 		}
 	}
 }
 
-int 	pars_exp_var(char *str)
+int	pars_exp_var(char *str)
 {
 	if (checking_if_alpha(str) == -1)
 	{

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   setup_lobby.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/28 20:50:19 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/29 12:43:05 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*init_lobby(t_data *data)
+char	*init_lobby_r(t_data *data)
 {
 	data->logname = find_logname(data);
 	if (!data->logname)

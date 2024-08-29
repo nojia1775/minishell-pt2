@@ -6,17 +6,33 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:50:01 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/06 15:58:38 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:08:36 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static int	concat(t_token *cur, char **cmd)
+{
+	char	*tmp;
+
+	tmp = *cmd;
+	*cmd = ft_strjoin(*cmd, cur->content);
+	if (!cur)
+		return (free(tmp), 0);
+	free(tmp);
+	tmp = *cmd;
+	*cmd = ft_strjoin(*cmd, "\r");
+	if (!cur)
+		return (free(tmp), 0);
+	free(tmp);
+	return (1);
+}
+
 static char	*join(t_token *line)
 {
 	t_token	*cur;
 	char	*cmd;
-	char	*tmp;
 
 	cur = line;
 	cmd = ft_strdup("");
@@ -26,16 +42,8 @@ static char	*join(t_token *line)
 	{
 		if (cur->type == CMD || cur->type == ARG || cur->type == OPT)
 		{
-			tmp = cmd;
-			cmd = ft_strjoin(cmd, cur->content);
-			if (!cur)
-				return (free(tmp), NULL);
-			free(tmp);
-			tmp = cmd;
-			cmd = ft_strjoin(cmd, "\r");
-			if (!cur)
-				return (free(tmp), NULL);
-			free(tmp);
+			if (!concat(cur, &cmd))
+				return (NULL);
 		}
 		else if (cmd[0] != '\0')
 			break ;
@@ -48,7 +56,7 @@ void	create_cmd_pipex(t_token **tokens)
 {
 	int		pipe;
 	char	*tmp;
-	
+
 	pipe = 0;
 	while (tokens[pipe])
 	{

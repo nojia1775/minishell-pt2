@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/08/27 18:19:29 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:17:50 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_error(int error)
 {
 	char	*msg[2];
-	
+
 	msg[0] = "minishell: syntax error";
 	msg[1] = "minishell: syntax error near unexpected token `newline'";
 	printf("%s\n", msg[error]);
@@ -42,7 +42,7 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 {
 	t_token	**tokens;
 	char	*tmp;
-	
+
 	*error_flag = 0;
 	if (input[0] == '\0')
 		return (NULL);

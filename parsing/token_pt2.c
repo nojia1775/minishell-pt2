@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/08/27 18:19:38 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:46:17 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ static int	actions(t_token **tokens, char *str, t_var *vars, int nbr_pipe)
 		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
 	}
-	else if (!vars->in_double && !vars->in_single &&
-		(str[vars->i] == '<' || str[vars->i] == '>')
+	else if (!vars->in_double && !vars->in_single
+		&& (str[vars->i] == '<' || str[vars->i] == '>')
 		&& vars->i && (str[vars->i - 1] != '<'
 			&& str[vars->i - 1] != '>'))
 		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
 	if (((str[vars->i] != ' ' && str[vars->i] != '|')
-		|| ((str[vars->i] == ' ' || str[vars->i] == '|')
-		&& (vars->in_double || vars->in_single))) && str[vars->i])
+			|| ((str[vars->i] == ' ' || str[vars->i] == '|')
+				&& (vars->in_double || vars->in_single))) && str[vars->i])
 		vars->buffer[vars->ibuf++] = str[vars->i];
-	if (!vars->in_double && !vars->in_single &&
-		(str[vars->i] == '>' || str[vars->i] == '<')
+	if (!vars->in_double && !vars->in_single
+		&& (str[vars->i] == '>' || str[vars->i] == '<')
 		&& str[vars->i + 1] != '<' && str[vars->i + 1] != '>')
 		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
@@ -87,7 +87,7 @@ t_token	**tokenisation(char *str, t_global *global, int *error_flag)
 {
 	size_t	nbr_pipe;
 	t_token	**tokens;
-	
+
 	nbr_pipe = count_pipe(str) + 1;
 	tokens = (t_token **)ft_calloc(nbr_pipe + 1, sizeof(t_token *)
 			* (nbr_pipe + 1));

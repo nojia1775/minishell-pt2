@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:59:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/27 18:24:41 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:15:02 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ int	there_is_cmd(t_token *list)
 	return (0);
 }
 
-void	change_flag(int *error)
-{
-	*error = 1;
-}
-// Rassemble l'env dans un double tab car execve prends comme argument un double tab (l'env)
+static int	
+
+// Rassemble l'env dans un double tab car execve prends comme
+// argument un double tab (l'env)
 char	**stock_total_env(t_list **envp, t_list **exp_var)
 {
 	int		len;

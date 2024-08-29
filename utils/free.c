@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:05:39 by noah              #+#    #+#             */
-/*   Updated: 2024/08/19 10:45:23 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/29 12:58:17 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ void	free_all(t_global *global)
 void	free_tokens(t_token **tokens)
 {
 	t_token	*cur;
-	t_token	*rm;
 	int		i;
-	int		j;
-	
+
 	i = 0;
 	if (!tokens)
 		return ;
@@ -56,20 +54,7 @@ void	free_tokens(t_token **tokens)
 	{
 		cur = tokens[i];
 		free_redir_files(cur);
-		while (cur)
-		{
-			rm = cur;
-			if (!cur->prev)
-			{
-				j = 0;
-				while (cur->cmd_pipex[j])
-					free(cur->cmd_pipex[j++]);
-				free(cur->cmd_pipex);
-			}
-			free(cur->content);
-			cur = cur->next;
-			free(rm);
-		}
+		rm_token(cur);
 		i++;
 	}
 	free(tokens);

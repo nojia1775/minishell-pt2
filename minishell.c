@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/27 14:21:12 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:43:22 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	loop(t_data *data, t_global *global)
 
 	while (1)
 	{
-		data->total_setup = init_lobby(data);
+		data->total_setup = init_lobby_r(data);
 		if (!init_global(global, data))
 			return (free_all(global), 9);
 		if (set_interactive_signals() == -1)

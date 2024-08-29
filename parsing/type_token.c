@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   type_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:52:16 by noah              #+#    #+#             */
-/*   Updated: 2024/08/10 17:34:47 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/29 12:46:43 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	is_redir(t_token *cur);
+static int	redir_type(t_token *cur);
 
 static void	heredoc_type(t_token *cur)
 {
 	cur->type = HEREDOC;
 	cur->next->type = LIM;
-	if (cur->next->next && !is_redir(cur))
+	if (cur->next->next && !redir_type(cur))
 		cur->next->next->type = CMD;
 }
 
-static int	is_redir(t_token *cur)
+static int	redir_type(t_token *cur)
 {
 	if (!ft_strcmp(cur->content, "<<") && cur->type == -1)
 		heredoc_type(cur);
@@ -42,7 +42,6 @@ static int	is_redir(t_token *cur)
 	return (1);
 }
 
-
 static int	is_opt(t_token *cur)
 {
 	if (cur->prev == NULL)
@@ -58,14 +57,14 @@ void	type_token(t_token **tokens)
 {
 	t_token	*cur;
 	int		i;
-	
+
 	i = -1;
 	while (tokens[++i])
 	{
 		cur = tokens[i];
 		while (cur)
 		{
-			is_redir(cur);
+			redir_type(cur);
 			if (!cur->prev && cur->type == -1)
 				cur->type = CMD;
 			if (is_opt(cur) && cur->type == -1)

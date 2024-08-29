@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 22:17:51 by noah              #+#    #+#             */
-/*   Updated: 2024/08/08 16:51:50 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:25:38 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	rm(char *str, char quote, int in_quote)
 {
 	int	i;
 	int	k;
-	
+
 	i = 0;
 	if (str[i] == quote && !in_quote)
 	{
@@ -34,7 +34,7 @@ static void	rm_quotes(t_token *cur)
 	int	i;
 	int	in_single;
 	int	in_double;
-	
+
 	i = -1;
 	in_single = 0;
 	in_double = 0;

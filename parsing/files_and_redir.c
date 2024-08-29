@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_and_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/28 21:20:17 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/29 12:06:25 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ typedef struct s_vars
 	int		nbr_redir;
 	t_token	*cur;
 }		t_vars;
-
-static int	is_redir(t_token *cur)
-{
-	if (cur->type != HEREDOC && cur->type != INREDIR
-		&& cur->type != OUTREDIR && cur->type != INREDIRAPP)
-		return (0);
-	if (!ft_strcmp(cur->content, "<") || !ft_strcmp(cur->content, ">")
-		|| !ft_strcmp(cur->content, ">>")
-		|| !ft_strcmp(cur->content, "<<"))
-		return (1);
-	return (0);
-}
 
 static void	count_redir_files(t_token *list, int *redir, int *files)
 {
@@ -88,6 +76,27 @@ static int	add_files_redir(t_token *token, int index, char *content, int redir)
 	return (1);
 }
 
+static int	add(t_vars *vars, int *flag)
+{
+	while (vars->cur)
+	{
+		if (is_redir(vars->cur))
+		{
+			if (!add_files_redir(vars->cur, vars->redir++,
+					vars->cur->content, 1))
+				return (change_flag(flag), perror("add redir\n"), 0);
+		}
+		else if (vars->cur->prev && is_redir(vars->cur->prev))
+		{
+			if (!add_files_redir(vars->cur, vars->files++,
+					vars->cur->content, 0))
+				return (change_flag(flag), perror("add files\n"), 0);
+		}
+		vars->cur = vars->cur->next;
+	}
+	return (1);
+}
+
 int	files_and_redir(t_token **tokens, int *flag)
 {
 	t_vars	var;
@@ -105,22 +114,7 @@ int	files_and_redir(t_token **tokens, int *flag)
 			var.cur->files = create_tab(var.nbr_files);
 			if (!var.cur->redir || !var.cur->files)
 				return (change_flag(flag), printf("malloc\n"), 0);
-			while (var.cur)
-			{
-				if (is_redir(var.cur))
-				{
-					if (!add_files_redir(var.cur,
-							var.redir++, var.cur->content, 1))
-						return (change_flag(flag), perror("add redir\n"), 0);
-				}
-				else if (var.cur->prev && is_redir(var.cur->prev))
-				{
-					if (!add_files_redir(var.cur,
-							var.files++, var.cur->content, 0))
-						return (change_flag(flag), perror("add files\n"), 0);
-				}
-				var.cur = var.cur->next;
-			}
+			add(&var, flag);
 		}
 		i++;
 	}

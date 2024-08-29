@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/27 14:21:12 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:57:44 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ typedef struct s_global
 }		t_global;
 
 /*-------Init Lobby-------*/
-char			*init_lobby(t_data *data);
+void			init_lobby(t_data *data);
+char			*init_lobby_r(t_data *data);
 void			add_minishell(t_data *data);
 char			*find_logname(t_data *data);
 void			find_logname2(t_data *data, int i, int j, int temp);
@@ -269,5 +270,7 @@ void			change_flag(int *error);
 void			free_all(t_global *global);
 void			free_reset_global(t_global *global);
 void			ft_free_lists(t_list *env, t_list *exp_var);
+int				is_redir(t_token *cur);
+void			rm_token(t_token *cur);
 
 #endif
