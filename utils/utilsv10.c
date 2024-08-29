@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:59:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/29 13:15:02 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:01:29 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,24 @@ int	there_is_cmd(t_token *list)
 	return (0);
 }
 
-static int	
+static int	stock_envs(t_list **list, char **total_env, int *i)
+{
+	t_list	*cur;
+
+	if (list && *list)
+	{
+		cur = *list;
+		while (cur)
+		{
+			total_env[*i] = ft_strdup(cur->content);
+			if (!total_env[*i])
+				return (0);
+			(*i)++;
+			cur = cur->next;
+		}
+	}
+	return (1);
+}
 
 // Rassemble l'env dans un double tab car execve prends comme
 // argument un double tab (l'env)
@@ -68,35 +85,15 @@ char	**stock_total_env(t_list **envp, t_list **exp_var)
 {
 	int		len;
 	int		i;
-	t_list	*head;
-	t_list	*current;
 	char	**total_env;
 
 	i = 0;
-	head = *envp;
-	current = *exp_var;
 	len = ft_lstlen(envp) + ft_lstlen(exp_var) + 1;
 	total_env = malloc(len * sizeof(char *));
 	if (!total_env)
 		return (NULL);
-	if (envp && *envp)
-	{
-		while (head)
-		{
-			total_env[i] = ft_strdup(head->content);
-			i++;
-			head = head->next;
-		}
-	}
-	if (exp_var && *exp_var)
-	{
-		while (current)
-		{
-			total_env[i] = ft_strdup(current->content);
-			i++;
-			current = current->next;
-		}
-	}
+	if (!stock_envs(envp, total_env, &i) || !stock_envs(exp_var, total_env, &i))
+		return (NULL);
 	total_env[i] = NULL;
 	return (total_env);
 }
