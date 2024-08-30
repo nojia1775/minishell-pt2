@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_and_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/29 12:06:25 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/30 21:53:51 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,4 @@ int	files_and_redir(t_token **tokens, int *flag)
 		i++;
 	}
 	return (1);
-}
+ }

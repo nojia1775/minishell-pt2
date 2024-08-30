@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/27 18:25:16 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/30 22:42:58 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 		if (cur->flag == 1)
 			close(fd);
 	}
+	int i = 0;
+	while (cur->cmd_pipex[i])
+		printf("-- %s\n", cur->cmd_pipex[i++]);
 	total_env = stock_total_env(&global->data->env, &global->data->exp_var);
 	execve(get_cmd(cur), get_cmd_pipex(cur), total_env);
 	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur), global);

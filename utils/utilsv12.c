@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv12.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:10:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/30 15:10:25 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/30 22:44:47 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,14 @@ int	ft_strlen_double_tab(char **str)
 		i++;
 	}
 	return (i);
+}
+
+char	**get_cmd_pipex(t_token *line)
+{
+	t_token	*cur;
+
+	cur = line;
+	while (cur->prev)
+		cur = cur->prev;
+	return (cur->cmd_pipex);
 }
