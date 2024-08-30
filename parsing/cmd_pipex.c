@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:50:01 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/30 23:10:24 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/30 23:23:35 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ static char	*join(t_token *line)
 	if (is_redir(cur))
 	{
 		cmd = ft_strjoin(get_cmd(cur), "\r");
-		cur = cur->next;
 		flag = 1;
 	}
 	else

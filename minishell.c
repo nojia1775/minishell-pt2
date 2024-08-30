@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/29 12:43:22 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:20:42 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ static void	routine(t_global *global)
 	int	sv;
 
 	global->cur = *(global->tokens);
+	int i = 0;
+	while (global->cur->cmd_pipex[i])
+		printf("-- %s\n", global->cur->cmd_pipex[i++]);
 	if (global->cur->nbr_pipe == 0)
 	{
 		sv = dup(STDIN_FILENO);
