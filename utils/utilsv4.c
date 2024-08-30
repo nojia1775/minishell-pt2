@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 00:57:46 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/17 00:02:45 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/30 15:03:19 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	ft_strlen_space(const char *str)
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
+
 	i = 0;
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
@@ -53,7 +54,6 @@ int	ft_is_digit(char *str)
 	int	i;
 
 	i = 0;
-
 	if (str[0] == '+' || str[0] == '-')
 		i++;
 	while (str[i])
@@ -68,7 +68,6 @@ int	ft_is_digit(char *str)
 
 int	ft_check_long(char *str)
 {
-
 	if (str[0] == '-')
 		if (ft_strlen(str) >= ft_strlen("-9223372036854775807"))
 			if (check_nbr(str, "-9223372036854775807") == -1)
@@ -83,4 +82,3 @@ int	ft_check_long(char *str)
 				return (-1);
 	return (0);
 }
-

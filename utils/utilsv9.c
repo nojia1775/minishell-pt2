@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 18:01:38 by noah              #+#    #+#             */
-/*   Updated: 2024/08/09 14:40:18 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/30 15:17:07 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*question_mark(char *str, long long code)
 {
 	char	*tmp;
-	
+
 	if (!ft_strncmp(str, "$?", 2))
 	{
 		tmp = ft_itoa((int)code);
@@ -36,14 +36,12 @@ static t_token	*supp(t_token *cur)
 		cur = cur->next;
 		if (cur)
 			cur->prev = NULL;
-		free(tmp);
 	}
 	else if (!cur->next)
 	{
 		tmp = cur;
 		cur->prev->next = NULL;
 		cur = cur->prev;
-		free(tmp);
 	}
 	else
 	{
@@ -51,8 +49,8 @@ static t_token	*supp(t_token *cur)
 		cur->next->prev = cur->prev;
 		tmp = cur;
 		cur = cur->next;
-		free(tmp);
 	}
+	free(tmp);
 	return (cur);
 }
 
@@ -61,7 +59,7 @@ void	supp_token(t_token **tokens)
 	int		i;
 	int		len;
 	t_token	*cur;
-	
+
 	i = 0;
 	while (tokens[i])
 	{
@@ -72,7 +70,7 @@ void	supp_token(t_token **tokens)
 			if (!cur->content || !cur->content[0])
 			{
 				if (cur == tokens[i])
-					tokens[i] = cur->next;;
+					tokens[i] = cur->next;
 				cur = supp(cur);
 			}
 			else
@@ -89,7 +87,7 @@ char	*get_cmd(t_token *token)
 {
 	t_token	*cur;
 	char	*tmp;
-	
+
 	cur = token;
 	while (cur->prev)
 		cur = cur->prev;
@@ -106,7 +104,7 @@ char	*get_cmd(t_token *token)
 char	*get_lim(t_token *cur)
 {
 	t_token	*token;
-	
+
 	if (!cur)
 		return (NULL);
 	token = cur;

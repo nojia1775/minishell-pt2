@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/20 19:06:22 by noah             ###   ########.fr       */
+/*   Updated: 2024/08/30 15:08:09 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	word_len(char *str)
 	return (count);
 }
 
-char	*get_env_value(char *str, t_list **env, t_list **exp_var, long long code)
+typedef struct s_vars
 {
 	char	*var;
 	char	*value;
@@ -40,31 +40,37 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var, long long code)
 	char	*tmp;
 	char	*ques;
 	int		len;
+}	t_vars;
 
-	ques = question_mark(str, code);
-	if (ques)
-		return (ques);
-	len = word_len(str);
-	var = (char *)malloc(sizeof(char) * len);
-	if (!var)
+char	*get_env_value(char *str, t_list **env, t_list **exp_var,
+	long long code)
+{
+	t_vars	vars;
+
+	vars.ques = question_mark(str, code);
+	if (vars.ques)
+		return (vars.ques);
+	vars.len = word_len(str);
+	vars.var = (char *)malloc(sizeof(char) * vars.len);
+	if (!vars.var)
 		return (NULL);
-	ft_strlcpy(var, str + 1, len + 1);
-	var[len - 1] = '\0';
-	tmp = ft_strtrim(var, " ");
-	result = ft_strjoin(tmp, "=");
-	value = find_var(result, env, exp_var);
-	free(var);
-	free(result);
-	free(tmp);
-	if (!value)
+	ft_strlcpy(vars.var, str + 1, vars.len + 1);
+	vars.var[vars.len - 1] = '\0';
+	vars.tmp = ft_strtrim(vars.var, " ");
+	vars.result = ft_strjoin(vars.tmp, "=");
+	vars.value = find_var(vars.result, env, exp_var);
+	free(vars.var);
+	free(vars.result);
+	free(vars.tmp);
+	if (!vars.value)
 		return (NULL);
-	return (value);
+	return (vars.value);
 }
 
 int	total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var)
 {
-	int	count;
-	int	i;
+	int		count;
+	int		i;
 	char	*value;
 
 	count = ft_strlen(str);
@@ -94,7 +100,7 @@ void	rm_space(char *str)
 	int	l;
 	int	in_sgl;
 	int	in_dbl;
-	
+
 	i = 0;
 	in_sgl = 0;
 	in_dbl = 0;
@@ -110,7 +116,7 @@ void	rm_space(char *str)
 			while (str[++l])
 				str[l] = str[l + 1];
 		}
-		else 
+		else
 			i++;
 	}
 }

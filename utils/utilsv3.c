@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:12:33 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/19 09:13:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/30 15:02:45 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,6 @@ void	ft_free_lists(t_list *env, t_list *exp_var)
 	exp_var = NULL;
 }
 
-/*void	ft_free_lists(t_list **env, t_list **exp_var)
-{
-	t_list	*current;
-	t_list	*head;
-
-	current = *env;
-	head = *exp_var;
-	if (env)
-	{
-		while (*env)
-		{
-			current = (*env)->next;
-			free((*env)->content);
-			free(*env);
-			(*env) = current;
-		}
-	}
-	if (exp_var && *exp_var)
-	{
-		while (*exp_var)
-		{
-			head = (*exp_var)->next;
-			free((*exp_var)->content);
-			free(*exp_var);
-			(*exp_var) = head;
-		}
-	}
-}*/
-
 void	ft_putstr_msg(char *s, int fd, char *str)
 {
 	int		total;
@@ -76,7 +47,6 @@ void	ft_putstr_msg(char *s, int fd, char *str)
 	write(fd, error, total);
 	free(error);
 }
-
 
 char	*ft_strjoin_error(char const *s1, char const *s2)
 {
@@ -122,4 +92,3 @@ char	*ft_strjoin_cmd(char const *s1, char const *s2)
 	tab[j] = '\0';
 	return (tab);
 }
-

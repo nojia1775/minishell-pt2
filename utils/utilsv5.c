@@ -6,18 +6,17 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:28:27 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/08 15:22:30 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/30 15:04:17 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-long long  ft_atoi_long(const char *nptr)
+long long	ft_atoi_long(const char *nptr)
 {
 	int			i;
 	int			sign;
-	long long  result;
+	long long	result;
 
 	result = 0;
 	sign = 1;
@@ -55,12 +54,11 @@ void	ft_putendl_fd(char *s, int fd)
 	write(fd, "\n", 1);
 }
 
-int check_file(char *str)
+int	check_file(char *str)
 {
 	int	i;
 
 	i = 0;
-
 	while (str[i])
 	{
 		if (str[i] == '/')

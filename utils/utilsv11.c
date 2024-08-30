@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:55:00 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/29 13:10:54 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/08/30 15:17:28 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_lobby(t_data *data)
 	{
 		data->logname = malloc((5 * sizeof(char)));
 		if (!data->logname)
-			return;
+			return ;
 		ft_strlcpy(data->logname, "user", 5);
 	}
 	add_minishell(data);
@@ -43,7 +43,7 @@ void	rm_token(t_token *cur)
 {
 	t_token	*rm;
 	int		i;
-	
+
 	while (cur)
 	{
 		rm = cur;
@@ -63,4 +63,11 @@ void	rm_token(t_token *cur)
 void	change_flag(int *error)
 {
 	*error = 1;
+}
+
+void	ft_simple_err(char *s, int fd)
+{
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
 }
