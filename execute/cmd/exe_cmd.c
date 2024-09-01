@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/30 23:20:04 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/01 14:43:50 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 	if (pid == 0)
 	{
 		global->data->code = 0;
-		if (check_redirection(cur, fd, global->data) == 0)
+		if (check_redirection(cur, fd, global->data, global) == 0)
 			check_and_exe_cmd(cur, global, *fd);
 		exit(127);
 	}
@@ -46,7 +46,7 @@ int	setup_exe_simple_cmd(t_token *cur, t_global *global)
 		return (0);
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
-		if (check_redirection(cur, &fd, global->data) == 0)
+		if (check_redirection(cur, &fd, global->data, global) == 0)
 			return (exec_builtin(cur, global, fd));
 		else
 		{

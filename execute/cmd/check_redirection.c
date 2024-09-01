@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/28 20:25:18 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/01 15:26:13 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,14 @@ static int	outredir(t_token *cur, int *fd, t_data *data, int i)
 	return (1);
 }
 
-static int	heredoc(t_token *cur, int i)
+static int	heredoc(t_token *cur, int i, t_global *global)
 {
 	int	fd;
 
 	if (ft_strcmp(cur->redir[i], "<<") == 0)
 	{
-		here_doc(cur->files[i], cur);
+		if (here_doc(cur->files[i], cur, global) == -1)
+			return (-1);
 		fd = open(cur->here_file, O_RDONLY);
 		if (fd == -1)
 			return (-1);
@@ -112,7 +113,7 @@ static int	heredoc(t_token *cur, int i)
 }
 
 //Check la redirection et agit agit en consequences
-int	check_redirection(t_token *cur, int *fd, t_data *data)
+int	check_redirection(t_token *cur, int *fd, t_data *data, t_global *global)
 {
 	int	i;
 
@@ -128,7 +129,7 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 				return (-1);
 			if (outredir(cur, fd, data, i) == -1)
 				return (-1);
-			if (heredoc(cur, i) == -1)
+			if (heredoc(cur, i, global) == -1)
 				return (-1);
 			i++;
 		}

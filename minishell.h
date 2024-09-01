@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/29 12:57:44 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/01 15:26:42 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void			ft_relative_path(char **splitted_cmd1, char **envp,
 					char *cmd1, t_global *global);
 char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
-int				check_redirection(t_token *cur, int *fd, t_data *data);
+int				check_redirection(t_token *cur, int *fd, t_data *data, t_global *global);
 char			*get_cmd(t_token *token);
 
 /*-------Exec Builtins-------*/
@@ -183,7 +183,7 @@ void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			ft_close_all(t_pipes *pipes);
 
 /*-------here_doc-------*/
-void			here_doc(char *limit_word, t_token *cur);
+int 			here_doc(char *limit_word, t_token *cur, t_global *global);
 int				create_temp_file(char *str, t_token *cur);
 char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);

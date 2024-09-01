@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/28 19:10:09 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/01 14:44:27 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ t_token *cur)
 	close(end[1]);
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
-		if (check_redirection(cur, fd, global->data) == 0)
+		if (check_redirection(cur, fd, global->data, global) == 0)
 			exec_builtin(cur, global, *fd);
 		exit(127);
 	}
-	if (check_redirection(cur, fd, global->data) == 0)
+	if (check_redirection(cur, fd, global->data, global) == 0)
 		child_pipes_process1(cur, global->pipes, global->data->envv, *fd);
 	exit(127);
 }
@@ -73,13 +73,13 @@ static void	child_process_main(t_vars *vars, t_token *cur, t_global *global)
 {
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
-		if (check_redirection(cur, &vars->fd, global->data) == 0)
+		if (check_redirection(cur, &vars->fd, global->data, global) == 0)
 			exec_builtin(cur, global, vars->fd);
 		exit(127);
 	}
 	else
 	{
-		if (check_redirection(cur, &vars->fd, global->data) == 0)
+		if (check_redirection(cur, &vars->fd, global->data, global) == 0)
 			child_pipes_process2(cur, global, vars->sv, vars->fd);
 		exit(127);
 	}
