@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/29 12:56:35 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/02 10:27:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	pars_export(t_token *cur, t_global *global)
 {
 	int		i;
 
-	i = 1;
 	if (cur->cmd_pipex[1] == NULL)
 	{
 		ft_export(&global->data->env, &global->data->exp_var);
@@ -24,7 +23,8 @@ void	pars_export(t_token *cur, t_global *global)
 	}
 	else
 	{
-		while (cur->cmd_pipex[i])
+		i = 1;
+		while (global->cur->cmd_pipex[i])
 		{
 			if (pars_exp_var(cur->cmd_pipex[i]) != -1)
 			{

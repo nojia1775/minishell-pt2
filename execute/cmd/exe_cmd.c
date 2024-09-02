@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/01 14:43:50 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/02 09:19:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,7 @@ t_global *global)
 	if (envp)
 		free_double_tabs(envp);
 	if (ft_strcmp(cmd, ">") && ft_strcmp(cmd, ">>")
-		&& ft_strcmp(cmd, "<"))
-	{
+		&& ft_strcmp(cmd, "<") && ft_strcmp(cmd, "<<"))
 		ft_putstr_msg(": command not found\n", 2, cmd);
-		free_reset_global(global);
-	}
+	free_reset_global(global);
 }

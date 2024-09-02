@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/01 15:26:13 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/02 10:12:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ static int	heredoc(t_token *cur, int i, t_global *global)
 		if (here_doc(cur->files[i], cur, global) == -1)
 			return (-1);
 		fd = open(cur->here_file, O_RDONLY);
+		free(cur->here_file);
 		if (fd == -1)
 			return (-1);
 		if (dup2(fd, STDIN_FILENO) == -1)

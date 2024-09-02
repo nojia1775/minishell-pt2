@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:05:39 by noah              #+#    #+#             */
-/*   Updated: 2024/08/29 12:58:17 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/02 10:04:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	free_redir_files(t_token *token)
+static void	 free_redir_files(t_token *token)
 {
 	int	i;
 
