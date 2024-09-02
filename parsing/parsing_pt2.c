@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/02 14:00:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/02 15:37:30 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,61 @@ static int	full_whitespace(char *str)
 	return (0);
 }
 
+static int	conform_redir2(char *input, char redir)
+{
+	int	i;
+	int	flag;
+	char		opp;
+	
+	i = 0;
+	flag = 0;
+	if (redir == '<')
+		opp = '>';
+	else if (redir == '>')
+		opp = '<';
+	if (input[1] == input[0])
+		i++;
+	if (!input[i + 1])
+		return (0);
+	while (input[++i])
+	{
+		if (ft_isalnum(input[i]))
+			flag = 1;
+		if (input[i] == '|' && !flag)
+			return (0);
+		if (input[i] == opp && !flag)
+			return (0);
+		if (input[i] == redir && flag)
+			flag = 0;
+		else if (input[i] == redir && !flag)
+			return (0);
+		if (!input[i] && !flag)
+			return (0);
+	}
+	return (1);
+}
+
+static int	conform_redir(char *input)
+{
+	int	i;
+
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == '>')
+		{
+			if (!conform_redir2(&input[i], '>'))
+				return (0);
+		}
+		else if (input[i] == '<')
+		{
+			if (!conform_redir2(&input[i], '<'))
+				return (0);
+		}
+	}
+	return (1);
+}
+
 t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 {
 	t_token	**tokens;
@@ -53,6 +108,8 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 		return (print_error(0), NULL);
 	if (!conform_pipe(input))
 		return (print_error(2), NULL);
+	if (!conform_redir(input))
+		return (print_error(1), NULL);
 	tmp = ft_strtrim(input, "\t \v\r\b");
 	free(input);
 	tokens = tokenisation(tmp, global, error_flag);

@@ -34,7 +34,6 @@ SRCS = minishell.c\
         parsing/type_token.c \
         parsing/quote_pt2.c \
 	parsing/pipe.c \
-	parsing/redir.c \
 	parsing/cmd_pipex.c \
 	signals.c \
 	utils/free.c \
