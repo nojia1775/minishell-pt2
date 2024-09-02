@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/01 15:26:42 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/02 14:05:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,6 @@ void			rm_space(char *str);
 char			*find_var(char *str, t_list **env, t_list **exp_var);
 int				conform_pipe(char *str);
 int				count_pipe(char *str);
-int				conform_redir(char *str);
 t_token			**parsing_pt2(char *input, t_global *global, int *error_flag);
 t_token			**tokenisation(char *str, t_global *global, int *error_flag);
 void			expand(t_token **tokens, t_global *global);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:28:27 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/30 15:04:17 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/02 13:50:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	ft_putstr_fd_pipes(char *s, int fd, char *str)
 
 	error = ft_strjoin_error(str, s);
 	total = ft_strlen(error);
+	write(fd, "minishell: ", sizeof("minishell: "));
 	write(fd, error, total);
 	free(error);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:11:59 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/29 12:22:59 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/02 13:47:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	conform_pipe(char *str)
 	int	in_double;
 
 	i = -1;
-	charac = 0;
+	charac = -1;
 	in_single = 0;
 	in_double = 0;
 	while (str[++i])
@@ -28,7 +28,7 @@ int	conform_pipe(char *str)
 		is_in_quote(&in_single, &in_double, str[i]);
 		if (ft_isalnum(str[i]))
 			charac = 1;
-		if (str[i] == '|' && !charac && !in_single && !in_double)
+		if (str[i] == '|' && charac > 0 && !in_single && !in_double)
 			return (0);
 		else if (str[i] == '|' && str[i + 1] == '|')
 			return (0);

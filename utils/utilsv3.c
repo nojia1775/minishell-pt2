@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:12:33 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/30 15:02:45 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/02 13:50:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_putstr_msg(char *s, int fd, char *str)
 
 	error = ft_strjoin_error(str, s);
 	total = ft_strlen(error);
+	write(fd, "minishell: ", sizeof("minishell: "));
 	write(fd, error, total);
 	free(error);
 }
