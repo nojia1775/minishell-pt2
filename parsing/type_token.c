@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:52:16 by noah              #+#    #+#             */
-/*   Updated: 2024/08/29 12:46:43 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/03 08:41:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	heredoc_type(t_token *cur)
 {
 	cur->type = HEREDOC;
 	cur->next->type = LIM;
-	if (cur->next->next && !redir_type(cur))
+	if (cur->next->next && !is_redir(cur->next->next))
 		cur->next->next->type = CMD;
 }
 

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/02 15:37:30 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/03 07:38:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,11 @@ static int	conform_redir2(char *input, char redir)
 		if (input[i] == opp && !flag)
 			return (0);
 		if (input[i] == redir && flag)
+		{
 			flag = 0;
+			if (input[i] == input[i + 1])
+				i++;
+		}
 		else if (input[i] == redir && !flag)
 			return (0);
 		if (!input[i] && !flag)

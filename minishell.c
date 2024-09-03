@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/02 10:17:43 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/03 08:48:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,23 @@ static void	routine(t_global *global)
 	int i = 0;
 	while (global->cur->cmd_pipex[i])
 		printf("--- %s\n", global->cur->cmd_pipex[i++]);
+	i = 0;
+	if (global->cur->redir)
+	{
+		while (global->cur->redir[i])
+		{
+			printf("\tredir = %s\n", global->cur->redir[i]);
+			if (global->cur->files[i])
+				printf("\tfiles = %s\n", global->cur->files[i]);
+			i++;
+		}
+	}
+	t_token *tmp = global->cur;
+	while (tmp)
+	{
+		printf("+++ %s %d\n", tmp->content, tmp->type);
+		tmp = tmp->next;
+	}
 	if (global->cur->nbr_pipe == 0)
 	{
 		sv = dup(STDIN_FILENO);
