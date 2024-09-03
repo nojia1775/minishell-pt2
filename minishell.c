@@ -54,7 +54,7 @@ static void	routine(t_global *global)
 		if (setup_exe_simple_cmd(global->cur, global) == -1)
 			exit(global->data->code);
 		dup2(sv, STDOUT_FILENO);
-		free_reset_global(global);
+		// free_reset_global(global);
 	}
 	else if (global->cur->nbr_pipe > 0)
 	{
@@ -89,6 +89,8 @@ static int	loop(t_data *data, t_global *global)
 			return (printf("ERROR PARSING\n"));
 		if (global->tokens)
 			routine(global);
+		else
+			free_reset_global(global);
 	}
 	return (0);
 }

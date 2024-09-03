@@ -28,7 +28,7 @@ int	conform_pipe(char *str)
 		is_in_quote(&in_single, &in_double, str[i]);
 		if (ft_isalnum(str[i]))
 			charac = 1;
-		if (str[i] == '|' && charac > 0 && !in_single && !in_double)
+		if (str[i] == '|' && charac == 0 && !in_single && !in_double)
 			return (0);
 		else if (str[i] == '|' && str[i + 1] == '|')
 			return (0);

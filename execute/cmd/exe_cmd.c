@@ -27,6 +27,7 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 	else if (pid > 0)
 	{
 		waitpid(pid, status, 0);
+		free_reset_global(global);
 		if (WIFEXITED(*status))
 			global->data->code = WEXITSTATUS(*status);
 	}

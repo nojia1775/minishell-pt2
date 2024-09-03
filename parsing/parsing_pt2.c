@@ -104,17 +104,17 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 	char	*tmp;
 
 	*error_flag = 0;
-	if (input[0] == '\0')
-		return (printf("input vide\n"), NULL);
-	if (full_whitespace(input))
-		return (printf("full whitespace\n"), NULL);
-	if (!nbr_quotes(input))
-		return (print_error(0), NULL);
-	if (!conform_pipe(input))
-		return (print_error(2), NULL);
-	if (!conform_redir(input))
-		return (print_error(1), NULL);
 	tmp = ft_strtrim(input, "\t \v\r\b");
+	if (tmp[0] == '\0')
+		return (free(tmp), printf("input vide\n"), NULL);
+	if (full_whitespace(tmp))
+		return (free(tmp), printf("full whitespace\n"), NULL);
+	if (!nbr_quotes(tmp))
+		return (free(tmp), print_error(0), NULL);
+	if (!conform_pipe(tmp))
+		return (free(tmp), print_error(2), NULL);
+	if (!conform_redir(tmp))
+		return (free(tmp), print_error(1), NULL);
 	free(input);
 	tokens = tokenisation(tmp, global, error_flag);
 	return (tokens);
