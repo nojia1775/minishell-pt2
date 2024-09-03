@@ -108,6 +108,7 @@ int	files_and_redir(t_token **tokens, int *flag)
 		ft_memset(&var, 0, sizeof(var));
 		var.cur = tokens[i];
 		count_redir_files(var.cur, &var.nbr_redir, &var.nbr_files);
+		printf("redir = %d files = %d\n", var.nbr_redir, var.nbr_files);
 		if (var.nbr_redir || var.nbr_files)
 		{
 			var.cur->redir = create_tab(var.nbr_redir);

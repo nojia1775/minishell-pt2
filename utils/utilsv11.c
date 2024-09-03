@@ -14,13 +14,19 @@
 
 int	is_redir(t_token *cur)
 {
-	if (cur->type != HEREDOC && cur->type != INREDIR
-		&& cur->type != OUTREDIR && cur->type != INREDIRAPP)
-		return (0);
-	if (!ft_strcmp(cur->content, "<") || !ft_strcmp(cur->content, ">")
-		|| !ft_strcmp(cur->content, ">>")
-		|| !ft_strcmp(cur->content, "<<"))
-		return (1);
+	if (cur->type != -1)
+	{
+		if (cur->type == HEREDOC || cur->type == INREDIR
+			|| cur->type == OUTREDIR || cur->type == INREDIRAPP)
+			return (1);
+	}
+	else
+	{
+		if (!ft_strcmp(cur->content, "<") || !ft_strcmp(cur->content, ">")
+			|| !ft_strcmp(cur->content, ">>")
+			|| !ft_strcmp(cur->content, "<<"))
+			return (1);
+	}
 	return (0);
 }
 
