@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 01:42:03 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/02 09:16:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/05 10:54:41 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	create_temp_file(char *str, t_token *cur)
 	vars.fd_temp = 0;
 	if (access(str, F_OK) != 0)
 	{
+		cur->here_file = ft_strdup(str);
 		vars.fd_temp = open(str, O_WRONLY | O_CREAT, 0666);
 		if (vars.fd_temp < 0)
 			return (-1);
@@ -88,7 +89,6 @@ int 	here_doc(char *limit_word, t_token *cur, t_global *global)
 	char	*line;
 	int		fd;
 
-	fd = -1;
 	fd = create_temp_file("temp", cur);
 	if (fd == -1)
 	{

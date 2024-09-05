@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/02 09:19:11 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/05 11:24:41 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 	}
 	else if (pid > 0)
 	{
+		//printf("***** ICI\n");
 		waitpid(pid, status, 0);
 		free_reset_global(global);
 		if (WIFEXITED(*status))
@@ -130,6 +131,7 @@ t_global *global)
 {
 	t_vars	vars;
 
+	(void)global;
 	vars.good_path = NULL;
 	vars.good_line_envp = NULL;
 	vars.good_cmd = NULL;
@@ -141,5 +143,5 @@ t_global *global)
 	if (ft_strcmp(cmd, ">") && ft_strcmp(cmd, ">>")
 		&& ft_strcmp(cmd, "<") && ft_strcmp(cmd, "<<"))
 		ft_putstr_msg(": command not found\n", 2, cmd);
-	free_reset_global(global);
+	//free_reset_global(global);
 }

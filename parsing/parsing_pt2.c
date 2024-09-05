@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/03 07:38:11 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/05 11:00:06 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 	*error_flag = 0;
 	tmp = ft_strtrim(input, "\t \v\r\b");
 	if (tmp[0] == '\0')
-		return (free(tmp), printf("input vide\n"), NULL);
+		return (free(tmp), NULL);
 	if (full_whitespace(tmp))
 		return (free(tmp), printf("full whitespace\n"), NULL);
 	if (!nbr_quotes(tmp))

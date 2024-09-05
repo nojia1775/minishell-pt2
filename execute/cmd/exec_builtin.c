@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/08/28 19:41:50 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/05 11:36:57 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,6 @@ int	exec_builtin(t_token *cur, t_global *global, int fd)
 			dup2(vars.sv, STDIN_FILENO);
 		close(fd);
 	}
+	free_reset_global(global);
 	return (0);
 }
