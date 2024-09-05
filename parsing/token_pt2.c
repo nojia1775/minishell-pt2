@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_pt2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/06/13 19:02:36 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:16:07 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 typedef struct s_var
 {
-	char	buffer[100];
+	char	buffer[1000000];
 	int		in_double;
 	int		in_single;
 	int		ibuf;
@@ -40,16 +40,18 @@ static int	actions(t_token **tokens, char *str, t_var *vars, int nbr_pipe)
 		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
 	}
-	else if ((str[vars->i] == '<' || str[vars->i] == '>')
+	else if (!vars->in_double && !vars->in_single
+		&& (str[vars->i] == '<' || str[vars->i] == '>')
 		&& vars->i && (str[vars->i - 1] != '<'
 			&& str[vars->i - 1] != '>'))
 		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
 	if (((str[vars->i] != ' ' && str[vars->i] != '|')
-		|| ((str[vars->i] == ' ' || str[vars->i] == '|')
-		&& (vars->in_double || vars->in_single))) && str[vars->i])
+			|| ((str[vars->i] == ' ' || str[vars->i] == '|')
+				&& (vars->in_double || vars->in_single))) && str[vars->i])
 		vars->buffer[vars->ibuf++] = str[vars->i];
-	if ((str[vars->i] == '>' || str[vars->i] == '<')
+	if (!vars->in_double && !vars->in_single
+		&& (str[vars->i] == '>' || str[vars->i] == '<')
 		&& str[vars->i + 1] != '<' && str[vars->i + 1] != '>')
 		if (!create_token(vars, tokens, nbr_pipe))
 			return (0);
@@ -81,19 +83,29 @@ static int	split_tokens(char *str, t_token **tokens, int nbr_pipe)
 
 // transformation de l'input en tokens 
 // (liste chainée avec le content et le type pour l 'exec)
-t_token	**tokenisation(char *str, t_list **env, t_list **exp_var)
+t_token	**tokenisation(char *str, t_global *global, int *error_flag)
 {
-	t_token	**tokens;
 	size_t	nbr_pipe;
+	t_token	**tokens;
 
 	nbr_pipe = count_pipe(str) + 1;
 	tokens = (t_token **)ft_calloc(nbr_pipe + 1, sizeof(t_token *)
 			* (nbr_pipe + 1));
 	if (!tokens)
-		return (NULL);
+		return (change_flag(error_flag), NULL);
 	split_tokens(str, tokens, nbr_pipe - 1);
+	free(str);
+	expand(tokens, global);
+	supp_token(tokens);
+	if (tokens[0] == NULL)
+		return (free_tokens(tokens), NULL);
 	type_token(tokens);
-	expand(tokens, env, exp_var);
 	quotes(tokens);
+	supp_token(tokens);
+	if (tokens[0] == NULL)
+		return (free_tokens(tokens), NULL);
+	create_cmd_pipex(tokens);
+	if (!files_and_redir(tokens, error_flag))
+		return (free_tokens(tokens), NULL);
 	return (tokens);
 }

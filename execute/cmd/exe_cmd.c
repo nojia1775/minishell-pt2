@@ -3,218 +3,148 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/28 03:35:10 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:12:46 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// Fonction principale executent une commande simple du genre ls -l par exemple
-int 	setup_exe_simple_cmd(t_data *data, t_list **env, t_list **exp_var,
-		char *file, char *redir)
+static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 {
-	int status;
-
-	status = 0;
 	pid_t	pid;
-	int		fd;
-	int		flag;
-	flag = 1;
-	fd = -1;
-	if (is_a_builtin(data->str) == 1)
-	{
-		check_redirection(redir, file, &fd);
-		exec_redirection(redir, fd, &flag);
-		if (fd > 0)
-			return(exec_builtin(data, env, exp_var));
-		return (0);
-	}
+
 	pid = fork();
 	if (set_exec_signals(data) == -1)
 		return(0);
 	if (pid == 0)
 	{
-		data->code = 0;
-		if (check_file(file) == -1)
-			if (chdir(file) != 0)
-				{
-					data->code = 1;
-					ft_putendl_fd(": Aucun fichier ou dossier de ce type", 2);
-					exit(EXIT_FAILURE);
-				}
-		check_redirection(redir, file, &fd);
-		if (fd > 0)
-			check_and_exe_cmd(data, env, exp_var, fd, redir);
+		global->data->code = 0;
+		if (check_redirection(cur, fd, global->data, global) == 0)
+			check_and_exe_cmd(cur, global, *fd);
 		exit(127);
 	}
 	else if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			data->code = WEXITSTATUS(status);
+		//printf("***** ICI\n");
+		waitpid(pid, status, 0);
+		free_reset_global(global);
+		if (WIFEXITED(*status))
+			global->data->code = WEXITSTATUS(*status);
 	}
 	else
 		perror("fork");
 	return (0);
 }
-// fonction qui tente l'absolut path et s' il ne s'execute pas il test le relative path(fonction en dessous)
-void	check_and_exe_cmd(t_data *data, t_list **envp, t_list **exp_var, int fd, char *redir)
-{
-	char	**cmd1;
-	char	**absolut_path;
-	char	**total_env;
-	int		i;
 
-	i = 0;
-	if (redir)
+// Fonction principale executent une commande simple du genre ls -l par exemple
+int	setup_exe_simple_cmd(t_token *cur, t_global *global)
+{
+	int		status;
+	int		fd;
+
+	status = 0;
+	fd = STDOUT_FILENO;
+	if (set_exec_signals(global->data) == -1)
+		return (0);
+	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
-		if (ft_strcmp(redir, ">") == 0 || ft_strcmp(redir, ">>") == 0)
-			dup2(fd, STDOUT_FILENO);
-		else if (ft_strcmp(redir, "<") == 0)
+		if (check_redirection(cur, &fd, global->data, global) == 0)
+			return (exec_builtin(cur, global, fd));
+		else
 		{
-			if(dup2(fd, STDIN_FILENO) == -1)
-				perror("dup2");
+			global->data->code = 1;
+			return (1);
 		}
-		close(fd);
 	}
-	total_env = stock_total_env(envp, exp_var);
-	cmd1 = ft_split(data->str, ' ');
-	absolut_path = ft_split(data->str, ' ');
-	execve(absolut_path[0], cmd1, total_env);
-	while (absolut_path[i])
-	{
-		free(absolut_path[i]);
-		i++;
-	}
-	free(absolut_path);
-	ft_relative_path(cmd1, total_env, data->str);
-	i = 0;
-	free_double_tabs(total_env);
-	data->code = 127;
-	return;
+	setup_exe_fork(global, &fd, &status, cur);
+	return (0);
 }
 
-// Fonction qui execute le relative path en testant tous les binaires de l'env
-void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1)
+// fonction qui tente l'absolut path et s' il ne s'execute pas il
+// test le relative path(fonction en dessous)
+void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
+{
+	char	**total_env;
+	int		len;
+
+	len = 0;
+	len = ft_strlen_double_tab(cur->redir);
+	if (len != 0)
+	{
+		len--;
+		while (ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+			len--;
+		if (ft_strcmp(cur->redir[len], ">") == 0
+			|| ft_strcmp(cur->redir[len], ">>") == 0)
+			dup2(fd, STDOUT_FILENO);
+		else if (ft_strcmp(cur->redir[len], "<") == 0)
+		{
+			if (dup2(fd, STDIN_FILENO) == -1)
+				perror("dup2");
+		}
+		if (cur->flag == 1)
+			close(fd);
+	}
+	total_env = stock_total_env(&global->data->env, &global->data->exp_var);
+	execve(get_cmd(cur), get_cmd_pipex(cur), total_env);
+	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur), global);
+}
+
+typedef struct s_vars
 {
 	char	*good_line_envp;
 	char	**good_path;
 	char	*good_cmd;
-	int		i;
+}	t_vars;
+
+static void	if_envp(t_vars *vars, char **envp, char **cmd_pipex, char *cmd)
+{
+	int	i;
 
 	i = 0;
-	good_path = NULL;
-	good_line_envp = NULL;
-	good_cmd = NULL;
 	if (envp != NULL)
 	{
 		while (envp[i])
 		{
-			if (ft_strncmp("PATH=", envp[i], 5) == 0)
-				good_line_envp = envp[i];
+			if (!ft_strncmp("PATH=", envp[i], 5))
+				vars->good_line_envp = envp[i];
 			i++;
 		}
-		if (good_line_envp != NULL)
+		if (vars->good_line_envp)
 		{
-			good_path = ft_split(good_line_envp, ':');
+			vars->good_path = ft_split(vars->good_line_envp, ':');
 			i = -1;
-			while (good_path[++i])
+			while (vars->good_path[++i])
 			{
-				good_cmd = ft_strjoin_cmd(good_path[i], cmd1);
-				execve(good_cmd, splitted_cmd1, envp);
-				free(good_cmd);
+				vars->good_cmd = ft_strjoin_cmd(
+						vars->good_path[i], cmd);
+				execve(vars->good_cmd, cmd_pipex, envp);
+				free(vars->good_cmd);
 			}
 		}
 	}
-	if (good_line_envp != NULL)
-		free_double_tabs(good_path);
-	ft_putstr_msg(": command not found\n", 2, cmd1);
-	free_double_tabs(splitted_cmd1);
 }
 
-//Check la redirection et agit agit en consequences
-void	check_redirection(char *str, char *file, int *fd)
+// Fonction qui execute le relative path en testant tous les binaires de l'env
+void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd,
+t_global *global)
 {
-	if (ft_strcmp(">", str) == 0)
-	{
-		*fd = open(file, O_WRONLY | O_TRUNC, 0644);
-		if (access(file, W_OK) == -1 && access(file, F_OK) == 0)
-		{
-			ft_putstr_msg(": No such file or directory\n", 2, file);
-		}
-		else
-		{
-			*fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-			if (access(file, R_OK) != 0)
-				ft_putstr_msg(": Permission denied\n", 2, file);
-		}
-	}
-	else if (ft_strcmp(">>", str) == 0)
-	{
-		*fd = open(file, O_WRONLY | O_APPEND, 0644);
-		if (access(file, W_OK) == -1 && access(file, F_OK) == 0)
-		{
-			ft_putstr_msg(": No such file or directory\n", 2, file);
-		}
-		else
-		{
-			*fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-			if (access(file, R_OK) != 0)
-				ft_putstr_msg(": Permission denied\n", 2, file);
-		}
-	}
-	else if (ft_strcmp("<", str) == 0)
-	{
-		if (access(file, F_OK) != 0)
-		{
-			ft_putstr_msg(": No such file or directory\n", 2, file);
-		}
-		else
-		{
-			*fd = open(file, O_RDONLY);
-			if (access(file, R_OK) != 0)
-				ft_putstr_msg(": Permission denied\n", 2, file);
-		}
-	}
-}
+	t_vars	vars;
 
-// Rassemble l'env dans un double tab car execve prends comme argument un double tab (l'env)
-char	**stock_total_env(t_list **envp, t_list **exp_var)
-{
-	int		len;
-	int		i;
-	t_list	*head;
-	t_list	*current;
-	char	**total_env;
-
-	i = 0;
-	head = *envp;
-	current = *exp_var;
-	len = ft_lstlen(envp) + ft_lstlen(exp_var) + 1;
-	total_env = malloc(len * sizeof(char *));
-	if (!total_env)
-		return (NULL);
-	if (envp && *envp)
-	{
-		while (head)
-		{
-			total_env[i] = ft_strdup(head->content);
-			i++;
-			head = head->next;
-		}
-	}
-	if (exp_var && *exp_var)
-	{
-		while (current)
-		{
-			total_env[i] = ft_strdup(current->content);
-			i++;
-			current = current->next;
-		}
-	}
-	total_env[i] = NULL;
-	return (total_env);
+	(void)global;
+	vars.good_path = NULL;
+	vars.good_line_envp = NULL;
+	vars.good_cmd = NULL;
+	if_envp(&vars, envp, cmd_pipex, cmd);
+	if (vars.good_line_envp != NULL)
+		free_double_tabs(vars.good_path);
+	if (envp)
+		free_double_tabs(envp);
+	if (ft_strcmp(cmd, ">") && ft_strcmp(cmd, ">>")
+		&& ft_strcmp(cmd, "<") && ft_strcmp(cmd, "<<"))
+		ft_putstr_msg(": command not found\n", 2, cmd);
+	//free_reset_global(global);
 }

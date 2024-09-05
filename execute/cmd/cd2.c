@@ -3,31 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 01:55:01 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 18:09:48 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:12:25 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Quand tu fais cd ~ ca te ramene a ton HOME, cette fonction permet de faire ca
-void	ft_cd_home(t_data *data, t_list **env)
+void	ft_cd_home(t_global *global)
 {
-	data->path = NULL;
-	get_home_path(data, env);
-	if (chdir(data->path) == 0)
+	global->data->path = NULL;
+	get_home_path(global->data, &global->data->env);
+	if (chdir(global->data->path) == 0)
 	{
-		data->pwd = getcwd(data->buf, sizeof(data->buf));
-		free(data->total_setup);
-		data->total_setup = init_lobby(data);
-		update_env(env);
-		data->code = 0;
+		global->data->pwd = getcwd(global->data->buf,
+				sizeof(global->data->buf));
+		free(global->data->total_setup);
+		init_lobby(global->data);
+		update_env(&global->data->env);
+		global->data->code = 0;
 	}
 	else
 	{
-		ft_printf("cd: ~: No such file or directory \n");
-		data->code = 1;
+		printf("cd: ~: No such file or directory \n");
+		global->data->code = 1;
 	}
 }

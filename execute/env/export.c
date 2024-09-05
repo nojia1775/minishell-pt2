@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:10:18 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/25 04:20:03 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:14:17 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,20 @@ void	ft_export(t_list **env, t_list **exp_var)
 	t_list	*current;
 	t_list	*head;
 	char	**export;
+
 	head = *exp_var;
 	current = *env;
 	i = 0;
 	if (!env)
 	{
-		ft_printf("env: «export»: Aucun fichier ou dossier de ce type\n");
-		return;
+		printf("env: «export»: Aucun fichier ou dossier de ce type\n");
+		return ;
 	}
 	i = ft_lstlen(env);
 	if (exp_var != NULL)
 		i = i + ft_lstlen(exp_var);
 	export = malloc((i + 1) * sizeof(char *));
-	if (export)
+	if (!export)
 		return ;
 	export[i] = NULL;
 	i = 0;
@@ -64,7 +65,7 @@ void	trie_export(char **export, int i)
 	char	*temp;
 	int		max;
 	int		j;
-	
+
 	max = i;
 	i = 0;
 	while (i < max - 1)
@@ -92,9 +93,7 @@ void	print_export(char **export)
 	if (export)
 	{
 		while (export[i])
-			ft_printf("%s\n", export[i++]);
+			printf("%s\n", export[i++]);
 		free_double_tabs(export);
 	}
 }
-
-

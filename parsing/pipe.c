@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:11:59 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/06/13 18:49:08 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:15:43 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,17 @@ int	conform_pipe(char *str)
 	int	charac;
 	int	in_single;
 	int	in_double;
-	
+
 	i = -1;
-	charac = 0;
+	charac = -1;
 	in_single = 0;
 	in_double = 0;
 	while (str[++i])
 	{
-		if (str[i] == 34 && !in_single)
-			in_double = (in_double + 1) % 2;
-		if (str[i] == 39 && !in_double)
-			in_single = (in_single + 1) % 2;
+		is_in_quote(&in_single, &in_double, str[i]);
 		if (ft_isalnum(str[i]))
 			charac = 1;
-		if (str[i] == '|' && !charac && !in_single && !in_double)
+		if (str[i] == '|' && charac == 0 && !in_single && !in_double)
 			return (0);
 		else if (str[i] == '|' && str[i + 1] == '|')
 			return (0);
@@ -49,7 +46,7 @@ int	count_pipe(char *str)
 	int	count;
 	int	in_single;
 	int	in_double;
-	
+
 	in_single = 0;
 	in_double = 0;
 	count = 0;

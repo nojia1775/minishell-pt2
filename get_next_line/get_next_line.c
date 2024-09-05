@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 16:07:44 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/16 17:37:06 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:15:02 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	i = 0;
 	if (s2 == 0 && s1)
 		return (s1);
-	tab = malloc(((ft_strlen_gnl(s1, 0) + ft_strlen_gnl(s2, 0)) + 1) * sizeof(char));
+	tab = malloc(((ft_strlen_gnl(s1, 0)
+					+ ft_strlen_gnl(s2, 0)) + 1) * sizeof(char));
 	if (!tab)
 	{
 		free(s1);

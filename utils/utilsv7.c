@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv7.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 18:13:15 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 02:17:15 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:17:20 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,14 @@ char	*ft_strdup_quotes(const char *s)
 	return (s2);
 }
 
-char *ft_strdup_outside_quotes(const char *s)
+char	*ft_strdup_outside_quotes(const char *s)
 {
 	int		i;
 	char	*s2;
 	int		size;
 	int		j;
 	char	stock_char;
+
 	j = 0;
 	i = 0;
 	size = ft_strlen_quotes(s) + 2;
@@ -89,12 +90,8 @@ char *ft_strdup_outside_quotes(const char *s)
 	stock_char = s[i];
 	i++;
 	j++;
-	while(s[i] != '\'' && s[i] != '"' && s[i])
-	{
-		s2[j] = s[i];
-			i++;
-			j++;
-	}
+	while (s[i] != '\'' && s[i] != '"' && s[i])
+		s2[j++] = s[i++];
 	s2[j] = stock_char;
 	j++;
 	s2[j] = '\0';
@@ -106,7 +103,6 @@ int	checking_if_alpha(char *str)
 	int	i;
 
 	i = 0;
-	printf("%s\n", str);
 	while (str[i] && str[i] != '=')
 	{
 		if ((str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122))
@@ -115,28 +111,4 @@ int	checking_if_alpha(char *str)
 			return (-1);
 	}
 	return (1);
-}
-
-void	ft_simple_err(char *s, int fd)
-{
-	if (!s)
-		return ;
-	write(fd, s, ft_strlen(s));
-}
-
-int	ft_strlen_double_tab(char **str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	
-	while (str[i])
-	{
-		j = 0;
-		while (str[i][j])
-			j++;
-		i++;
-	}
-	return (i);
 }

@@ -3,77 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 01:50:42 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:12:36 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
-// Fonction qui cherche si ya un $NomDeVariable pour la print avec echo
-char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
+static void	write_fd(char *str, int fd, char *next, int redir_flag)
 {
-	char	**total_env;
-	int		i;
-
-	i = 0;
-	total_env = stock_total_env(env, exp_var);
-	while (total_env[i])
+	if (redir_flag == 1)
 	{
-		if (ft_strncmp(str + 1, total_env[i], ft_strlen(str) - 1) == 0)
-		{
-			*flag = 1;
-			str = ft_strdup(total_env[i]);
-		}
-		i++;
+		printf("%s", str);
+		if (next)
+			printf(" ");
+		return ;
 	}
-	i = 0;
-	while (total_env[i])
-	{
-		free(total_env[i]);
-		i++;
-	}
-	free(total_env);
-	return (str);
+	ft_putstr_fd(str, fd);
+	if (next)
+		ft_putstr_fd(" ", fd);
 }
 
-// Fonction echo, c'est juste un printf et je check si y'a l'option -n
-void	ft_echo(t_data *data, int n_option, t_list **env, t_list **exp_var,
-			int *fd, int flag_redir)
+static int	is_n_option(char *str)
 {
-	int i;
-	int len;
-	int flag;
+	int	i;
 
-	//char **echo_split;
-	
-	flag = -1;
-	len = ft_strlen(data->str);
-	data->str = find_echo_var(data->str, env, exp_var, &flag);
-	if (ft_strcmp("$?", data->str) == 0)
+	if (!str)
+		return (0);
+	if (str[0] != '-')
+		return (0);
+	if (str[1] != 'n')
+		return (0);
+	i = 0;
+	while (str[++i])
+		if (str[i] != 'n')
+			return (0);
+	return (1);
+}
+
+static void	loop(t_token *cur, int flag, int redir_flag, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (cur->cmd_pipex[++i])
 	{
-		ft_printf("%d", data->code);
-	}
-	else
-	{
-		if (flag == 1)
-			i = len + 1;
-		else
-			i = 0;
-		while (data->str[i])
+		if (flag)
 		{
-			if (*fd != -1 && flag_redir != 0)
-				write((*fd), &data->str[i], 1);
-			else
-				write(1, &data->str[i], 1);
-			i++;
+			if (!is_n_option(cur->cmd_pipex[i]))
+			{
+				write_fd(cur->cmd_pipex[i], fd,
+					cur->cmd_pipex[i + 1], redir_flag);
+				flag = 0;
+			}
+		}
+		else
+		{
+			write_fd(cur->cmd_pipex[i], fd,
+				cur->cmd_pipex[i + 1], redir_flag);
 		}
 	}
-	if (n_option != -1)
-		write(1, "\n", 1);
-	if (flag == 1)
-		free(data->str);
+}
+
+void	ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag)
+{
+	int	option;
+	int	flag;
+
+	option = 1;
+	flag = 1;
+	if (!cur->next)
+		ft_putstr_fd("\n", *fd);
+	if (cur->next && !is_n_option(cur->cmd_pipex[1]))
+	{
+		option = 0;
+		flag = 0;
+	}
+	loop(cur, flag, redir_flag, *fd);
+	if (!option)
+	{
+		if (redir_flag == 1)
+			printf("\n");
+		else
+			ft_putstr_fd("\n", *fd);
+	}
+	data->code = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv8.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/06/13 19:02:10 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:17:31 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,14 @@ void	is_in_quote(int *in_single, int *in_double, char c)
 		*in_single = !(*in_single);
 }
 
-// free les tokens et leurs membres
-void	free_tokens(t_token **tokens)
+static void	init_new_token(t_token **new, char *content, int nbr_pipe)
 {
-	t_token	*cur;
-	t_token	*rm;
-	int		i;
-		
-	i = 0;
-	cur = tokens[i];
-	while (tokens[i])
-	{
-		while (cur)
-		{
-			rm = cur;
-			free(cur->content);
-			cur = cur->next;
-			free(rm);
-		}
-		i++;
-	}
-	free(tokens);
+	(*new)->content = ft_strdup(content);
+	(*new)->nbr_pipe = nbr_pipe;
+	(*new)->next = NULL;
+	(*new)->redir = NULL;
+	(*new)->files = NULL;
+	(*new)->type = -1;
 }
 
 // ajoute un token à la liste chainée
@@ -54,9 +41,7 @@ int	add_token(t_token **tokens, char *content, int nbr_pipe)
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 		return (0);
-	new->content = ft_strdup(content);
-	new->nbr_pipe = nbr_pipe;
-	new->next = NULL;
+	init_new_token(&new, content, nbr_pipe);
 	cur = *tokens;
 	if (!cur)
 	{
@@ -71,4 +56,31 @@ int	add_token(t_token **tokens, char *content, int nbr_pipe)
 		new->prev = cur;
 	}
 	return (1);
+}
+
+char	*find_var(char *str, t_list **env, t_list **exp_var)
+{
+	char	**total_env;
+	int		i;
+	char	*value;
+	char	*tmp;
+
+	tmp = NULL;
+	i = 0;
+	total_env = stock_total_env(env, exp_var);
+	while (total_env[i])
+	{
+		if (ft_strncmp(str, total_env[i], ft_strlen(str)) == 0)
+			tmp = ft_strdup(total_env[i]);
+		i++;
+	}
+	i = 0;
+	while (total_env[i])
+		free(total_env[i++]);
+	free(total_env);
+	if (!tmp)
+		return (NULL);
+	value = ft_strdup(tmp + ft_strlen_egal(str) + 1);
+	free(tmp);
+	return (value);
 }

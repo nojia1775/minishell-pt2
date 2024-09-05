@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 18:03:16 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:14:07 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	stock_env(char **env, t_list **envp)
 		i++;
 	}
 }
+
 //Fonction qui permet d'update la ligne PWD de l'env a chaque fois que tu cd
 void	update_env(t_list **env)
 {
@@ -36,8 +37,8 @@ void	update_env(t_list **env)
 	int		flag;
 	t_list	*new_case;
 	char	*new_content;
-	char  	*cwd;
-	
+	char	*cwd;
+
 	flag = 0;
 	if (env != NULL)
 	{
@@ -47,7 +48,7 @@ void	update_env(t_list **env)
 		{
 			cwd = getcwd(buf, sizeof(buf));
 			new_content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
-			ft_strcpy(new_content, "PWD=", 4);
+			ft_strlcpy(new_content, "PWD=", 4);
 			ft_strcat(new_content, cwd);
 			new_case = ft_lstnew(new_content);
 			ft_lstadd_back(env, new_case);
@@ -60,20 +61,21 @@ void	find_pwd(int *flag, t_list **env)
 	t_list	*current;
 	char	*cwd;
 	char	buf[1024];
+
 	current = *env;
 	while (current)
+	{
+		if (strncmp(current->content, "PWD=", 4) == 0)
 		{
-			if (strncmp(current->content, "PWD=", 4) == 0)
-			{
-				*flag = 1;
-				cwd = getcwd(buf, sizeof(buf));
-				free(current->content);
-				current->content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
-				current->content = ft_return_strcat("PWD=", cwd,
-						current->content);
-			}
-			current = current->next;
+			*flag = 1;
+			cwd = getcwd(buf, sizeof(buf));
+			free(current->content);
+			current->content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
+			current->content = ft_return_strcat("PWD=", cwd,
+					current->content);
 		}
+		current = current->next;
+	}
 }
 
 //Je print l'env
@@ -92,7 +94,7 @@ void	print_env(t_list **envp, t_list **exp_var, t_data *data)
 	{
 		while (top)
 		{
-			ft_printf("%s\n", top->content);
+			printf("%s\n", (char *)top->content);
 			top = top->next;
 		}
 	}
@@ -100,7 +102,7 @@ void	print_env(t_list **envp, t_list **exp_var, t_data *data)
 	{
 		while (current)
 		{
-			ft_printf("%s\n", current->content);
+			printf("%s\n", (char *)current->content);
 			current = current->next;
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/11 17:05:30 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:17:10 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	word_len(char *str)
 	int	count;
 	int	i;
 
+	if (!ft_strncmp(str, "$?", 2))
+		return (2);
 	i = 0;
 	count = 0;
 	while (str[i] != ' ' && str[i] != 39 && str[i] != 34
@@ -30,33 +32,45 @@ int	word_len(char *str)
 	return (count);
 }
 
-char	*get_env_value(char *str, t_list **env, t_list **exp_var)
+typedef struct s_vars
 {
 	char	*var;
 	char	*value;
 	char	*result;
+	char	*tmp;
+	char	*ques;
 	int		len;
-	char	**envp;
+}	t_vars;
 
-	(void)envp;
-	envp = stock_total_env(env, exp_var);
-	len = word_len(str);
-	var = (char *)malloc(sizeof(char) * len);
-	if (!var)
+char	*get_env_value(char *str, t_list **env, t_list **exp_var,
+	long long code)
+{
+	t_vars	vars;
+
+	vars.ques = question_mark(str, code);
+	if (vars.ques)
+		return (vars.ques);
+	vars.len = word_len(str);
+	vars.var = (char *)malloc(sizeof(char) * vars.len);
+	if (!vars.var)
 		return (NULL);
-	ft_strlcpy(var, str + 1, len + 1);
-	var[len - 1] = '\0';
-	result = ft_strtrim(var, " ");
-	value = find_var(result, env, exp_var);
-	free(var);
-	free(result);
-	return (value);
+	ft_strlcpy(vars.var, str + 1, vars.len + 1);
+	vars.var[vars.len - 1] = '\0';
+	vars.tmp = ft_strtrim(vars.var, " ");
+	vars.result = ft_strjoin(vars.tmp, "=");
+	vars.value = find_var(vars.result, env, exp_var);
+	free(vars.var);
+	free(vars.result);
+	free(vars.tmp);
+	if (!vars.value)
+		return (NULL);
+	return (vars.value);
 }
 
 int	total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var)
 {
-	int	count;
-	int	i;
+	int		count;
+	int		i;
 	char	*value;
 
 	count = ft_strlen(str);
@@ -64,7 +78,7 @@ int	total_len_str(char *str, int *index_of_var, t_list **env, t_list **exp_var)
 	while (index_of_var[i] != -1)
 	{
 		count -= word_len(&str[index_of_var[i]]);
-		value = get_env_value(&str[index_of_var[i]], env, exp_var);
+		value = get_env_value(&str[index_of_var[i]], env, exp_var, 0);
 		if (value)
 			count += ft_strlen(value);
 		i++;
@@ -86,7 +100,7 @@ void	rm_space(char *str)
 	int	l;
 	int	in_sgl;
 	int	in_dbl;
-	
+
 	i = 0;
 	in_sgl = 0;
 	in_dbl = 0;
@@ -102,7 +116,7 @@ void	rm_space(char *str)
 			while (str[++l])
 				str[l] = str[l + 1];
 		}
-		else 
+		else
 			i++;
 	}
 }

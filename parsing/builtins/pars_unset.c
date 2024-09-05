@@ -3,37 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   pars_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 02:08:02 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 17:54:38 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:16:47 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
-void	pars_unset(t_data *data, t_list **env, t_list **exp_var)
+void	pars_unset(t_token *cur, t_global *global)
 {
-	char **unset;
+	char	**unset;
 	int		i;
 
 	i = 1;
-	unset = ft_split(data->str, ' ');
-	data->code =  0;
+	unset = cur->cmd_pipex;
+	global->data->code = 0;
 	if (!unset[1])
 	{
 		free_double_tabs(unset);
-		return;
+		return ;
 	}
-	else 
+	else
+	{
+		while (unset[i])
 		{
-			while (unset[i])
-			{
-				ft_unset(env, exp_var, unset[i], data);
-				i++;
-			}
+			ft_unset(&global->data->env, &global->data->exp_var,
+				cur->next->content, global->data);
+			cur = cur->next;
+			i++;
 		}
-	free_double_tabs(unset);
+	}
 }
-

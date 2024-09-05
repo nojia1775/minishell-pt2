@@ -3,42 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:12:33 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/22 16:59:28 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/02 13:50:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_free_lists(t_list **env, t_list **exp_var)
+void	ft_free_lists(t_list *env, t_list *exp_var)
 {
-	t_list	*current;
-	t_list	*head;
+	t_list	*cur;
+	t_list	*rm;
 
-	current = *env;
-	head = *exp_var;
-	if (env && *env)
+	cur = env;
+	while (cur)
 	{
-		while (*env)
-		{
-			current = (*env)->next;
-			free((*env)->content);
-			free(*env);
-			(*env) = current;
-		}
+		free(cur->content);
+		rm = cur;
+		cur = cur->next;
+		free(rm);
 	}
-	if (exp_var && *exp_var)
+	env = NULL;
+	cur = exp_var;
+	while (cur)
 	{
-		while (*exp_var)
-		{
-			head = (*exp_var)->next;
-			free((*exp_var)->content);
-			free(*exp_var);
-			(*exp_var) = head;
-		}
+		free(cur->content);
+		rm = cur;
+		cur = cur->next;
+		free(rm);
 	}
+	exp_var = NULL;
 }
 
 void	ft_putstr_msg(char *s, int fd, char *str)
@@ -48,26 +44,10 @@ void	ft_putstr_msg(char *s, int fd, char *str)
 
 	error = ft_strjoin_error(str, s);
 	total = ft_strlen(error);
+	write(fd, "minishell: ", sizeof("minishell: "));
 	write(fd, error, total);
 	free(error);
 }
-
-void	free_double_tabs(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (str)
-	{
-		while (str[i])
-		{
-			free(str[i]);
-			i++;
-		}
-		free(str);
-	}
-}
-
 
 char	*ft_strjoin_error(char const *s1, char const *s2)
 {
@@ -100,7 +80,7 @@ char	*ft_strjoin_cmd(char const *s1, char const *s2)
 
 	j = 0;
 	i = 0;
-	len = ft_strlen(s1) + ft_strlen_space(s2) + 1;
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
 	tab = malloc((len + 1) * sizeof(char));
 	if (!tab)
 		return (NULL);
@@ -108,9 +88,8 @@ char	*ft_strjoin_cmd(char const *s1, char const *s2)
 		tab[j++] = s1[i++];
 	tab[j++] = '/';
 	i = 0;
-	while (s2[i] != ' ' && s2[i])
+	while (s2[i])
 		tab[j++] = s2[i++];
 	tab[j] = '\0';
 	return (tab);
 }
-

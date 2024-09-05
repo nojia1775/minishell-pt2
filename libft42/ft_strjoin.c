@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:58:33 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/19 18:41:53 by almichel         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:35:41 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	tab[j] = '\0';
 	return (tab);
 }
-

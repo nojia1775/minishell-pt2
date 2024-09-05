@@ -3,61 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/05/27 03:28:06 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:10:27 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// Fonction principale de cd,
-//  A chaque cd, je dois update le dossier dans le quel on se trouve
-// la fonction update_env que j'appelle permet d'update la ligne PWD et OLDPWD de l'env a chaque cd
-void	ft_cd(t_data *data, t_list **env)
+static char	*get_oldpwd(t_list *env)
 {
-	int	flag;
+	t_list	*cur;
 
-	char **tab;
-	
-	
-	tab = ft_split(data->str, ' ');
-	if (ft_strlen_double_tab(tab) >= 3)
+	cur = env;
+	while (cur)
 	{
-		free_double_tabs(tab);
-		ft_putendl_fd("cd: too many arguments", 2);
-		data->code = 1;
-		return;
+		if (!ft_strncmp(cur->content, "OLDPWD=", 7))
+			return (cur->content + 7);
+		cur = cur->next;
 	}
-	flag = 0;
-	data->path = tab[1];
-	ft_cd2(flag, env, data);
-	free_double_tabs(tab);
+	return (NULL);
 }
 
-void	ft_cd2(int flag, t_list **env, t_data *data)
+// Fonction principale de cd,
+//  A chaque cd, je dois update le dossier dans le quel on se trouve
+// la fonction update_env que j'appelle permet d'update la ligne
+// PWD et OLDPWD de l'env a chaque cd
+void	ft_cd(t_token *cur, t_global *global)
 {
-	char *join1;
-	char *join2;
-	
-//	printf("%s\n",data->path);
-	if (chdir(data->path) == 0)
+	int		flag;
+	char	**tab;
+
+	tab = cur->cmd_pipex;
+	if (ft_strlen_double_tab(tab) >= 3)
 	{
-		data->pwd = getcwd(data->buf, sizeof(data->buf));
-		free(data->total_setup);
-		data->total_setup = init_lobby(data);
-		update_env(env);
+		ft_putendl_fd("cd: too many arguments", 2);
+		global->data->code = 1;
+		return ;
+	}
+	flag = 0;
+	if (ft_strlen_double_tab(tab) == 1)
+		return (ft_cd_home(global));
+	else if (!ft_strcmp(tab[1], "-"))
+	{
+		global->data->path = get_oldpwd(global->data->env);
+		printf("%s\n", global->data->path);
+	}
+	else if (!ft_strcmp(tab[1], "~"))
+		return (ft_cd_home(global));
+	else
+		global->data->path = tab[1];
+	ft_cd2(flag, global);
+}
+
+void	ft_cd2(int flag, t_global *global)
+{
+	char	*join1;
+	char	*join2;
+
+	if (chdir(global->data->path) == 0)
+	{
+		global->data->pwd = getcwd(global->data->buf,
+				sizeof(global->data->buf));
+		free(global->data->total_setup);
+		init_lobby(global->data);
+		update_env(&global->data->env);
 		if (flag == 1)
-			free(data->path);
-		data->code = 0;
+			free(global->data->path);
+		global->data->code = 0;
 	}
 	else
 	{
-		data->code = 1;
+		global->data->code = 1;
 		if (flag == 1)
-			free(data->path);
-		join1 = ft_strjoin("cd: ", data->str + 3);
+			free(global->data->path);
+		join1 = ft_strjoin("cd: ", global->data->str + 3);
 		join2 = ft_strjoin(join1, ": No such file or directory");
 		ft_putendl_fd(join2, 2);
 		free(join1);
@@ -65,6 +86,7 @@ void	ft_cd2(int flag, t_list **env, t_data *data)
 	}
 }
 // J'extrais la variable Home de mon env pour la donner a la fonction au dessus
+
 void	get_home_path(t_data *data, t_list **env)
 {
 	t_list	*current;
