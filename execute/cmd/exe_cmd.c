@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/05 12:12:46 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/05 12:39:52 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 	pid_t	pid;
 
 	pid = fork();
-	if (set_exec_signals(data) == -1)
-		return(0);
 	if (pid == 0)
 	{
 		global->data->code = 0;
@@ -36,7 +34,6 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 	}
 	else
 		perror("fork");
-	return (0);
 }
 
 // Fonction principale executent une commande simple du genre ls -l par exemple
