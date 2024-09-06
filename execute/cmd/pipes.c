@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/06 23:53:32 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/07 00:53:18 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,23 @@ void	main_pipes(t_global *global)
 	t_vars	vars;
 	pid_t	pid;
 	t_token	*cur;
+	int		sv;
+	int		i;
+	t_token *cur_her;
 
+	i = 0;
+	sv = dup(STDIN_FILENO);
 	if (!init(&vars, global, &cur))
 		return ;
+	while (i <= vars.nbr)
+	{
+		cur_her = global->tokens[i];
+		if (open_heredoc(cur_her, global) == -1)
+			return;
+		// printf("CMD IS %s\n", global->tokens[i]->content);
+		// printf("%d\n", vars.nbr);
+		i++;
+	}
 	while (vars.i < vars.nbr)
 	{
 		cur = global->tokens[vars.i];
@@ -123,7 +137,7 @@ void	main_pipes(t_global *global)
 		child_process_main(&vars, cur, global);
 	else if (pid < 0)
 		perror("fork");
-	dup2(vars.sv, STDIN_FILENO);
+	dup2(sv, STDIN_FILENO);
 	while (wait(&vars.status) != -1)
 		;
 	global->data->code = WEXITSTATUS(vars.status);
