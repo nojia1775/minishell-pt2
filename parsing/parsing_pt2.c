@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/06 18:01:28 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:57:59 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,27 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 		return (free(tmp), print_error(1), NULL);
 	free(input);
 	tokens = tokenisation(tmp, global, error_flag);
+	t_token *cur;
+	int i = 0;
+	while (tokens[i])
+	{
+		cur = tokens[i];
+		int j = -1;
+		int k = 0;
+		while (cur->cmd_pipex[k])
+			printf("*** %s\t", cur->cmd_pipex[k++]);
+		printf("\n");
+		if (cur->redir)
+		{
+			while (cur->redir[++j])
+				printf("redir = %s, files = %s\n", cur->redir[j], cur->files[j]);
+		}
+		while (cur)
+		{
+			printf("+++ %s\t\t%d\n", cur->content, cur->type);
+			cur = cur->next;
+		}
+		i++;
+	}
 	return (tokens);
 }

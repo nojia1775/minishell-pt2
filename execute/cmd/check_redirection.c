@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/02 10:12:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/06 19:21:22 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ static int	heredoc(t_token *cur, int i, t_global *global)
 		if (dup2(fd, STDIN_FILENO) == -1)
 			perror("dup2");
 		close(fd);
+		unlink(cur->here_file);
 	}
 	return (1);
 }

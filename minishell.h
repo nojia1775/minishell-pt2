@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/06 18:03:20 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:12:15 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,6 @@ void			ft_free_lists(t_list *env, t_list *exp_var);
 int				is_redir(t_token *cur);
 void			rm_token(t_token *cur);
 int				loop_confirm_redir(char *input, char redir,
-					char opp, int *i);
+							char opp, int *i);
 
 #endif
