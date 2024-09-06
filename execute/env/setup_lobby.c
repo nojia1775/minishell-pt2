@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_lobby.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/05 12:14:40 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/06 17:47:59 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*find_logname(t_data *data)
 	}
 	if (data->envp[i] == NULL)
 	{
-			return (NULL);
+		return (NULL);
 	}
 	while (data->envp[i][j] && data->envp[i][j] != '=')
 		j++;

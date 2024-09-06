@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_pipex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:50:01 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/08/30 23:23:35 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/06 17:48:58 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*join(t_token *line)
 	t_token	*cur;
 	char	*cmd;
 	int		flag;
-	
+
 	flag = 0;
 	cur = line;
 	if (is_redir(cur))
@@ -94,4 +94,3 @@ void	create_cmd_pipex(t_token **tokens)
 		pipe++;
 	}
 }
-

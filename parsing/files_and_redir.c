@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_and_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/03 08:33:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/06 17:49:14 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	files_and_redir(t_token **tokens, int *flag)
 		ft_memset(&var, 0, sizeof(var));
 		var.cur = tokens[i];
 		count_redir_files(var.cur, &var.nbr_redir, &var.nbr_files);
-		printf("redir = %d files = %d\n", var.nbr_redir, var.nbr_files);
 		if (var.nbr_redir || var.nbr_files)
 		{
 			var.cur->redir = create_tab(var.nbr_redir);
@@ -120,4 +119,4 @@ int	files_and_redir(t_token **tokens, int *flag)
 		i++;
 	}
 	return (1);
- }
+}

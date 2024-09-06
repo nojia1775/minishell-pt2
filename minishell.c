@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/05 12:11:06 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/06 17:43:40 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,14 @@ static int	init_global(t_global *global, t_data *data)
 static void	routine(t_global *global)
 {
 	int	sv;
-	
+
 	global->cur = *(global->tokens);
-	int i = 0;
-	while (global->cur->cmd_pipex[i])
-		printf("--- %s\n", global->cur->cmd_pipex[i++]);
-	i = 0;
-	if (global->cur->redir)
-	{
-		while (global->cur->redir[i])
-		{
-			printf("\tredir = %s\n", global->cur->redir[i]);
-			if (global->cur->files[i])
-				printf("\tfiles = %s\n", global->cur->files[i]);
-			i++;
-		}
-	}
-	t_token *tmp = global->cur;
-	while (tmp)
-	{
-		printf("+++ %s %d\n", tmp->content, tmp->type);
-		tmp = tmp->next;
-	}
 	if (global->cur->nbr_pipe == 0)
 	{
 		sv = dup(STDIN_FILENO);
 		if (setup_exe_simple_cmd(global->cur, global) == -1)
 			exit(global->data->code);
 		dup2(sv, STDOUT_FILENO);
-		// free_reset_global(global);
 	}
 	else if (global->cur->nbr_pipe > 0)
 	{

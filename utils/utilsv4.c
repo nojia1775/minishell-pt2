@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 00:57:46 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/05 12:16:57 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/06 17:50:37 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	ft_strlen_space(const char *str)
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
+
 	i = 0;
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;

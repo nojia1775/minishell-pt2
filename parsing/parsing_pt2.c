@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/05 12:15:26 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/06 18:01:28 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,10 @@ static int	full_whitespace(char *str)
 
 static int	conform_redir2(char *input, char redir)
 {
-	int	i;
-	int	flag;
-	char		opp;
-	
+	int		i;
+	char	opp;
+
 	i = 0;
-	flag = 0;
 	if (redir == '<')
 		opp = '>';
 	else if (redir == '>')
@@ -55,25 +53,8 @@ static int	conform_redir2(char *input, char redir)
 		i++;
 	if (!input[i + 1])
 		return (0);
-	while (input[++i])
-	{
-		if (ft_isalnum(input[i]))
-			flag = 1;
-		if (input[i] == '|' && !flag)
-			return (0);
-		if (input[i] == opp && !flag)
-			return (0);
-		if (input[i] == redir && flag)
-		{
-			flag = 0;
-			if (input[i] == input[i + 1])
-				i++;
-		}
-		else if (input[i] == redir && !flag)
-			return (0);
-		if (!input[i] && !flag)
-			return (0);
-	}
+	if (!loop_confirm_redir(input, redir, opp, &i))
+		return (0);
 	return (1);
 }
 

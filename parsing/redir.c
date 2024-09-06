@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:09:49 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/06/13 18:50:18 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:48:40 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	conform_redir(char *str)
 	int	i;
 	int	in_double;
 	int	in_single;
-	
+
 	in_single = 0;
 	in_double = 0;
 	i = -1;
