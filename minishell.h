@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/06 18:12:15 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/06 23:52:37 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,13 +156,12 @@ void			ft_relative_path(char **splitted_cmd1, char **envp,
 					char *cmd1, t_global *global);
 char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
-int				check_redirection(t_token *cur, int *fd, t_data *data,
-					t_global *global);
+int				check_redirection(t_token *cur, int *fd, t_data *data);
 char			*get_cmd(t_token *token);
 
 /*-------Exec Builtins-------*/
 int				is_a_builtin(char *cmd);
-int				exec_builtin(t_token *cur, t_global *global, int fd);
+int				exec_builtin(t_token *cur, t_global *global, int fd, int sv);
 void			exec_redirection(char *redir, int fd, int *flag);
 
 /*-------Pipes-------*/
@@ -188,6 +187,7 @@ int				here_doc(char *limit_word, t_token *cur, t_global *global);
 int				create_temp_file(char *str, t_token *cur);
 char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
+int  			open_heredoc(t_token *cur, t_global *global);
 
 /*-------parsing global-------*/
 int				nbr_quotes(char *str);

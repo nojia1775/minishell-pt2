@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/06 19:21:22 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/06 23:48:27 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static int	heredoc(t_token *cur, int i, t_global *global)
 }
 
 //Check la redirection et agit agit en consequences
-int	check_redirection(t_token *cur, int *fd, t_data *data, t_global *global)
+int	check_redirection(t_token *cur, int *fd, t_data *data)
 {
 	int	i;
 
@@ -131,8 +131,25 @@ int	check_redirection(t_token *cur, int *fd, t_data *data, t_global *global)
 				return (-1);
 			if (outredir(cur, fd, data, i) == -1)
 				return (-1);
+			i++;
+		}
+	}
+	return (0);
+}
+
+int  open_heredoc(t_token *cur, t_global *global)
+{
+	int	i;
+
+	i = 0;
+	if (cur->redir)
+	{
+		while (cur->redir[i])
+		{
 			if (heredoc(cur, i, global) == -1)
+			{
 				return (-1);
+			}
 			i++;
 		}
 	}
