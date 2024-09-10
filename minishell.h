@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/10 10:59:55 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:22:08 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int				here_doc(char *limit_word, t_token *cur, t_global *global);
 int				create_temp_file(char *str, t_token *cur);
 char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
-int  			open_heredoc(t_token *cur, t_global *global);
+int  			open_heredoc(t_token *cur, t_global *global, int sv, int i);
 
 /*-------parsing global-------*/
 int				nbr_quotes(char *str);

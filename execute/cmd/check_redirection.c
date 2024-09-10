@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/10 13:06:13 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:25:26 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ static int	heredoc(t_token *cur, int i, t_global *global)
 		fd = open(cur->here_file, O_RDONLY);
 		if (fd == -1)
 			return (-1);
-		if (ft_strcmp(get_cmd(cur), "<<") && ft_strcmp(get_cmd(cur), "<"))
+		if (ft_strcmp(get_cmd(cur), "<<") && !cur->redir[i + 1]
+			&& ft_strcmp(get_cmd(cur), "<"))
 		{
 			if (dup2(fd, STDIN_FILENO) == -1)
 				perror("dup2");
@@ -140,7 +141,7 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 	return (0);
 }
 
-int  open_heredoc(t_token *cur, t_global *global)
+int  open_heredoc(t_token *cur, t_global *global, int sv, int j)
 {
 	int	i;
 
@@ -150,9 +151,10 @@ int  open_heredoc(t_token *cur, t_global *global)
 		while (cur->redir[i])
 		{
 			if (heredoc(cur, i, global) == -1)
-			{
-				return (-1);
-			}
+				return (dup2(sv, STDIN_FILENO), -1);
+			if (global->tokens[j + 1] == NULL && !cur->redir[i + 1])
+				break ;
+			dup2(sv, STDIN_FILENO);
 			i++;
 		}
 	}

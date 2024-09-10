@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/07 00:53:18 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:23:32 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,8 @@ void	main_pipes(t_global *global)
 	while (i <= vars.nbr)
 	{
 		cur_her = global->tokens[i];
-		if (open_heredoc(cur_her, global) == -1)
-			return;
-		// printf("CMD IS %s\n", global->tokens[i]->content);
-		// printf("%d\n", vars.nbr);
+		if (open_heredoc(cur_her, global, sv, i) == -1)
+			return ;
 		i++;
 	}
 	while (vars.i < vars.nbr)

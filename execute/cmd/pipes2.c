@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/06 19:12:32 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:31:57 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void	ft_relative_path1(char **cmd_pipex, char **envp, char *cmd,
 	}
 	if (pipes->good_line_envp != NULL)
 		free_double_tabs(pipes->good_path);
-	ft_putstr_fd_pipes(":  command not found\n", 2, cmd);
+	if (ft_strcmp(cmd, "<<") && ft_strcmp(cmd, "<"))
+		ft_putstr_fd_pipes(":  command not found\n", 2, cmd);
 }
 
 void	ft_relative_path2(char **cmd_pipex, char **envp, char *cmd,
@@ -124,5 +125,6 @@ void	ft_relative_path2(char **cmd_pipex, char **envp, char *cmd,
 	}
 	if (pipes->good_line_envp != NULL)
 		free_double_tabs(pipes->good_path);
-	ft_putstr_fd_pipes(": command not found \n", 2, cmd);
+	if (ft_strcmp(cmd, "<<") && ft_strcmp(cmd, "<"))
+		ft_putstr_fd_pipes(": command not found \n", 2, cmd);
 }
