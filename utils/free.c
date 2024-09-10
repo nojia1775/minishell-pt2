@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:05:39 by noah              #+#    #+#             */
-/*   Updated: 2024/09/06 17:50:19 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:47:34 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_all(t_global *global)
 {
 	if (global->tokens)
 		free_tokens(global->tokens);
+	global->tokens = NULL;
 	if (global->data)
 	{
 		ft_free_lists(global->data->env, global->data->exp_var);
@@ -58,6 +59,7 @@ void	free_tokens(t_token **tokens)
 		i++;
 	}
 	free(tokens);
+	tokens = NULL;
 }
 
 void	free_double_tabs(char **str)
@@ -83,6 +85,7 @@ void	free_reset_global(t_global *global)
 	i = 0;
 	if (global->tokens)
 		free_tokens(global->tokens);
+	global->tokens = NULL;
 	if (global->pipes)
 		free(global->pipes);
 	if (global->data)

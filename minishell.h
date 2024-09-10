@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/10 16:04:05 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:16:28 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,5 +265,7 @@ void			rm_token(t_token *cur);
 int				loop_confirm_redir(char *input, char redir,
 					char opp, int *i);
 int				thereis_heredoc(t_token *token);
+void			child_process_pipex(int *end, int *fd, t_global *global,
+					t_token *cur);
 
 #endif

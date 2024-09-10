@@ -6,13 +6,13 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/10 15:39:40 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:15:03 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	child_process_pipex(int *end, int *fd, t_global *global,
+void	child_process_pipex(int *end, int *fd, t_global *global,
 t_token *cur)
 {
 	if (dup2(end[1], STDOUT_FILENO) == -1)
@@ -33,30 +33,6 @@ t_token *cur)
 	if (check_redirection(cur, fd, global->data) == 0)
 		child_pipes_process1(cur, global->pipes, global->data->envv, *fd);
 	exit(127);
-}
-
-int	pipex(t_token *cur, t_global *global)
-{
-	pid_t	pid;
-	int		end[2];
-	int		fd;
-
-	fd = -1;
-	global->data->code = 0;
-	if (pipe(end) == -1)
-		perror("pipe");
-	pid = fork();
-	if (pid == 0)
-		child_process_pipex(end, &fd, global, cur);
-	else if (pid > 0)
-	{
-		close(end[1]);
-		dup2(end[0], STDIN_FILENO);
-		close(end[0]);
-	}
-	else
-		perror("fork");
-	return (0);
 }
 
 typedef struct s_vars
@@ -100,10 +76,34 @@ static int	init(t_vars *vars, t_global *global, t_token **cur)
 	return (1);
 }
 
+static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
+{
+	pid_t	pid;
+
+	while (vars->i < vars->nbr)
+	{
+		cur = global->tokens[vars->i];
+		pipex(cur, global);
+		vars->count++;
+		vars->i++;
+	}
+	cur = global->tokens[vars->i];
+	vars->fd = -1;
+	vars->status = 0;
+	pid = fork();
+	if (pid == 0)
+		child_process_main(vars, cur, global);
+	else if (pid < 0)
+		perror("fork");
+	dup2(sv, STDIN_FILENO);
+	while (wait(&vars->status) != -1)
+		;
+	global->data->code = WEXITSTATUS(vars->status);
+}
+
 void	main_pipes(t_global *global)
 {
 	t_vars	vars;
-	pid_t	pid;
 	t_token	*cur;
 	int		sv;
 	t_token	*cur_her;
@@ -119,23 +119,5 @@ void	main_pipes(t_global *global)
 		vars.i++;
 	}
 	vars.i = 0;
-	while (vars.i < vars.nbr)
-	{
-		cur = global->tokens[vars.i];
-		pipex(cur, global);
-		vars.count++;
-		vars.i++;
-	}
-	cur = global->tokens[vars.i];
-	vars.fd = -1;
-	vars.status = 0;
-	pid = fork();
-	if (pid == 0)
-		child_process_main(&vars, cur, global);
-	else if (pid < 0)
-		perror("fork");
-	dup2(sv, STDIN_FILENO);
-	while (wait(&vars.status) != -1)
-		;
-	global->data->code = WEXITSTATUS(vars.status);
+	main_pipes2(global, &vars, cur, sv);
 }

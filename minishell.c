@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/06 18:11:18 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:57:40 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ static void	routine(t_global *global)
 	}
 }
 
+static void	execution(t_global *global)
+{
+	if (global->tokens)
+		routine(global);
+	else
+		free_reset_global(global);
+}
+
 static int	loop(t_data *data, t_global *global)
 {
 	int	pars_error;
@@ -58,18 +66,16 @@ static int	loop(t_data *data, t_global *global)
 		global->data->str = readline(global->data->total_setup);
 		if (global->data->str == NULL)
 		{
+			free_all(global);
 			printf("exit\n");
-			exit (1);
+			exit (0);
 		}
 		else
 			add_history(global->data->str);
 		global->tokens = parsing_pt2(global->data->str, global, &pars_error);
 		if (pars_error)
 			return (printf("ERROR PARSING\n"));
-		if (global->tokens)
-			routine(global);
-		else
-			free_reset_global(global);
+		execution(global);
 	}
 	return (0);
 }
