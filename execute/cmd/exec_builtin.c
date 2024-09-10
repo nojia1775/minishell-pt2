@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/06 23:50:13 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:38:05 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	exec_redirection(char *redir, int fd, int *flag)
 static void	pars_builtin(t_token *cur, t_global *global, int redir_flag,
 	int *fd)
 {
-
 	if (ft_strcmp(get_cmd(cur), "echo") == 0)
 		ft_echo(cur, fd, global->data, redir_flag);
 	else if (ft_strcmp(get_cmd(cur), "export") == 0)
@@ -76,7 +75,6 @@ static void	pars_builtin(t_token *cur, t_global *global, int redir_flag,
 			close(*fd);
 		exit(ft_exit(cur, global));
 	}
-
 }
 
 typedef struct s_vars

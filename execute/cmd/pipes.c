@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/10 14:23:32 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:39:40 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,20 +106,19 @@ void	main_pipes(t_global *global)
 	pid_t	pid;
 	t_token	*cur;
 	int		sv;
-	int		i;
-	t_token *cur_her;
+	t_token	*cur_her;
 
-	i = 0;
 	sv = dup(STDIN_FILENO);
 	if (!init(&vars, global, &cur))
 		return ;
-	while (i <= vars.nbr)
+	while (vars.i <= vars.nbr)
 	{
-		cur_her = global->tokens[i];
-		if (open_heredoc(cur_her, global, sv, i) == -1)
+		cur_her = global->tokens[vars.i];
+		if (open_heredoc(cur_her, global, sv, vars.i) == -1)
 			return ;
-		i++;
+		vars.i++;
 	}
+	vars.i = 0;
 	while (vars.i < vars.nbr)
 	{
 		cur = global->tokens[vars.i];

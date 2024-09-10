@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/10 14:21:48 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:37:33 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ int	setup_exe_simple_cmd(t_token *cur, t_global *global)
 {
 	int		status;
 	int		fd;
-
-	status = 0;
 	int		sv;
 
+	status = 0;
 	sv = dup(STDIN_FILENO);
 	fd = STDOUT_FILENO;
 	if (set_exec_signals(global->data) == -1)
