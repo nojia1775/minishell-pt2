@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/06 23:52:37 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:59:55 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,22 +212,12 @@ void			create_cmd_pipex(t_token **tokens);
 char			**get_cmd_pipex(t_token *line);
 int				files_and_redir(t_token **tokens, int *flag);
 void			supp_token(t_token **tokens);
-void			print_error(int error);
+void			print_error(int error, t_data *data);
 
 /*-------export parsing-------*/
 void			pars_export(t_token *cur, t_global *global);
 int				pars_exp_var(char *str);
 int				checking_if_alpha(char *str);
-/*
-int		checking_order_quotes(char *str);
-char	*del_all_quotes(char *str);
-int		checking_nbr_quotes(char *str);
-char	*ft_strdup_quotes(const char *s);
-int 	ft_strlen_quotes(const char *str);
-void	ft_strcpy_(char *dest, char *src);
-char 	*ft_strdup_outside_quotes(const char *s);
-char	*del_outside_quotes(char *str);
-*/
 
 /*-------Unset  parsing-------*/
 

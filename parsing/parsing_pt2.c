@@ -6,19 +6,20 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/06 18:57:59 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:59:31 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_error(int error)
+void	print_error(int error, t_data *data)
 {
 	char	*msg[3];
 
 	msg[0] = "minishell: syntax error";
 	msg[1] = "minishell: syntax error near unexpected token `newline'";
 	msg[2] = "minishell: syntax error near unexpected token `|'";
+	data->code = 2;
 	printf("%s\n", msg[error]);
 }
 
@@ -91,34 +92,12 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 	if (full_whitespace(tmp))
 		return (free(tmp), printf("full whitespace\n"), NULL);
 	if (!nbr_quotes(tmp))
-		return (free(tmp), print_error(0), NULL);
+		return (free(tmp), print_error(0, global->data), NULL);
 	if (!conform_pipe(tmp))
-		return (free(tmp), print_error(2), NULL);
+		return (free(tmp), print_error(2, global->data), NULL);
 	if (!conform_redir(tmp))
-		return (free(tmp), print_error(1), NULL);
+		return (free(tmp), print_error(1, global->data), NULL);
 	free(input);
 	tokens = tokenisation(tmp, global, error_flag);
-	t_token *cur;
-	int i = 0;
-	while (tokens[i])
-	{
-		cur = tokens[i];
-		int j = -1;
-		int k = 0;
-		while (cur->cmd_pipex[k])
-			printf("*** %s\t", cur->cmd_pipex[k++]);
-		printf("\n");
-		if (cur->redir)
-		{
-			while (cur->redir[++j])
-				printf("redir = %s, files = %s\n", cur->redir[j], cur->files[j]);
-		}
-		while (cur)
-		{
-			printf("+++ %s\t\t%d\n", cur->content, cur->type);
-			cur = cur->next;
-		}
-		i++;
-	}
 	return (tokens);
 }

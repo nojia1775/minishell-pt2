@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 01:42:03 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/06 18:58:56 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/10 13:05:50 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,12 @@ int	here_doc(char *limit_word, t_token *cur, t_global *global)
 		if (ft_strcmp(line, limit_word) == 0)
 		{
 			free(line);
+			line = NULL;
 			break ;
 		}
 		parse_line(fd, line);
 		free(line);
+		line = NULL;
 	}
 	close(fd);
 	return (0);
