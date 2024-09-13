@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:48:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/05 12:11:56 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/13 17:50:02 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,23 @@ int	set_exec_signals(t_data *data)
 		return (-1);
 	}
 	return (1);
+}
+
+void signal_handler_hd(int sig)
+{
+    if (sig == SIGINT)
+    {
+       close(STDIN_FILENO);
+    }
+}
+
+int set_interactive_signals_hd()
+{
+    g_sigint_received = 0;
+    if (signal(SIGINT, signal_handler_hd) == SIG_ERR)
+    {
+        perror("signal");
+        return (-1);
+    }
+    return (1);
 }

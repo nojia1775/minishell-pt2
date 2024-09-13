@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 01:42:03 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/10 14:23:25 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:46:02 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	create_temp_file(char *str, t_token *cur)
 	return (-1);
 }
 
-int	here_doc(char *limit_word, t_token *cur, t_global *global)
+int	here_doc(char *limit_word, t_token *cur)
 {
 	char	*line;
 	int		fd;
@@ -94,8 +94,8 @@ int	here_doc(char *limit_word, t_token *cur, t_global *global)
 		return (write(2, "Here doc error!\n", 17), -1);
 	while (1)
 	{
-		if (set_exec_signals(global->data) == -1)
-			return (-1);
+		if (set_interactive_signals_hd() == -1)
+			return (close(fd), -1);
 		line = readline("> ");
 		if (line == NULL)
 			return (close(fd), -1);

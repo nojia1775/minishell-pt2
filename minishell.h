@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/12 18:03:16 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:46:11 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+
+//volatile sig_atomic_t	g_sigint_received;
 
 typedef enum e_type
 {
@@ -184,7 +186,7 @@ void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			ft_close_all(t_pipes *pipes);
 
 /*-------here_doc-------*/
-int				here_doc(char *limit_word, t_token *cur, t_global *global);
+int				here_doc(char *limit_word, t_token *cur);
 int				create_temp_file(char *str, t_token *cur);
 char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
@@ -268,5 +270,7 @@ int				loop_confirm_redir(char *input, char redir,
 int				thereis_heredoc(t_token *token);
 void			child_process_pipex(int *end, int *fd, t_global *global,
 					t_token *cur);
+
+int set_interactive_signals_hd();
 
 #endif
