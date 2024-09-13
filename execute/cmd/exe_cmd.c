@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/10 15:37:33 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:10:56 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 	{
 		len--;
 		while (ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+		{
+			//dup2(cur->fd, STDIN_FILENO);
 			len--;
+		}
 		if (ft_strcmp(cur->redir[len], ">") == 0
 			|| ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);

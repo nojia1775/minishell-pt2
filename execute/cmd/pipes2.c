@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/10 15:36:26 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:00:18 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 	{
 		len--;
 		while (ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+		{
+			dup2(cur->fd, STDOUT_FILENO);
 			len--;
+		}
 		if (ft_strcmp(cur->redir[len], ">") == 0
 			|| ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
@@ -44,11 +47,16 @@ void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)
 
 	len = 0;
 	len = ft_strlen_double_tab(cur->redir);
+	dup2(cur->fd, STDIN_FILENO);
 	if (len != 0)
 	{
 		len--;
 		while (ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
+		{
+			dup2(cur->fd, STDIN_FILENO);
+			close(cur->fd);
 			len--;
+		}
 		if (ft_strcmp(cur->redir[len], ">") == 0
 			|| ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
