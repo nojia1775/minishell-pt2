@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/14 12:53:24 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 15:21:06 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,9 @@ void			ft_unset2(int flag, t_list **exp_var, char *var);
 /*-------Exit-------*/
 int				ft_exit(t_token *cur, t_global *global);
 int				ft_exit2(t_global *global, char **exit);
+int				ft_no_exit(t_global *global);
+int				many_arg(t_token *cur);
+
 
 /*-------Ctrls-------*/
 void			signal_handler(int signum);

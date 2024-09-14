@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 13:37:56 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 15:45:58 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	many_arg(t_token *cur)
+{
+	char	**exit;
+	int i;
+
+	i = 0;
+	exit = cur->cmd_pipex;
+	if (exit[2] != NULL)
+	{
+		while (exit[1][i])
+		{
+			if (exit[1][i] >= '0' && exit[1][i] <= '9')
+				i++;
+			else
+				return (1);
+		}
+		return (0);
+	}
+	return (1);
+}
+
+int	ft_no_exit(t_global *global)
+{
+	global->data->code = 1;
+	ft_putendl_fd("minishell: exit: too many arguments", 2);
+		return (3);
+}
 
 int	ft_exit(t_token *cur, t_global *global)
 {
@@ -22,13 +50,6 @@ int	ft_exit(t_token *cur, t_global *global)
 		free_all(global);
 		printf("exit\n");
 		return (0);
-	}
-	else if (exit[2] != NULL)
-	{
-		free_all(global);
-		printf("exit\n");
-		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		return (2);
 	}
 	return (ft_exit2(global, exit));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 13:37:23 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 15:35:03 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ static void	pars_builtin(t_token *cur, t_global *global, int redir_flag,
 		print_env(&global->data->env, &global->data->exp_var,
 			global->data);
 	}
-	else if (ft_strcmp(get_cmd(cur), "exit") == 0)
+	else if (ft_strcmp(get_cmd(cur), "exit") == 0 && many_arg(cur) == 0)
+	{
+		ft_no_exit(global);
+	}
+	else if (ft_strcmp(get_cmd(cur), "exit") == 0 && many_arg(cur) != 0)
 	{
 		if (cur->flag == 1)
 			close(*fd);
