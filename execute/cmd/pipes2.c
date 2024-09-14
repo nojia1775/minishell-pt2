@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 23:30:23 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/15 00:00:20 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 static void	child_pipes_process3(int *len, t_token *cur, int fd)
 {
 	(*len)--;
-	while (ft_strcmp(cur->redir[*len], "<<") == 0 && len > 0)
+	while (ft_strcmp(cur->redir[*len], "<<") == 0 && *len > 0)
 	{
 		dup2(cur->fd, STDIN_FILENO);
 		close(cur->fd);
@@ -58,7 +58,7 @@ static void	child_pipes_process3(int *len, t_token *cur, int fd)
 		if (dup2(fd, STDIN_FILENO) == -1)
 			perror("dup2");
 	}
-	if (cur->flage == 1)
+	if (cur->flag == 1)
 		close(fd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/14 23:22:07 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/15 00:01:09 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,5 +275,6 @@ void			child_process_pipex(int *end, int *fd, t_global *global,
 					t_token *cur);
 
 int				set_interactive_signals_hd(t_global *global);
+void			signal_handler_hd(int sig);
 
 #endif
