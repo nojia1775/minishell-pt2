@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 18:39:00 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:31:01 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	many_arg(t_token *cur)
 {
 	char	**exit;
-	int i;
+	int		i;
 
 	i = 0;
 	exit = cur->cmd_pipex;
@@ -35,12 +35,11 @@ int	many_arg(t_token *cur)
 	return (1);
 }
 
-int	ft_no_exit(t_global *global)
+int	ft_no_exit(void)
 {
-	global->data->code = 1;
 	g_sigint_received = 1;
 	ft_putendl_fd("minishell: exit: too many arguments", 2);
-		return (3);
+	return (3);
 }
 
 int	ft_exit(t_token *cur, t_global *global)

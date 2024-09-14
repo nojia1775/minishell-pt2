@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 13:05:23 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:14:16 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag)
 	int	option;
 	int	flag;
 
+	(void)data;
 	option = 1;
 	flag = 1;
 	if (!cur->next)
@@ -89,6 +90,5 @@ void	ft_echo(t_token *cur, int *fd, t_data *data, int redir_flag)
 		else
 			ft_putstr_fd("\n", *fd);
 	}
-	data->code = 0;
 	g_sigint_received = 0;
 }

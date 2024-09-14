@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:27:40 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 13:07:51 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:15:34 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,10 @@ void	pars_export(t_token *cur, t_global *global)
 				export_variable(&global->data->env, &global->data->exp_var,
 					cur->next->content, global->data);
 				cur = cur->next;
-				global->data->code = 0;
 				g_sigint_received = 0;
 			}
 			else
-			{
-				global->data->code = 1;
 				g_sigint_received = 1;
-			}
 			i++;
 		}
 	}

@@ -6,13 +6,14 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:48:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 13:03:31 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:23:20 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_sigint_received = 0;
+int	g_sigint_received = 0;
+
 // Ca c'est ce qui permet de faire un retour a la ligne a chaque
 // ctrl C et quitte le programme quand tu ctrl D
 void	signal_handler(int sig)
@@ -55,7 +56,8 @@ int	set_interactive_signals(void)
 
 void	sig_exec_handler(int signum)
 {
-	g_sigint_received = signum;
+	if (signum == 2)
+		g_sigint_received = 130;
 	if (signum == SIGQUIT)
 		write(2, "Quit (core dumped)", 19);
 	write(2, "\n", 1);
@@ -64,10 +66,10 @@ void	sig_exec_handler(int signum)
 //Signals detection when a command process is running
 int	set_exec_signals(t_data *data)
 {
+	(void)data;
 	g_sigint_received = 0;
 	if (signal(SIGINT, sig_exec_handler) == SIG_ERR)
 	{
-		data->code = 131;
 		g_sigint_received = 131;
 		perror("signal");
 		return (-1);
@@ -87,15 +89,4 @@ void	signal_handler_hd(int sig)
 		g_sigint_received = 130;
 		close(STDIN_FILENO);
 	}
-}
-
-int	set_interactive_signals_hd(t_global *global)
-{
-	(void)global;
-	if (signal(SIGINT, signal_handler_hd) == SIG_ERR)
-	{
-		perror("signal");
-		return (-1);
-	}
-	return (1);
 }

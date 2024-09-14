@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 15:24:02 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/14 23:16:53 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 	pid = fork();
 	if (pid == 0)
 	{
-		global->data->code = 0;
 		g_sigint_received = 0;
 		if (check_redirection(cur, fd, global->data) == 0)
 			check_and_exe_cmd(cur, global, *fd);
@@ -31,7 +30,6 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 		free_reset_global(global);
 		if (WIFEXITED(*status))
 		{
-			global->data->code = WEXITSTATUS(*status);
 			g_sigint_received = WEXITSTATUS(*status);
 		}
 	}
@@ -59,7 +57,6 @@ int	setup_exe_simple_cmd(t_token *cur, t_global *global)
 			return (exec_builtin(cur, global, fd, sv));
 		else
 		{
-			global->data->code = 1;
 			g_sigint_received = 1;
 			return (1);
 		}
@@ -82,10 +79,7 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 	{
 		len--;
 		while (ft_strcmp(cur->redir[len], "<<") == 0 && len > 0)
-		{
-			//dup2(cur->fd, STDIN_FILENO);
 			len--;
-		}
 		if (ft_strcmp(cur->redir[len], ">") == 0
 			|| ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);

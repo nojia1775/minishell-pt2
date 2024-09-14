@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:37:37 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 13:06:32 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:14:48 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 //print le pwd
 int	print_pwd(char *str, t_data *data)
 {
+	(void)data;
 	str = NULL;
 	str = getcwd(str, 0);
 	if (str)
@@ -28,7 +29,6 @@ int	print_pwd(char *str, t_data *data)
 		printf("cannot access parent directories: ");
 		printf("No such file or directory\n");
 	}
-	data->code = 0;
 	g_sigint_received = 0;
 	return (0);
 }

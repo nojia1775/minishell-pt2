@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 13:06:37 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:14:54 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	print_env(t_list **envp, t_list **exp_var, t_data *data)
 	t_list	*top;
 	t_list	*current;
 
+	(void)data;
 	current = *exp_var;
 	top = *envp;
 	if (envp != NULL)
@@ -106,6 +107,5 @@ void	print_env(t_list **envp, t_list **exp_var, t_data *data)
 			current = current->next;
 		}
 	}
-	data->code = 0;
 	g_sigint_received = 0;
 }

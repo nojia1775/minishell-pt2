@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/14 15:21:06 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/14 23:22:07 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,8 @@ void			ft_unset2(int flag, t_list **exp_var, char *var);
 /*-------Exit-------*/
 int				ft_exit(t_token *cur, t_global *global);
 int				ft_exit2(t_global *global, char **exit);
-int				ft_no_exit(t_global *global);
+int				ft_no_exit(void);
 int				many_arg(t_token *cur);
-
 
 /*-------Ctrls-------*/
 void			signal_handler(int signum);
@@ -219,7 +218,7 @@ void			create_cmd_pipex(t_token **tokens);
 char			**get_cmd_pipex(t_token *line);
 int				files_and_redir(t_token **tokens, int *flag);
 void			supp_token(t_token **tokens);
-void			print_error(int error, t_data *data);
+void			print_error(int error);
 
 /*-------export parsing-------*/
 void			pars_export(t_token *cur, t_global *global);
@@ -275,6 +274,6 @@ int				thereis_heredoc(t_token *token);
 void			child_process_pipex(int *end, int *fd, t_global *global,
 					t_token *cur);
 
-int set_interactive_signals_hd(t_global *global);
+int				set_interactive_signals_hd(t_global *global);
 
 #endif

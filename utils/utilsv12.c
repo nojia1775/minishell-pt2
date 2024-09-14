@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:10:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/14 11:34:40 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:31:47 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	loop_confirm_redir(char *input, char redir, char opp, int *i)
 
 static int	heredoc(t_token *cur, int i, t_global *global)
 {
-
 	if (ft_strcmp(cur->redir[i], "<<") == 0)
 	{
 		if (here_doc(cur->files[i], cur, global) == -1)

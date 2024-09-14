@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 12:58:44 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 18:57:25 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	routine(t_global *global)
 	{
 		sv = dup(STDIN_FILENO);
 		if (setup_exe_simple_cmd(global->cur, global) == -1)
-			exit(global->data->code);
+			exit(g_sigint_received);
 		dup2(sv, STDOUT_FILENO);
 	}
 	else if (global->cur->nbr_pipe > 0)
@@ -99,5 +99,5 @@ int	main(int ac, char **argv, char **envp)
 	r = loop(&data, &global);
 	if (r)
 		return (r);
-	exit(global.data->code);
+	exit(g_sigint_received);
 }

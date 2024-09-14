@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 00:47:08 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 13:06:51 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:15:08 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,15 @@ void	export_variable(t_list **env, t_list **exp_var, char *var, t_data *data)
 	t_list	*new_case;
 	t_list	*head;
 
+	(void)data;
 	if (exp_var)
 		head = *exp_var;
 	flag = 0;
 	if (ft_check_equal(var) == -1)
 	{
-		data->code = 1;
 		g_sigint_received = 1;
 		return ;
 	}
-	data->code = 0;
 	g_sigint_received = 0;
 	current = *env;
 	export_variable2(current, env, &flag, var);

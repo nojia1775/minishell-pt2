@@ -6,20 +6,19 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/14 18:04:27 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 23:15:22 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_error(int error, t_data *data)
+void	print_error(int error)
 {
 	char	*msg[3];
 
 	msg[0] = "minishell: syntax error";
 	msg[1] = "minishell: syntax error near unexpected token `newline'";
 	msg[2] = "minishell: syntax error near unexpected token `|'";
-	data->code = 2;
 	g_sigint_received = 2;
 	printf("%s\n", msg[error]);
 }
@@ -93,11 +92,11 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 	if (full_whitespace(tmp))
 		return (free(tmp), printf("full whitespace\n"), NULL);
 	if (!nbr_quotes(tmp))
-		return (free(tmp), print_error(0, global->data), NULL);
+		return (free(tmp), print_error(0), NULL);
 	if (!conform_pipe(tmp))
-		return (free(tmp), print_error(2, global->data), NULL);
+		return (free(tmp), print_error(2), NULL);
 	if (!conform_redir(tmp))
-		return (free(tmp), print_error(1, global->data), NULL);
+		return (free(tmp), print_error(1), NULL);
 	free(input);
 	tokens = tokenisation(tmp, global, error_flag);
 	return (tokens);
