@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/10 11:59:31 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:07:33 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	print_error(int error, t_data *data)
 	msg[1] = "minishell: syntax error near unexpected token `newline'";
 	msg[2] = "minishell: syntax error near unexpected token `|'";
 	data->code = 2;
+	g_sigint_received = 2;
 	printf("%s\n", msg[error]);
 }
 

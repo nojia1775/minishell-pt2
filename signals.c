@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:48:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/13 17:50:02 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:03:31 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_sigint_received;
-
+int g_sigint_received = 0;
 // Ca c'est ce qui permet de faire un retour a la ligne a chaque
 // ctrl C et quitte le programme quand tu ctrl D
 void	signal_handler(int sig)
@@ -31,12 +30,11 @@ void	signal_handler(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	g_sigint_received = 1;
+	g_sigint_received = 130;
 }
 
 int	set_interactive_signals(void)
 {
-	g_sigint_received = 0;
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 	{
 		perror("signal");
@@ -70,6 +68,7 @@ int	set_exec_signals(t_data *data)
 	if (signal(SIGINT, sig_exec_handler) == SIG_ERR)
 	{
 		data->code = 131;
+		g_sigint_received = 131;
 		perror("signal");
 		return (-1);
 	}
@@ -81,21 +80,22 @@ int	set_exec_signals(t_data *data)
 	return (1);
 }
 
-void signal_handler_hd(int sig)
+void	signal_handler_hd(int sig)
 {
-    if (sig == SIGINT)
-    {
-       close(STDIN_FILENO);
-    }
+	if (sig == SIGINT)
+	{
+		g_sigint_received = 130;
+		close(STDIN_FILENO);
+	}
 }
 
-int set_interactive_signals_hd()
+int	set_interactive_signals_hd(t_global *global)
 {
-    g_sigint_received = 0;
-    if (signal(SIGINT, signal_handler_hd) == SIG_ERR)
-    {
-        perror("signal");
-        return (-1);
-    }
-    return (1);
+	(void)global;
+	if (signal(SIGINT, signal_handler_hd) == SIG_ERR)
+	{
+		perror("signal");
+		return (-1);
+	}
+	return (1);
 }

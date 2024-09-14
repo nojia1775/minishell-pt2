@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/10 15:41:00 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:05:14 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	inredir_append(t_token *cur, int *fd, t_data *data, int i)
 		{
 			ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
 			data->code = 1;
+			g_sigint_received = 1;
 			return (-1);
 		}
 		else
@@ -31,10 +32,12 @@ static int	inredir_append(t_token *cur, int *fd, t_data *data, int i)
 			{
 				ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
 				data->code = 1;
+				g_sigint_received = 1;
 				return (-1);
 			}
 			cur->flag = 1;
 			data->code = 0;
+			g_sigint_received = 0;
 		}
 	}
 	return (1);
@@ -50,6 +53,7 @@ static int	inredir(t_token *cur, int *fd, t_data *data, int i)
 		{
 			ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
 			data->code = 1;
+			g_sigint_received = 1;
 			return (-1);
 		}
 		else
@@ -58,11 +62,13 @@ static int	inredir(t_token *cur, int *fd, t_data *data, int i)
 			if (access(cur->files[i], R_OK) != 0)
 			{
 				data->code = 1;
+				g_sigint_received = 1;
 				ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
 				return (-1);
 			}
 			cur->flag = 1;
 			data->code = 0;
+			g_sigint_received = 0;
 		}
 	}
 	return (1);
@@ -76,6 +82,7 @@ static int	outredir(t_token *cur, int *fd, t_data *data, int i)
 		{
 			ft_putstr_msg(": No such file or directory\n", 2, cur->files[i]);
 			data->code = 1;
+			g_sigint_received = 1;
 			return (-1);
 		}
 		else
@@ -85,10 +92,12 @@ static int	outredir(t_token *cur, int *fd, t_data *data, int i)
 			{
 				ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);
 				data->code = 1;
+				g_sigint_received = 1;
 				return (-1);
 			}
 			cur->flag = 1;
 			data->code = 0;
+			g_sigint_received = 0;
 		}
 	}
 	return (1);

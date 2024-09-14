@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv13.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:02:12 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/10 17:00:09 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:08:09 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	pipex(t_token *cur, t_global *global)
 
 	fd = -1;
 	global->data->code = 0;
+	g_sigint_received = 0;
 	if (pipe(end) == -1)
 		perror("pipe");
 	pid = fork();

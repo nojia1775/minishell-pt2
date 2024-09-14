@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 02:08:02 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/05 12:16:47 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 13:08:00 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	pars_unset(t_token *cur, t_global *global)
 	i = 1;
 	unset = cur->cmd_pipex;
 	global->data->code = 0;
+	g_sigint_received = 0;
 	if (!unset[1])
 	{
 		free_double_tabs(unset);

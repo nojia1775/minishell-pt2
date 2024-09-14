@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 16:57:41 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/05 12:14:54 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 13:07:00 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_unset(t_list **env, t_list **exp_var, char *var, t_data *data)
 	t_list	*temp;
 
 	data->code = 0;
+	g_sigint_received = 0;
 	ptr = env;
 	flag = 0;
 	while (*ptr)

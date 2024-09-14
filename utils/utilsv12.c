@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv12.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:10:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/13 17:48:14 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/14 11:34:40 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ int	loop_confirm_redir(char *input, char redir, char opp, int *i)
 	return (1);
 }
 
-static int	heredoc(t_token *cur, int i)
+static int	heredoc(t_token *cur, int i, t_global *global)
 {
 
 	if (ft_strcmp(cur->redir[i], "<<") == 0)
 	{
-		if (here_doc(cur->files[i], cur) == -1)
+		if (here_doc(cur->files[i], cur, global) == -1)
 		{
 			unlink(cur->here_file);
 			free(cur->here_file);
@@ -102,7 +102,7 @@ int	open_heredoc(t_token *cur, t_global *global, int sv, int j)
 	{
 		while (cur->redir[i])
 		{
-			if (heredoc(cur, i) == -1)
+			if (heredoc(cur, i, global) == -1)
 				return (dup2(sv, STDIN_FILENO), -1);
 			if (!global->tokens[j + 1] && !cur->redir[i + 1])
 				break ;

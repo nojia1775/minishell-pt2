@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/05 12:10:27 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 13:03:50 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_cd(t_token *cur, t_global *global)
 	{
 		ft_putendl_fd("cd: too many arguments", 2);
 		global->data->code = 1;
+		g_sigint_received = 1;
 		return ;
 	}
 	flag = 0;
@@ -72,10 +73,12 @@ void	ft_cd2(int flag, t_global *global)
 		if (flag == 1)
 			free(global->data->path);
 		global->data->code = 0;
+		g_sigint_received = 0;
 	}
 	else
 	{
 		global->data->code = 1;
+		g_sigint_received = 1;
 		if (flag == 1)
 			free(global->data->path);
 		join1 = ft_strjoin("cd: ", global->data->str + 3);

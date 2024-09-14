@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/05 12:17:10 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 12:40:27 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var,
 {
 	t_vars	vars;
 
-	vars.ques = question_mark(str, code);
+	(void)code;
+	vars.ques = question_mark(str, g_sigint_received);
 	if (vars.ques)
 		return (vars.ques);
 	vars.len = word_len(str);
