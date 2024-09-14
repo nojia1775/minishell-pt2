@@ -6,7 +6,7 @@
 /*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/14 12:40:27 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/14 18:28:24 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	word_len(char *str)
 		&& str[i] && str[i] != '\t')
 	{
 		i++;
-		if (str[i] == '$')
+		if (str[i] == '$' || !ft_isalnum(str[i]))
 			return (count + 1);
 		count++;
 	}
@@ -46,7 +46,7 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var,
 	long long code)
 {
 	t_vars	vars;
-
+	
 	(void)code;
 	vars.ques = question_mark(str, g_sigint_received);
 	if (vars.ques)
@@ -55,7 +55,7 @@ char	*get_env_value(char *str, t_list **env, t_list **exp_var,
 	vars.var = (char *)malloc(sizeof(char) * vars.len);
 	if (!vars.var)
 		return (NULL);
-	ft_strlcpy(vars.var, str + 1, vars.len + 1);
+	ft_strlcpy(vars.var, str + 1, vars.len);
 	vars.var[vars.len - 1] = '\0';
 	vars.tmp = ft_strtrim(vars.var, " ");
 	vars.result = ft_strjoin(vars.tmp, "=");

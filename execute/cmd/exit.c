@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 15:50:56 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/14 18:39:00 by noah             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	many_arg(t_token *cur)
 
 	i = 0;
 	exit = cur->cmd_pipex;
+	if (!exit[1])
+		return (1);
 	if (exit[2] != NULL)
 	{
 		while (exit[1][i])
