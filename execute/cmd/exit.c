@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:46:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 15:45:58 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/14 15:50:56 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	many_arg(t_token *cur)
 int	ft_no_exit(t_global *global)
 {
 	global->data->code = 1;
+	g_sigint_received = 1;
 	ft_putendl_fd("minishell: exit: too many arguments", 2);
 		return (3);
 }
