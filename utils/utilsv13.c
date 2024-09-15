@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv13.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:02:12 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/14 23:23:29 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/15 19:19:07 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ int	set_interactive_signals_hd(t_global *global)
 {
 	(void)global;
 	if (signal(SIGINT, signal_handler_hd) == SIG_ERR)
+	{
+		perror("signal");
+		return (-1);
+	}
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 	{
 		perror("signal");
 		return (-1);
