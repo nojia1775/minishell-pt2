@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 18:51:55 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/15 22:58:35 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ static void	len_not_null(t_vars *vars, t_token *cur, int *fd)
 {
 	vars->len -= 1;
 	while (ft_strcmp(cur->redir[vars->len], "<<") == 0 && vars->len > 0)
+	{
+		dup2(cur->fd, STDIN_FILENO);
+		close(cur->fd);
 		vars->len -= 1;
+	};
 	if (ft_strcmp(cur->redir[vars->len], ">") == 0
 		|| ft_strcmp(cur->redir[vars->len], ">>") == 0)
 		dup2(*fd, STDOUT_FILENO);
