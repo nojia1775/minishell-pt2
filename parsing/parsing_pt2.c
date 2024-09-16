@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/16 07:23:08 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/16 07:30:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,24 +99,5 @@ t_token	**parsing_pt2(char *input, t_global *global, int *error_flag)
 		return (free(tmp), print_error(1), NULL);
 	free(input);
 	tokens = tokenisation(tmp, global, error_flag);
-	t_token *cur;
-	int i = 0;
-	while (tokens[i])
-	{
-		cur = tokens[i];
-		int j = 0;
-		if (cur->redir)
-		{
-			while (cur->redir[j])
-				printf("redir = %s\n", cur->redir[j++]);
-		}
-		while (cur)
-		{
-			printf("%s %d\n", cur->content, cur->type);
-			cur = cur->next;
-		}
-		i++;
-	}
-	printf("\n");
 	return (tokens);
 }

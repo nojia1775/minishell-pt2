@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:11:59 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/05 12:15:43 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/16 07:33:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ int	conform_pipe(char *str)
 		if (ft_isalnum(str[i]))
 			charac = 1;
 		if (str[i] == '|' && charac == 0 && !in_single && !in_double)
-			return (0);
-		else if (str[i] == '|' && str[i + 1] == '|')
-			return (0);
-		else if (str[i] == '|' && (!in_double || !in_single))
+			return (printf("1\n"), 0);
+		else if (str[i] == '|' && str[i + 1] == '|' && !in_double
+			&& !in_single)
+			return (printf("2\n"), 0);
+		else if (str[i] == '|' && !in_double && !in_single)
 			charac = 0;
 	}
 	if (!charac)
-		return (0);
+		return (printf("3\n"), 0);
 	return (1);
 }
 
