@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/15 22:51:25 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/16 18:31:08 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static int	inredir(t_token *cur, int *fd, t_data *data, int i)
 static int	outredir(t_token *cur, int *fd, t_data *data, int i)
 {
 	(void)data;
+	(void)*fd;
 	if (ft_strcmp(cur->redir[i], "<") == 0)
 	{
 		if (access(cur->files[i], F_OK) != 0)
@@ -83,7 +84,7 @@ static int	outredir(t_token *cur, int *fd, t_data *data, int i)
 		}
 		else
 		{
-			*fd = open(cur->files[i], O_RDONLY);
+			cur->fd_out = open(cur->files[i], O_RDONLY);
 			if (access(cur->files[i], R_OK) != 0)
 			{
 				ft_putstr_msg(": Permission denied\n", 2, cur->files[i]);

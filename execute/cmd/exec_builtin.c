@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/15 22:58:35 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/16 18:43:53 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,16 @@ typedef struct s_vars
 static void	len_not_null(t_vars *vars, t_token *cur, int *fd)
 {
 	vars->len -= 1;
+	int i = 0;
+
+	while (cur->redir[i])
+		{
+			if (ft_strcmp(cur->redir[i], "<") == 0)
+				dup2(cur->fd_out, STDIN_FILENO);
+			if (ft_strcmp(cur->redir[i], "<<") == 0)
+				dup2(cur->fd, STDIN_FILENO);
+			i++;
+		}
 	while (ft_strcmp(cur->redir[vars->len], "<<") == 0 && vars->len > 0)
 	{
 		dup2(cur->fd, STDIN_FILENO);
