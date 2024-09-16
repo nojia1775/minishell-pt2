@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:52:16 by noah              #+#    #+#             */
-/*   Updated: 2024/09/10 16:31:37 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/16 07:25:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	redir_type(t_token *cur)
 	{
 		cur->type = OUTREDIR;
 		if (cur->next)
-			if (cur->next->next)
+			if (cur->next->next && !is_redir(cur->next->next))
 				cur->next->next->type = CMD;
 	}
 	else if (!ft_strcmp(cur->content, ">") && cur->type == -1)
