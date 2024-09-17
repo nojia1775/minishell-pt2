@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 23:14:54 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/17 11:24:26 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	update_env(t_list **env)
 		{
 			cwd = getcwd(buf, sizeof(buf));
 			new_content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
-			ft_strlcpy(new_content, "PWD=", 4);
+			ft_strlcpy(new_content, "PWD=", 5);
 			ft_strcat(new_content, cwd);
 			new_case = ft_lstnew(new_content);
 			ft_lstadd_back(env, new_case);
