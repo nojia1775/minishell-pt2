@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv13.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:02:12 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/15 19:19:07 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/18 10:55:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	pipex(t_token *cur, t_global *global)
 	int		end[2];
 	int		fd;
 
-	fd = -1;
+	fd = 1;
 	g_sigint_received = 0;
 	if (pipe(end) == -1)
 		perror("pipe");

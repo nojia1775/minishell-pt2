@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 23:17:25 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/18 10:55:19 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	init(t_vars *vars, t_global *global, t_token **cur)
 {
 	vars->sv = dup(STDIN_FILENO);
 	*cur = *(global->tokens);
-	vars->fd = -1;
+	vars->fd = 1;
 	vars->count = 0;
 	if (set_exec_signals(global->data) == -1)
 		return (0);
@@ -88,7 +88,7 @@ static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
 		vars->i++;
 	}
 	cur = global->tokens[vars->i];
-	vars->fd = -1;
+	vars->fd = 1;
 	vars->status = 0;
 	pid = fork();
 	if (pid == 0)

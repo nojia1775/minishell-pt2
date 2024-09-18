@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/16 18:37:56 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/18 10:55:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	setup_exe_simple_cmd(t_token *cur, t_global *global)
 
 	status = 0;
 	sv = dup(STDIN_FILENO);
-	fd = STDOUT_FILENO;
+	fd = 1;
 	if (set_exec_signals(global->data) == -1)
 		return (0);
 	if (open_heredoc(cur, global, sv, 0) == -1)
