@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/18 09:15:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/18 10:04:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_cd2(int flag, t_global *global)
 		g_sigint_received = 1;
 		if (flag == 1)
 			free(global->data->path);
-		join1 = ft_strjoin("cd: ", global->data->str + 3);
+		join1 = ft_strjoin("cd: ", global->cur->next->content);
 		join2 = ft_strjoin(join1, ": No such file or directory");
 		ft_putendl_fd(join2, 2);
 		free(join1);
