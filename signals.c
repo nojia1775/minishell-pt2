@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:48:58 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/15 19:18:50 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/18 09:43:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ void	sig_exec_handler(int signum)
 	if (signum == 2)
 		g_sigint_received = 130;
 	if (signum == SIGQUIT)
+	{
 		write(2, "Quit (core dumped)", 19);
+		g_sigint_received = 131;
+	}
 	write(2, "\n", 1);
 }
 

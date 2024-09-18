@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_lobby.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/06 17:47:59 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/18 09:29:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,11 @@ void	add_pwd(t_data *data)
 
 	i = 0;
 	j = 0;
+	if (data->pwd == NULL)
+	{
+		data->extract_pwd = NULL;
+		return ;
+	}
 	while (data->pwd[i])
 		i++;
 	i--;
