@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/16 18:31:08 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:18:12 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	outredir(t_token *cur, int *fd, t_data *data, int i)
 				g_sigint_received = 1;
 				return (-1);
 			}
-			cur->flag = 1;
+			//cur->flag = 1;
 			g_sigint_received = 0;
 		}
 	}

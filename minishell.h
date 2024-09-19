@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/18 08:50:34 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/19 12:32:03 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void			exec_redirection(char *redir, int fd, int *flag);
 /*-------Pipes-------*/
 void			main_pipes(t_global *global);
 void			init_struct(char *argv[], int i, int argc, t_pipes *pipes);
-int				pipex(t_token *cur, t_global *global);
+int				pipex(t_token *cur, t_global *global, int sv, int vars_fd);
 void			init_fd1(char **argv, t_pipes *pipes);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			child_pipes_process1(t_token *cur, t_pipes *pipes,

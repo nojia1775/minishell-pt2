@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/17 17:35:15 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:41:04 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,6 @@ static void	len_not_null(t_vars *vars, t_token *cur, int *fd)
 	if (ft_strcmp(cur->redir[vars->len], ">") == 0
 		|| ft_strcmp(cur->redir[vars->len], ">>") == 0)
 		dup2(*fd, STDOUT_FILENO);
-	// else if (ft_strcmp(cur->redir[vars->len], "<") == 0)
-	// {
-	// 	vars->redir_flag = 1;
-	// 	vars->sv = dup(STDOUT_FILENO);
-	// 	if (dup2(*fd, STDIN_FILENO) == -1)
-	// 		perror("dup2");
-	// }
 }
 
 int	exec_builtin(t_token *cur, t_global *global, int fd, int sv)
@@ -135,6 +128,7 @@ int	exec_builtin(t_token *cur, t_global *global, int fd, int sv)
 		close(fd);
 	}
 	dup2(sv, STDIN_FILENO);
+	close(sv);
 	free_reset_global(global);
 	return (0);
 }

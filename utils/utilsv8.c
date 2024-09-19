@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv8.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/09/05 12:17:31 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/19 12:00:04 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,20 @@ void	is_in_quote(int *in_single, int *in_double, char c)
 		*in_single = !(*in_single);
 }
 
-static void	init_new_token(t_token **new, char *content, int nbr_pipe)
+static t_token	*init_new_token(char *content, int nbr_pipe)
 {
-	(*new)->content = ft_strdup(content);
-	(*new)->nbr_pipe = nbr_pipe;
-	(*new)->next = NULL;
-	(*new)->redir = NULL;
-	(*new)->files = NULL;
-	(*new)->type = -1;
+	t_token	*new;
+
+	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->content = ft_strdup(content);
+	new->nbr_pipe = nbr_pipe;
+	new->next = NULL;
+	new->redir = NULL;
+	new->files = NULL;
+	new->type = -1;
+	return (new);
 }
 
 // ajoute un token à la liste chainée
@@ -38,10 +44,9 @@ int	add_token(t_token **tokens, char *content, int nbr_pipe)
 
 	if (!content[0])
 		return (1);
-	new = (t_token *)malloc(sizeof(t_token));
+	new = init_new_token(content, nbr_pipe);
 	if (!new)
 		return (0);
-	init_new_token(&new, content, nbr_pipe);
 	cur = *tokens;
 	if (!cur)
 	{

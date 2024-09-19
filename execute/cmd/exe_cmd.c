@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/18 10:55:15 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/19 11:38:45 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	setup_exe_simple_cmd(t_token *cur, t_global *global)
 	sv = dup(STDIN_FILENO);
 	fd = 1;
 	if (set_exec_signals(global->data) == -1)
-		return (0);
+		return (close(sv), 0);
 	if (open_heredoc(cur, global, sv, 0) == -1)
-		return (1);
+		return (close(sv), 1);
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
 		if (check_redirection(cur, &fd, global->data) == 0)
@@ -58,11 +58,12 @@ int	setup_exe_simple_cmd(t_token *cur, t_global *global)
 		else
 		{
 			g_sigint_received = 1;
-			return (1);
+			return (close(sv), 1);
 		}
 	}
 	setup_exe_fork(global, &fd, &status, cur);
 	dup2(sv, STDIN_FILENO);
+	close(sv);
 	return (0);
 }
 
@@ -96,11 +97,6 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 		if (ft_strcmp(cur->redir[len], ">") == 0
 			|| ft_strcmp(cur->redir[len], ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
-		else if (ft_strcmp(cur->redir[len], "<") == 0)
-		{
-			if (dup2(fd, STDIN_FILENO) == -1)
-				perror("dup2");
-		}
 		if (cur->flag == 1)
 			close(fd);
 	}

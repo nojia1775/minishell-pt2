@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv13.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:02:12 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/18 10:55:25 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/19 12:33:12 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	thereis_heredoc(t_token *token)
 	return (0);
 }
 
-int	pipex(t_token *cur, t_global *global)
+int	pipex(t_token *cur, t_global *global, int sv, int vars_sv)
 {
 	pid_t	pid;
 	int		end[2];
@@ -38,7 +38,11 @@ int	pipex(t_token *cur, t_global *global)
 		perror("pipe");
 	pid = fork();
 	if (pid == 0)
+	{
+		close(sv);
+		close(vars_sv);
 		child_process_pipex(end, &fd, global, cur);
+	}
 	else if (pid > 0)
 	{
 		close(end[1]);

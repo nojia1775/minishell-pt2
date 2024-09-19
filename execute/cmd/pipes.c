@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/18 10:55:19 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/19 12:33:55 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
 	while (vars->i < vars->nbr)
 	{
 		cur = global->tokens[vars->i];
-		pipex(cur, global);
+		pipex(cur, global, sv, vars->sv);
 		vars->count++;
 		vars->i++;
 	}
@@ -92,10 +92,15 @@ static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
 	vars->status = 0;
 	pid = fork();
 	if (pid == 0)
+	{
+		close(sv);
 		child_process_main(vars, cur, global);
+	}
 	else if (pid < 0)
 		perror("fork");
 	dup2(sv, STDIN_FILENO);
+	close(sv);
+	close(vars->sv);
 	while (wait(&vars->status) != -1)
 		;
 	g_sigint_received = WEXITSTATUS(vars->status);
@@ -110,12 +115,12 @@ void	main_pipes(t_global *global)
 
 	sv = dup(STDIN_FILENO);
 	if (!init(&vars, global, &cur))
-		return ;
+		return ((void)close(sv));
 	while (vars.i <= vars.nbr)
 	{
 		cur_her = global->tokens[vars.i];
 		if (open_heredoc(cur_her, global, sv, vars.i) == -1)
-			return ;
+			return ((void)close(sv));
 		vars.i++;
 	}
 	vars.i = 0;

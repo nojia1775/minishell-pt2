@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/18 08:26:09 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/19 11:53:24 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void	routine(t_global *global)
 		sv = dup(STDIN_FILENO);
 		if (setup_exe_simple_cmd(global->cur, global) == -1)
 			exit(g_sigint_received);
-		dup2(sv, STDOUT_FILENO);
+		dup2(sv, STDIN_FILENO);
+		close(sv);
 	}
 	else if (global->cur->nbr_pipe > 0)
 	{

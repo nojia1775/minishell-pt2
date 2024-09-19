@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/16 18:46:15 by almichel         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:05:24 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	child_pipes_process2(t_token *cur, t_global *global, int sv, int fd)
 		child_pipes_process3(&len, cur, fd);
 	else
 		dup2(sv, STDOUT_FILENO);
+	close(sv);
 	execve(get_cmd(cur), get_cmd_pipex(cur), global->data->envv);
 	ft_relative_path2(get_cmd_pipex(cur),
 		global->data->envv, get_cmd(cur), global->pipes);
