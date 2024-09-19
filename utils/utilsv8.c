@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:06:56 by noah              #+#    #+#             */
-/*   Updated: 2024/09/19 12:00:04 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:19:11 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ static t_token	*init_new_token(char *content, int nbr_pipe)
 	new->next = NULL;
 	new->redir = NULL;
 	new->files = NULL;
+	new->here_file = NULL;
+	new->cmd_pipex = NULL;
+	new->fd_out = -1;
+	new->fd = -1;
 	new->type = -1;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/19 12:05:24 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:21:51 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 				dup2(cur->fd, STDIN_FILENO);
 			i++;
 		}
+		if (cur->fd != -1)
+			close(cur->fd);
+		if (cur->fd_out != -1)
+			close(cur->fd_out);
 	}
 	if (len != 0)
 	{
@@ -58,7 +62,8 @@ static void	child_pipes_process3(int *len, t_token *cur, int fd)
 {
 	(*len)--;
 	int i = 0;
-
+	if (*len != 0)
+	{
 		while (cur->redir[i])
 		{
 			if (ft_strcmp(cur->redir[i], "<") == 0)
@@ -67,7 +72,11 @@ static void	child_pipes_process3(int *len, t_token *cur, int fd)
 				dup2(cur->fd, STDIN_FILENO);
 			i++;
 		}
-
+		if (cur->fd != -1)
+			close(cur->fd);
+		if (cur->fd_out != -1)
+			close(cur->fd_out);
+	}
 	while (ft_strcmp(cur->redir[*len], "<<") == 0 && *len > 0)
 	{
 		dup2(cur->fd, STDIN_FILENO);
