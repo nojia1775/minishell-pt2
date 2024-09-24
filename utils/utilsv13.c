@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:02:12 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/24 14:52:13 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:45:05 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ int	thereis_heredoc(t_token *token)
 	return (0);
 }
 
-int	pipex(t_token *cur, t_global *global, int sv, int vars_sv)
+int	pipex(t_token *cur, t_global *global, int sv)
 {
 	pid_t	pid;
 	int		end[2];
 	int		fd;
 
-	close(vars_sv);
 	fd = 1;
 	g_sigint_received = 0;
 	if (pipe(end) == -1)

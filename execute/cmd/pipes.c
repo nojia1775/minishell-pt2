@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 15:43:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:46:05 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,13 @@ typedef struct s_vars
 	int	count;
 	int	status;
 	int	fd;
-	int	sv;
 	int	nbr;
 }	t_vars;
 
-static void	child_process_main(t_vars *vars, t_token *cur, t_global *global)
+static void	child_process_main(t_vars *vars, t_token *cur, t_global *global, int sv)
 {
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
-		close(vars->sv);
 		if (check_redirection(cur, &vars->fd, global->data) == 0)
 			exec_builtin(cur, global, vars->fd, 1);
 		exit(127);
@@ -57,14 +55,13 @@ static void	child_process_main(t_vars *vars, t_token *cur, t_global *global)
 	else
 	{
 		if (check_redirection(cur, &vars->fd, global->data) == 0)
-			child_pipes_process2(cur, global, vars->sv, vars->fd);
+			child_pipes_process2(cur, global, sv, vars->fd);
 		exit(127);
 	}
 }
 
 static int	init(t_vars *vars, t_global *global, t_token **cur)
 {
-	vars->sv = dup(STDIN_FILENO);
 	*cur = *(global->tokens);
 	vars->fd = 1;
 	vars->count = 0;
@@ -84,7 +81,7 @@ static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
 	while (vars->i < vars->nbr)
 	{
 		cur = global->tokens[vars->i];
-		pipex(cur, global, sv, vars->sv);
+		pipex(cur, global, sv);
 		vars->count++;
 		vars->i++;
 	}
@@ -95,13 +92,12 @@ static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
 	if (pid == 0)
 	{
 		close(sv);
-		child_process_main(vars, cur, global);
+		child_process_main(vars, cur, global, sv);
 	}
 	else if (pid < 0)
 		perror("fork");
 	dup2(sv, STDIN_FILENO);
 	close(sv);
-	close(vars->sv);
 	while (wait(&vars->status) != -1)
 		;
 	g_sigint_received = WEXITSTATUS(vars->status);

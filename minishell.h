@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/24 13:24:34 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:45:00 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void			exec_redirection(char *redir, int fd, int *flag);
 /*-------Pipes-------*/
 void			main_pipes(t_global *global);
 void			init_struct(char *argv[], int i, int argc, t_pipes *pipes);
-int				pipex(t_token *cur, t_global *global, int sv, int vars_sv);
+int				pipex(t_token *cur, t_global *global, int sv);
 void			init_fd1(char **argv, t_pipes *pipes);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			child_pipes_process1(t_token *cur, t_pipes *pipes,
