@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 16:30:29 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:00:04 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 	len = 0;
 	len = ft_strlen_double_tab(cur->redir);
 	int i = 0;
-
 	if (len != 0)
 	{
 		while (cur->redir[i])
