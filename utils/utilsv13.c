@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:02:12 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/24 13:07:48 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:25:28 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	pipex(t_token *cur, t_global *global, int sv, int vars_sv)
 	int		end[2];
 	int		fd;
 
+	close(vars_fd);
 	fd = 1;
 	g_sigint_received = 0;
 	if (pipe(end) == -1)
@@ -40,7 +41,6 @@ int	pipex(t_token *cur, t_global *global, int sv, int vars_sv)
 	if (pid == 0)
 	{
 		close(sv);
-		close(vars_sv);
 		child_process_pipex(end, &fd, global, cur);
 	}
 	else if (pid > 0)

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/19 12:33:55 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:27:05 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	child_process_main(t_vars *vars, t_token *cur, t_global *global)
 {
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
+		close(vars->sv);
 		if (check_redirection(cur, &vars->fd, global->data) == 0)
 			exec_builtin(cur, global, vars->fd, 1);
 		exit(127);
@@ -83,7 +84,7 @@ static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
 	while (vars->i < vars->nbr)
 	{
 		cur = global->tokens[vars->i];
-		pipex(cur, global, sv, vars->sv);
+		pipex(cur, global, sv, vars_sv);
 		vars->count++;
 		vars->i++;
 	}
