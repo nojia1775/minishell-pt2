@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 13:27:05 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:43:49 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
 	while (vars->i < vars->nbr)
 	{
 		cur = global->tokens[vars->i];
-		pipex(cur, global, sv, vars_sv);
+		pipex(cur, global, sv, vars->sv);
 		vars->count++;
 		vars->i++;
 	}

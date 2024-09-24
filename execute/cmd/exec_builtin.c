@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 11:28:53 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:22:14 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	exec_redirection(char *redir, int fd, int *flag)
 }
 
 static void	pars_builtin(t_token *cur, t_global *global, int redir_flag,
-	int *fd)
+	int **fd)
 {
 	if (ft_strcmp(get_cmd(cur), "echo") == 0)
-		ft_echo(cur, fd, global->data, redir_flag);
+		ft_echo(cur, fd[0], global->data, redir_flag);
 	else if (ft_strcmp(get_cmd(cur), "export") == 0)
 		pars_export(cur, global);
 	else if (ft_strcmp(get_cmd(cur), "unset") == 0)
@@ -70,13 +70,12 @@ static void	pars_builtin(t_token *cur, t_global *global, int redir_flag,
 			global->data);
 	}
 	else if (ft_strcmp(get_cmd(cur), "exit") == 0 && many_arg(cur) == 0)
-	{
 		ft_no_exit();
-	}
 	else if (ft_strcmp(get_cmd(cur), "exit") == 0 && many_arg(cur) != 0)
 	{
 		if (cur->flag == 1)
-			close(*fd);
+			close(*fd[0]);
+		close(*fd[1]);
 		exit(ft_exit(cur, global));
 	}
 }
@@ -114,12 +113,15 @@ static void	len_not_null(t_vars *vars, t_token *cur, int *fd)
 int	exec_builtin(t_token *cur, t_global *global, int fd, int sv)
 {
 	t_vars	vars;
+	int	*fds[2];
 
+	fds[0] = &fd;
+	fds[1] = &sv;
 	vars.redir_flag = 0;
 	vars.len = ft_strlen_double_tab(cur->redir);
 	if (vars.len != 0)
 		len_not_null(&vars, cur, &fd);
-	pars_builtin(cur, global, vars.redir_flag, &fd);
+	pars_builtin(cur, global, vars.redir_flag, fds);
 	if (cur->flag == 1)
 	{
 		if (vars.redir_flag)

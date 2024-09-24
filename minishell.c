@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/19 11:53:24 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:38:18 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,11 @@ static int	init_global(t_global *global, t_data *data)
 
 static void	routine(t_global *global)
 {
-	int	sv;
-
 	global->cur = *(global->tokens);
 	if (global->cur->nbr_pipe == 0)
 	{
-		sv = dup(STDIN_FILENO);
 		if (setup_exe_simple_cmd(global->cur, global) == -1)
 			exit(g_sigint_received);
-		dup2(sv, STDIN_FILENO);
-		close(sv);
 	}
 	else if (global->cur->nbr_pipe > 0)
 	{
