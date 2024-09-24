@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/19 14:22:08 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:28:48 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 				dup2(cur->fd, STDIN_FILENO);
 			i++;
 		}
-		if (cur->fd != -1)
-			close(cur->fd);
 		if (cur->fd_out != -1)
 			close(cur->fd_out);
 	}

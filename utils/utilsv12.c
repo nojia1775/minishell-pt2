@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv12.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:10:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/14 23:31:47 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/24 13:11:11 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,25 +69,30 @@ int	loop_confirm_redir(char *input, char redir, char opp, int *i)
 
 static int	heredoc(t_token *cur, int i, t_global *global)
 {
+	char	*here_file;
+
+	here_file = NULL;
 	if (ft_strcmp(cur->redir[i], "<<") == 0)
 	{
-		if (here_doc(cur->files[i], cur, global) == -1)
+		if (here_doc(cur->files[i], &here_file) == -1)
 		{
-			unlink(cur->here_file);
-			free(cur->here_file);
+			free_reset_global(global);
+			unlink(here_file);
+			free(here_file);	
 			return (-1);
 		}
-		cur->fd = open(cur->here_file, O_RDONLY);
+		cur->fd = open(here_file, O_RDONLY);
 		if (cur->fd == -1)
-			return (-1);
+			return (free(here_file), -1);
 		if (ft_strcmp(get_cmd(cur), "<<") && !cur->redir[i + 1]
 			&& ft_strcmp(get_cmd(cur), "<"))
 		{
 			if (dup2(cur->fd, STDIN_FILENO) == -1)
 				perror("dup2");
 		}
-		unlink(cur->here_file);
-		free(cur->here_file);
+		unlink(here_file);
+		free(here_file);
+		close(cur->fd);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/19 11:41:04 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:28:53 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ static void	len_not_null(t_vars *vars, t_token *cur, int *fd)
 	while (ft_strcmp(cur->redir[vars->len], "<<") == 0 && vars->len > 0)
 	{
 		dup2(cur->fd, STDIN_FILENO);
-		close(cur->fd);
 		vars->len -= 1;
 	};
 	if (ft_strcmp(cur->redir[vars->len], ">") == 0

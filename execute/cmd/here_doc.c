@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 01:42:03 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 11:34:08 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/24 13:11:06 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_vars
 	int		fd_temp;
 }	t_vars;
 
-static int	create(t_vars *vars, char *str, t_token *cur)
+static int	create(t_vars *vars, char *str, char **here_file)
 {
 	while (vars->flag == 0 && vars->i <= 2147483647)
 	{
@@ -45,7 +45,7 @@ static int	create(t_vars *vars, char *str, t_token *cur)
 			vars->fd_temp = open(vars->new_str, O_WRONLY | O_CREAT, 0666);
 			if (vars->fd_temp < 0)
 				return (-1);
-			cur->here_file = ft_strdup(vars->new_str);
+			*here_file = ft_strdup(vars->new_str);
 			free(vars->new_str);
 			vars->flag = 1;
 			return (vars->fd_temp);
@@ -58,7 +58,7 @@ static int	create(t_vars *vars, char *str, t_token *cur)
 
 //creer un fichier temporaire pour le here_doc, ajoute un
 // suffixe en nombre si le nom existe deja
-int	create_temp_file(char *str, t_token *cur)
+int	create_temp_file(char *str, char **here_file)
 {
 	t_vars	vars;
 	int		r;
@@ -69,7 +69,7 @@ int	create_temp_file(char *str, t_token *cur)
 	vars.fd_temp = 0;
 	if (access(str, F_OK) != 0)
 	{
-		cur->here_file = ft_strdup(str);
+		*here_file = ft_strdup(str);
 		vars.fd_temp = open(str, O_WRONLY | O_CREAT, 0666);
 		if (vars.fd_temp < 0)
 			return (-1);
@@ -77,24 +77,24 @@ int	create_temp_file(char *str, t_token *cur)
 	}
 	else
 	{
-		r = create(&vars, str, cur);
+		r = create(&vars, str, here_file);
 		if (r != -1)
 			return (r);
 	}
 	return (-1);
 }
 
-int	here_doc(char *limit_word, t_token *cur, t_global *global)
+int	here_doc(char *limit_word, char **here_file)
 {
 	char	*line;
 	int		fd;
 
-	fd = create_temp_file("temp", cur);
+	fd = create_temp_file("temp", here_file);
 	if (fd == -1)
 		return (write(2, "Here doc error!\n", 17), -1);
 	while (1)
 	{
-		if (set_interactive_signals_hd(global) == -1)
+		if (set_interactive_signals_hd() == -1)	
 			return (close(fd), -1);
 		line = readline("> ");
 		if (line == NULL)

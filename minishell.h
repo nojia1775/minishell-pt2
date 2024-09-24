@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/19 12:32:03 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:10:58 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,8 @@ void			init_fd2(char **argv, t_pipes *pipes, int argc);
 void			ft_close_all(t_pipes *pipes);
 
 /*-------here_doc-------*/
-int				here_doc(char *limit_word, t_token *cur, t_global *global);
-int				create_temp_file(char *str, t_token *cur);
+int				here_doc(char *limit_word, char **here_file);
+int				create_temp_file(char *str, char **here_file);
 char			*change_str(char *str, int i, char *new_str);
 void			parse_line(int fd, char *line);
 int				open_heredoc(t_token *cur, t_global *global, int sv, int i);
@@ -274,7 +274,7 @@ int				thereis_heredoc(t_token *token);
 void			child_process_pipex(int *end, int *fd, t_global *global,
 					t_token *cur);
 
-int				set_interactive_signals_hd(t_global *global);
+int				set_interactive_signals_hd(void);
 void			signal_handler_hd(int sig);
 
 #endif

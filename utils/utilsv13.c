@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:02:12 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/19 12:33:12 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:07:48 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ int	pipex(t_token *cur, t_global *global, int sv, int vars_sv)
 	return (0);
 }
 
-int	set_interactive_signals_hd(t_global *global)
+int	set_interactive_signals_hd(void)
 {
-	(void)global;
 	if (signal(SIGINT, signal_handler_hd) == SIG_ERR)
 	{
 		perror("signal");
