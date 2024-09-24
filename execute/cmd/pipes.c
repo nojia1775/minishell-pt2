@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 15:46:05 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:58:47 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token *cur)
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
 		if (check_redirection(cur, fd, global->data) == 0)
-			exec_builtin(cur, global, *fd, 1);
+			exec_builtin(cur, global, fd, 1);
 		exit(127);
 	}
 	if (check_redirection(cur, fd, global->data) == 0)
@@ -49,7 +49,7 @@ static void	child_process_main(t_vars *vars, t_token *cur, t_global *global, int
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
 		if (check_redirection(cur, &vars->fd, global->data) == 0)
-			exec_builtin(cur, global, vars->fd, 1);
+			exec_builtin(cur, global, &vars->fd, 1);
 		exit(127);
 	}
 	else

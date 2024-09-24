@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/24 15:45:00 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:58:19 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ char			*get_cmd(t_token *token);
 
 /*-------Exec Builtins-------*/
 int				is_a_builtin(char *cmd);
-int				exec_builtin(t_token *cur, t_global *global, int fd, int sv);
+int				exec_builtin(t_token *cur, t_global *global, int *fd, int sv);
 void			exec_redirection(char *redir, int fd, int *flag);
 
 /*-------Pipes-------*/

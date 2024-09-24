@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 11:28:48 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:30:29 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	setup_exe_simple_cmd(t_token *cur, t_global *global)
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
 		if (check_redirection(cur, &fd, global->data) == 0)
-			return (exec_builtin(cur, global, fd, sv));
+			return (exec_builtin(cur, global, &fd, sv));
 		else
 		{
 			g_sigint_received = 1;

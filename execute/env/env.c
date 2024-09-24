@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/19 14:16:59 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:51:03 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ void	print_env(t_list **envp, t_list **exp_var, t_data *data)
 	{
 		while (top)
 		{
-			ft_putstr_fd((char *)top->content, 1);
-			// printf("%s\n", (char *)top->content);
+			printf("%s\n", (char *)top->content);
 			top = top->next;
 		}
 	}

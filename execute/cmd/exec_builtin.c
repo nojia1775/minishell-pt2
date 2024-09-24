@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 15:22:14 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:42:29 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,42 +93,38 @@ static void	len_not_null(t_vars *vars, t_token *cur, int *fd)
 	int i = 0;
 
 	while (cur->redir[i])
-		{
-			if (ft_strcmp(cur->redir[i], "<") == 0)
-				dup2(cur->fd_out, STDIN_FILENO);
-			if (ft_strcmp(cur->redir[i], "<<") == 0)
-				dup2(cur->fd, STDIN_FILENO);
-			i++;
-		}
+	{
+		if (ft_strcmp(cur->redir[i], "<") == 0)
+			dup2(cur->fd_out, STDIN_FILENO);
+		if (ft_strcmp(cur->redir[i], "<<") == 0)
+			dup2(cur->fd, STDIN_FILENO);
+		i++;
+	}
 	while (ft_strcmp(cur->redir[vars->len], "<<") == 0 && vars->len > 0)
 	{
 		dup2(cur->fd, STDIN_FILENO);
 		vars->len -= 1;
-	};
+	}
 	if (ft_strcmp(cur->redir[vars->len], ">") == 0
 		|| ft_strcmp(cur->redir[vars->len], ">>") == 0)
 		dup2(*fd, STDOUT_FILENO);
 }
 
-int	exec_builtin(t_token *cur, t_global *global, int fd, int sv)
+int	exec_builtin(t_token *cur, t_global *global, int *fd, int sv)
 {
 	t_vars	vars;
 	int	*fds[2];
 
-	fds[0] = &fd;
+	fds[0] = fd;
 	fds[1] = &sv;
 	vars.redir_flag = 0;
 	vars.len = ft_strlen_double_tab(cur->redir);
 	if (vars.len != 0)
-		len_not_null(&vars, cur, &fd);
+		len_not_null(&vars, cur, fd);
 	pars_builtin(cur, global, vars.redir_flag, fds);
 	if (cur->flag == 1)
-	{
-		if (vars.redir_flag)
-			dup2(vars.sv, STDIN_FILENO);
-		close(fd);
-	}
-	dup2(sv, STDIN_FILENO);
+		close(*fd);
+	dup2(sv, STDOUT_FILENO);
 	close(sv);
 	free_reset_global(global);
 	return (0);
