@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/25 14:08:39 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:21:41 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 {
 	char	**total_env;
 	int		len;
+	int		i;
 
 	len = 0;
 	len = ft_strlen_double_tab(cur->redir);
-	int i = 0;
+	i = 0;
 	if (len != 0)
 	{
 		while (cur->redir[i])
@@ -109,14 +110,7 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 	ft_relative_path(get_cmd_pipex(cur), total_env, get_cmd(cur), global);
 }
 
-typedef struct s_vars
-{
-	char	*good_line_envp;
-	char	**good_path;
-	char	*good_cmd;
-}	t_vars;
-
-static void	if_envp(t_vars *vars, char **envp, char **cmd_pipex, char *cmd)
+static void	if_envp(t_vars_1 *vars, char **envp, char **cmd_pipex, char *cmd)
 {
 	int	i;
 
@@ -148,7 +142,7 @@ static void	if_envp(t_vars *vars, char **envp, char **cmd_pipex, char *cmd)
 void	ft_relative_path(char **cmd_pipex, char **envp, char *cmd,
 t_global *global)
 {
-	t_vars	vars;
+	t_vars_1	vars;
 
 	(void)global;
 	vars.good_path = NULL;

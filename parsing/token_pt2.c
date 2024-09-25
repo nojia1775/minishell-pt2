@@ -6,23 +6,13 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:19:32 by noah              #+#    #+#             */
-/*   Updated: 2024/09/10 16:31:55 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:57:18 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-typedef struct s_var
-{
-	char	buffer[1000000];
-	int		in_double;
-	int		in_single;
-	int		ibuf;
-	int		pipe;
-	int		i;
-}		t_var;
-
-static int	create_token(t_var *vars, t_token **tokens, int nbr_pipe)
+static int	create_token(t_vars_7 *vars, t_token **tokens, int nbr_pipe)
 {
 	if (!add_token(&tokens[vars->pipe], vars->buffer, nbr_pipe))
 		return (0);
@@ -32,7 +22,7 @@ static int	create_token(t_var *vars, t_token **tokens, int nbr_pipe)
 }
 
 // creer un token ou remplir le buffer
-static int	actions(t_token **tokens, char *str, t_var *vars, int nbr_pipe)
+static int	actions(t_token **tokens, char *str, t_vars_7 *vars, int nbr_pipe)
 {
 	if ((str[vars->i] == ' ' || !str[vars->i] || str[vars->i] == '|')
 		&& !vars->in_double && !vars->in_single)
@@ -62,7 +52,7 @@ static int	actions(t_token **tokens, char *str, t_var *vars, int nbr_pipe)
 // pour la transformer en liste chainée
 static int	split_tokens(char *str, t_token **tokens, int nbr_pipe)
 {
-	t_var	vars;
+	t_vars_7	vars;
 
 	vars.in_double = 0;
 	vars.in_single = 0;

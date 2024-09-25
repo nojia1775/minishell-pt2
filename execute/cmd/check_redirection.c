@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/25 13:31:16 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:11:17 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static int	outredir(t_token *cur, int *fd, int i)
 				g_sigint_received = 1;
 				return (-1);
 			}
-			//cur->flag = 1;
 			g_sigint_received = 0;
 		}
 	}

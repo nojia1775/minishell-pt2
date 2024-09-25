@@ -6,20 +6,11 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:42:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/06 17:49:14 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:25:59 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-typedef struct s_vars
-{
-	int		files;
-	int		redir;
-	int		nbr_files;
-	int		nbr_redir;
-	t_token	*cur;
-}		t_vars;
 
 static void	count_redir_files(t_token *list, int *redir, int *files)
 {
@@ -76,7 +67,7 @@ static int	add_files_redir(t_token *token, int index, char *content, int redir)
 	return (1);
 }
 
-static int	add(t_vars *vars, int *flag)
+static int	add(t_vars_5 *vars, int *flag)
 {
 	while (vars->cur)
 	{
@@ -99,8 +90,8 @@ static int	add(t_vars *vars, int *flag)
 
 int	files_and_redir(t_token **tokens, int *flag)
 {
-	t_vars	var;
-	int		i;
+	t_vars_5	var;
+	int			i;
 
 	i = 0;
 	while (tokens[i])

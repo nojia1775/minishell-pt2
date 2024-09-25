@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 03:43:21 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 16:42:29 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:22:38 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,12 @@ static void	pars_builtin(t_token *cur, t_global *global, int redir_flag,
 	}
 }
 
-typedef struct s_vars
+static void	len_not_null(t_vars_2 *vars, t_token *cur, int *fd)
 {
-	int	len;
-	int	redir_flag;
-	int	sv;
-}	t_vars;
+	int	i;
 
-static void	len_not_null(t_vars *vars, t_token *cur, int *fd)
-{
 	vars->len -= 1;
-	int i = 0;
-
+	i = 0;
 	while (cur->redir[i])
 	{
 		if (ft_strcmp(cur->redir[i], "<") == 0)
@@ -112,8 +106,8 @@ static void	len_not_null(t_vars *vars, t_token *cur, int *fd)
 
 int	exec_builtin(t_token *cur, t_global *global, int *fd, int sv)
 {
-	t_vars	vars;
-	int	*fds[2];
+	t_vars_2	vars;
+	int			*fds[2];
 
 	fds[0] = fd;
 	fds[1] = &sv;

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:10:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/25 13:53:28 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:26:31 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	heredoc(t_token *cur, int i, t_global *global)
 		{
 			free_reset_global(global);
 			unlink(here_file);
-			free(here_file);	
+			free(here_file);
 			return (-1);
 		}
 		cur->fd = open(here_file, O_RDONLY);

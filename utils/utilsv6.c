@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/14 23:31:54 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/25 15:58:19 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,10 @@ int	word_len(char *str)
 	return (count);
 }
 
-typedef struct s_vars
-{
-	char	*var;
-	char	*value;
-	char	*result;
-	char	*tmp;
-	char	*ques;
-	int		len;
-}	t_vars;
-
 char	*get_env_value(char *str, t_list **env, t_list **exp_var,
 	long long code)
 {
-	t_vars	vars;
+	t_vars_8	vars;
 
 	(void)code;
 	vars.ques = question_mark(str, g_sigint_received);

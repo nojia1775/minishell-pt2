@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/24 15:58:19 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:58:06 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,80 @@ typedef struct s_global
 	t_token	*cur;
 	t_pipes	*pipes;
 }		t_global;
+
+/*-------Structures de varibales---------*/
+
+typedef struct s_vars_1
+{
+	char	*good_line_envp;
+	char	**good_path;
+	char	*good_cmd;
+}	t_vars_1;
+
+typedef struct s_vars_2
+{
+	int	len;
+	int	redir_flag;
+	int	sv;
+}	t_vars_2;
+
+typedef struct s_vars_3
+{
+	char	*new_str;
+	char	*nbr;
+	int		i;
+	int		flag;
+	int		fd_temp;
+}	t_vars_3;
+
+typedef struct s_vars_4
+{
+	int	i;
+	int	count;
+	int	status;
+	int	fd;
+	int	nbr;
+}	t_vars_4;
+
+typedef struct s_vars_5
+{
+	int		files;
+	int		redir;
+	int		nbr_files;
+	int		nbr_redir;
+	t_token	*cur;
+}	t_vars_5;
+
+typedef struct s_vars_6
+{
+	char		buffer[1000000];
+	char		*value;
+	int			i;
+	int			ibuf;
+	int			in_single;
+	int			in_double;
+	long long	*code;
+}	t_vars_6;
+
+typedef struct s_vars_7
+{
+	char	buffer[1000000];
+	int		in_double;
+	int		in_single;
+	int		ibuf;
+	int		pipe;
+	int		i;
+}	t_vars_7;
+
+typedef struct s_vars_8
+{
+	char	*var;
+	char	*value;
+	char	*result;
+	char	*tmp;
+	char	*ques;
+	int		len;
+}	t_vars_8;
 
 /*-------Init Lobby-------*/
 void			init_lobby(t_data *data);

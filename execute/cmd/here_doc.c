@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 01:42:03 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 13:11:06 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:20:45 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,7 @@ char	*change_str(char *str, int i, char *new_str)
 	return (new_str);
 }
 
-typedef struct s_vars
-{
-	char	*new_str;
-	char	*nbr;
-	int		i;
-	int		flag;
-	int		fd_temp;
-}	t_vars;
-
-static int	create(t_vars *vars, char *str, char **here_file)
+static int	create(t_vars_3 *vars, char *str, char **here_file)
 {
 	while (vars->flag == 0 && vars->i <= 2147483647)
 	{
@@ -60,8 +51,8 @@ static int	create(t_vars *vars, char *str, char **here_file)
 // suffixe en nombre si le nom existe deja
 int	create_temp_file(char *str, char **here_file)
 {
-	t_vars	vars;
-	int		r;
+	t_vars_3	vars;
+	int			r;
 
 	vars.flag = 0;
 	vars.new_str = NULL;
@@ -94,7 +85,7 @@ int	here_doc(char *limit_word, char **here_file)
 		return (write(2, "Here doc error!\n", 17), -1);
 	while (1)
 	{
-		if (set_interactive_signals_hd() == -1)	
+		if (set_interactive_signals_hd() == -1)
 			return (close(fd), -1);
 		line = readline("> ");
 		if (line == NULL)

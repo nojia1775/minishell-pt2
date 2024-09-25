@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 11:29:32 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:24:59 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 {
 	int	len;
+	int	i;
 
 	len = 0;
 	len = ft_strlen_double_tab(cur->redir);
-	int i = 0;
-
+	i = 0;
 	if (len != 0)
 	{
 		while (cur->redir[i])
@@ -58,8 +58,10 @@ void	child_pipes_process1(t_token *cur, t_pipes *pipes, char *envp[], int fd)
 
 static void	child_pipes_process3(int *len, t_token *cur, int fd)
 {
+	int	i;
+
 	(*len)--;
-	int i = 0;
+	i = 0;
 	if (*len != 0)
 	{
 		while (cur->redir[i])

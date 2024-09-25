@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 15:58:47 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:23:15 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,8 @@ t_token *cur)
 	exit(127);
 }
 
-typedef struct s_vars
-{
-	int	i;
-	int	count;
-	int	status;
-	int	fd;
-	int	nbr;
-}	t_vars;
-
-static void	child_process_main(t_vars *vars, t_token *cur, t_global *global, int sv)
+static void	child_process_main(t_vars_4 *vars, t_token *cur,
+t_global *global, int sv)
 {
 	if (is_a_builtin(get_cmd(cur)) == 1)
 	{
@@ -60,7 +52,7 @@ static void	child_process_main(t_vars *vars, t_token *cur, t_global *global, int
 	}
 }
 
-static int	init(t_vars *vars, t_global *global, t_token **cur)
+static int	init(t_vars_4 *vars, t_global *global, t_token **cur)
 {
 	*cur = *(global->tokens);
 	vars->fd = 1;
@@ -74,7 +66,7 @@ static int	init(t_vars *vars, t_global *global, t_token **cur)
 	return (1);
 }
 
-static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
+static void	main_pipes2(t_global *global, t_vars_4 *vars, t_token *cur, int sv)
 {
 	pid_t	pid;
 
@@ -105,10 +97,10 @@ static void	main_pipes2(t_global *global, t_vars *vars, t_token *cur, int sv)
 
 void	main_pipes(t_global *global)
 {
-	t_vars	vars;
-	t_token	*cur;
-	int		sv;
-	t_token	*cur_her;
+	t_vars_4	vars;
+	t_token		*cur;
+	int			sv;
+	t_token		*cur_her;
 
 	sv = dup(STDIN_FILENO);
 	if (!init(&vars, global, &cur))

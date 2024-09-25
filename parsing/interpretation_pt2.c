@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   interpretation_pt2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:48 by noah              #+#    #+#             */
-/*   Updated: 2024/09/14 13:09:50 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/25 15:55:44 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-typedef struct s_var
-{
-	char		buffer[1000000];
-	char		*value;
-	int			i;
-	int			ibuf;
-	int			in_single;
-	int			in_double;
-	long long	*code;
-}		t_var;
 
 static int	arg_redir(char *str)
 {
@@ -33,7 +22,7 @@ static int	arg_redir(char *str)
 
 // remplace les variables d'environnement par leur valeur
 static void	replace(t_token *tokens, t_list **env, t_list **exp_var,
-	t_var *vars)
+	t_vars_6 *vars)
 {
 	vars->value = get_env_value(tokens->content
 			+ vars->i, env, exp_var, *(vars->code));
@@ -54,7 +43,7 @@ static void	replace(t_token *tokens, t_list **env, t_list **exp_var,
 // cherche et remplace les variables d'environnement par leur valeur
 static void	search_replace(t_token *tokens, t_global *global)
 {
-	t_var	vars;
+	t_vars_6	vars;
 
 	ft_memset(&vars, 0, sizeof(vars));
 	vars.code = &global->data->code;
