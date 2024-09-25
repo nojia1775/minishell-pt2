@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:10:09 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/24 15:03:09 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 13:53:28 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static int	heredoc(t_token *cur, int i, t_global *global)
 		}
 		unlink(here_file);
 		free(here_file);
-		close(cur->fd);
 	}
 	return (1);
 }

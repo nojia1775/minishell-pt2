@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 17:00:04 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:08:39 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 	}
 	else if (pid > 0)
 	{
+		if (cur->fd != -1)
+			close(cur->fd);
 		waitpid(pid, status, 0);
 		free_reset_global(global);
 		if (WIFEXITED(*status))
-		{
 			g_sigint_received = WEXITSTATUS(*status);
-		}
 	}
 	else
 		perror("fork");
@@ -84,7 +84,10 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 			if (ft_strcmp(cur->redir[i], "<") == 0)
 				dup2(cur->fd_out, STDIN_FILENO);
 			if (ft_strcmp(cur->redir[i], "<<") == 0)
+			{
 				dup2(cur->fd, STDIN_FILENO);
+				close(cur->fd);
+			}
 			i++;
 		}
 		if (cur->fd_out != -1)
