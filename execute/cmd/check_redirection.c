@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:25:05 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/25 16:11:17 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 10:43:36 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,8 @@ static int	inredir(t_token *cur, int *fd, int i)
 	return (1);
 }
 
-static int	outredir(t_token *cur, int *fd, int i)
+static int	outredir(t_token *cur, int i)
 {
-	(void)*fd;
 	if (ft_strcmp(cur->redir[i], "<") == 0)
 	{
 		if (access(cur->files[i], F_OK) != 0)
@@ -118,7 +117,7 @@ int	check_redirection(t_token *cur, int *fd, t_data *data)
 				return (-1);
 			if (inredir(cur, fd, i) == -1)
 				return (-1);
-			if (outredir(cur, fd, i) == -1)
+			if (outredir(cur, i) == -1)
 				return (-1);
 			i++;
 		}

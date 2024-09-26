@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:04:29 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/25 16:23:15 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:52:06 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static void	main_pipes2(t_global *global, t_vars_4 *vars, t_token *cur, int sv)
 		vars->i++;
 	}
 	cur = global->tokens[vars->i];
-	vars->fd = 1;
 	vars->status = 0;
 	pid = fork();
 	if (pid == 0)
@@ -99,8 +98,8 @@ void	main_pipes(t_global *global)
 {
 	t_vars_4	vars;
 	t_token		*cur;
-	int			sv;
 	t_token		*cur_her;
+	int			sv;
 
 	sv = dup(STDIN_FILENO);
 	if (!init(&vars, global, &cur))
