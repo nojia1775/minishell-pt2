@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pt2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:13:22 by noah              #+#    #+#             */
-/*   Updated: 2024/09/16 07:30:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/26 08:42:43 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,21 @@ static int	conform_redir2(char *input, char redir)
 static int	conform_redir(char *input)
 {
 	int	i;
+	int	in_double;
+	int	in_single;
 
+	in_double = 0;
+	in_single = 0;
 	i = -1;
 	while (input[++i])
 	{
-		if (input[i] == '>')
+		is_in_quote(&in_single, &in_double, input[i]);
+		if (input[i] == '>' && !in_double && !in_single)
 		{
 			if (!conform_redir2(&input[i], '>'))
 				return (0);
 		}
-		else if (input[i] == '<')
+		else if (input[i] == '<' && !in_double && !in_single)
 		{
 			if (!conform_redir2(&input[i], '<'))
 				return (0);
