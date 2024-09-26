@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/25 15:58:06 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:17:09 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,5 +350,6 @@ void			child_process_pipex(int *end, int *fd, t_global *global,
 
 int				set_interactive_signals_hd(void);
 void			signal_handler_hd(int sig);
+void			dup_infile(t_token *cur, int len, int flag);
 
 #endif

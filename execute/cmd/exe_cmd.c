@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/25 16:21:41 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:03:12 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,10 @@ void	check_and_exe_cmd(t_token *cur, t_global *global, int fd)
 {
 	char	**total_env;
 	int		len;
-	int		i;
 
 	len = 0;
 	len = ft_strlen_double_tab(cur->redir);
-	i = 0;
-	if (len != 0)
-	{
-		while (cur->redir[i])
-		{
-			if (ft_strcmp(cur->redir[i], "<") == 0)
-				dup2(cur->fd_out, STDIN_FILENO);
-			if (ft_strcmp(cur->redir[i], "<<") == 0)
-			{
-				dup2(cur->fd, STDIN_FILENO);
-				close(cur->fd);
-			}
-			i++;
-		}
-		if (cur->fd_out != -1)
-			close(cur->fd_out);
-	}
+	dup_infile(cur, len, 1);
 	if (len != 0)
 	{
 		len--;

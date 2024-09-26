@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:05:39 by noah              #+#    #+#             */
-/*   Updated: 2024/09/24 13:14:02 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:17:22 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,8 @@ void	free_reset_global(t_global *global)
 		free_tokens(global->tokens);
 	global->tokens = NULL;
 	if (global->pipes)
-	{
 		free(global->pipes);
-		global->pipes = NULL;
-	}
+	global->pipes = NULL;
 	if (global->data)
 	{
 		if (global->data->total_setup)

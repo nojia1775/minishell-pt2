@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:59:35 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/18 09:37:34 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/26 09:18:34 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,7 @@ char	*ft_str3cat(char *dest, char *src1, char *src2, char *total_setup)
 	if (src2)
 	{
 		while (src2[++k])
-		{
-			total_setup[i] = src2[k];
-			i++;
-		}
+			total_setup[i++] = src2[k];
 	}
 	total_setup[i] = '\0';
 	return (total_setup);

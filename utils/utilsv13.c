@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:02:12 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/24 15:45:05 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:18:45 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,28 @@ int	set_interactive_signals_hd(void)
 		return (-1);
 	}
 	return (1);
+}
+
+void	dup_infile(t_token *cur, int len, int flag)
+{
+	int	i;
+
+	i = 0;
+	if (len != 0)
+	{
+		while (cur->redir[i])
+		{
+			if (ft_strcmp(cur->redir[i], "<") == 0)
+				dup2(cur->fd_out, STDIN_FILENO);
+			if (ft_strcmp(cur->redir[i], "<<") == 0)
+			{
+				dup2(cur->fd, STDIN_FILENO);
+				if (flag)
+					close(cur->fd);
+			}
+			i++;
+		}
+		if (cur->fd_out != -1)
+			close(cur->fd_out);
+	}
 }
