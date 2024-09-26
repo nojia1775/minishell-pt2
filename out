@@ -1,0 +1,12 @@
+Makefile
+execute
+libft42
+minishell
+minishell.c
+minishell.h
+obj
+out
+parsing
+signals.c
+utils
+valgrind-readline.supp
