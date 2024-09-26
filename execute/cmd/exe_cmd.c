@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/26 09:03:12 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:56:35 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	setup_exe_fork(t_global *global, int *fd, int *status, t_token *cur)
 		g_sigint_received = 0;
 		if (check_redirection(cur, fd, global->data) == 0)
 			check_and_exe_cmd(cur, global, *fd);
-		exit(127);
+		exit(g_sigint_received);
 	}
 	else if (pid > 0)
 	{
@@ -138,5 +138,8 @@ t_global *global)
 		free_double_tabs(envp);
 	if (ft_strcmp(cmd, ">") && ft_strcmp(cmd, ">>")
 		&& ft_strcmp(cmd, "<") && ft_strcmp(cmd, "<<"))
+	{
 		ft_putstr_msg(": command not found\n", 2, cmd);
+		g_sigint_received = 127;
+	}
 }

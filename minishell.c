@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/24 16:29:51 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:49:04 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	routine(t_global *global)
 	if (global->cur->nbr_pipe == 0)
 	{
 		if (setup_exe_simple_cmd(global->cur, global) == -1)
-			exit(g_sigint_received);
+			exit(127);
 	}
 	else if (global->cur->nbr_pipe > 0)
 	{
@@ -96,5 +96,5 @@ int	main(int ac, char **argv, char **envp)
 	r = loop(&data, &global);
 	if (r)
 		return (r);
-	exit(g_sigint_received);
+	exit(127);
 }

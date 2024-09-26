@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:13:34 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/09/26 09:17:09 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:30:27 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "./libft42/libft.h"
-# include "./get_next_line/get_next_line.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>

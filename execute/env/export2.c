@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noah <noah@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 00:47:08 by almichel          #+#    #+#             */
-/*   Updated: 2024/09/14 23:15:08 by noah             ###   ########.fr       */
+/*   Updated: 2024/09/26 14:27:19 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	export_variable(t_list **env, t_list **exp_var, char *var, t_data *data)
 	current = *env;
 	export_variable2(current, env, &flag, var);
 	export_variable2(head, exp_var, &flag, var);
-	if (flag == 0)
+	if (flag == 0 || flag == 2)
 	{
 		new_case = ft_lstnew(ft_strdup(var));
 		ft_lstadd_back(exp_var, new_case);
@@ -52,6 +52,11 @@ void	export_variable2(t_list *current, t_list **list, int *flag, char *var)
 				*flag = 1;
 				free(current->content);
 				current->content = ft_strdup(var);
+				if (!current->content)
+				{
+					*flag = 0;
+					return ;
+				}
 			}
 			current = current->next;
 		}
