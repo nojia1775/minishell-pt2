@@ -17,6 +17,11 @@ void	ft_cd_home(t_global *global)
 {
 	global->data->path = NULL;
 	get_home_path(global->data, &global->data->env);
+	if (global->data->path == NULL)
+	{
+		g_sigint_received = 1;
+		return ((void)printf("minishell: cd: HOME is not set\n"));
+	}
 	if (chdir(global->data->path) == 0)
 	{
 		global->data->pwd = getcwd(global->data->buf,
